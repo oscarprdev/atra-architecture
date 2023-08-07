@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "vercetti";
+  src: url("./assets/fonts/Vercetti-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "subjectivity";
+  src: url("./assets/fonts/Subjectivity-Medium.otf") format("opentype");
+}
+
+:root {
+  --dark: #222;
+  --bg-gray: #DDDDDD
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+a {
+  text-transform: none;
+}
+
+h1 {
+  font-family: vercetti;
+}
+
+h2, h3, p {
+  font-family: subjectivity;
+  font-weight: lighter;
+}
