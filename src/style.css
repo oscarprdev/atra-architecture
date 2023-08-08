@@ -10,7 +10,9 @@
 
 :root {
   --dark: #222;
-  --bg-gray: #DDDDDD
+  --bg-gray: #dddddd;
+
+  --gallery: #000000;
 }
 
 * {
@@ -30,7 +32,9 @@ h1 {
   font-family: vercetti;
 }
 
-h2, h3, p {
-  font-family: subjectivity;
+h2,
+h3,
+p {
+  font-family: vercetti;
   font-weight: lighter;
 }
