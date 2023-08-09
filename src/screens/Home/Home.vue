@@ -1,17 +1,14 @@
 <script setup lang="ts">
 import Hero from "../../components/Hero/Hero.vue";
 import HeroAnimations from "../../components/Hero-animations/Hero-animations.vue";
-import Gallery from "../../components/Gallery/Gallery.vue";
-import Lazy from "../../components/Lazy/Lazy.vue";
+import Gallery from "../../components/Projects/Projects.vue";
 </script>
 
 <template>
   <section class="home">
     <HeroAnimations />
     <Hero />
-    <Lazy>
-      <Gallery />
-    </Lazy>
+    <Gallery />
   </section>
 </template>
 

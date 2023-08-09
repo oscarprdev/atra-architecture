@@ -1,19 +1,19 @@
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const isVisible = ref(false);
 const componentRef = ref(null);
 
 const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          isVisible.value = true;
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.3 }
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        isVisible.value = true;
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.3 },
 );
 
 onMounted(() => {
@@ -31,8 +31,8 @@ onBeforeUnmount(() => {
 
 <template>
   <section
-      ref="componentRef"
-      :class="isVisible ? 'visible' : 'notVisible'"
+    ref="componentRef"
+    :class="isVisible ? 'visible' : 'notVisible'"
   >
     <slot />
   </section>
@@ -40,13 +40,13 @@ onBeforeUnmount(() => {
 
 <style>
 .visible {
-opacity: 1;
-transform: translateY(0);
-transition: all 1s ease-in-out;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1s ease-in-out;
 }
 
 .notVisible {
-opacity: 0;
-transform: translateY(80px);
+  opacity: 0;
+  transform: translateY(80px);
 }
 </style>

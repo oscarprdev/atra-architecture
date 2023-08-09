@@ -22,10 +22,20 @@
 body {
   margin: 0 auto;
   overflow-x: hidden;
+
+  scroll-behavior: smooth;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  font-family: vercetti;
 }
 
 a {
-  text-transform: none;
+  text-decoration: none;
 }
 
 h1 {

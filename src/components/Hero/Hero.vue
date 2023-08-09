@@ -1,16 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { Home } from "../../core/types/data.type.ts";
+import { getHomeData } from "../../core/services/data-service.ts";
+
+const home = ref<Home>();
+
+onMounted(async () => {
+  home.value = await getHomeData();
+});
+</script>
 
 <template>
-  <section class="hero">
+  <section class="hero" v-if="home">
     <div class="title">
-      <h1>ATRA</h1>
-      <p>Asistència Tècnica en Rehabilitació i Arquitectura</p>
+      <h1>{{ home.title }}</h1>
+      <p>{{ home.subtitle }}</p>
     </div>
     <div class="contact">
-      <h2>Jaume Perez Llopis</h2>
-      <h3>615 88 65 20</h3>
-      <h3>jaumeperezllopis@gmail.com</h3>
-      <h3 class="direction">c/ Els Dolors, 37 46500 Sagunt (Valencia) Spain</h3>
+      <h2>{{ home.data.name }}</h2>
+      <h3>{{ home.data.phone }}</h3>
+      <h3>{{ home.data.email }}</h3>
+      <h3 class="direction">{{ home.data.direction }}</h3>
     </div>
   </section>
 </template>
