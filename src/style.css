@@ -1,17 +1,13 @@
 @font-face {
   font-family: "vercetti";
   src: url("./assets/fonts/Vercetti-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "subjectivity";
-  src: url("./assets/fonts/Subjectivity-Medium.otf") format("opentype");
+  font-display: swap;
 }
 
 :root {
-  --dark: #222;
+  --dark: rgb(34, 34, 34);
   --bg-gray: #dddddd;
-
+  --dark-opacity: rgba(34, 34, 34, 0.39);
   --gallery: #000000;
 }
 
@@ -31,7 +27,10 @@ ul {
 }
 
 li {
-  font-family: vercetti;
+  font-family:
+    vercetti,
+    -apple-system,
+    sans-serif;
 }
 
 a {
@@ -39,7 +38,10 @@ a {
 }
 
 h1 {
-  font-family: vercetti;
+  font-family:
+    vercetti,
+    -apple-system,
+    sans-serif;
 }
 
 h2,

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Lazy from "../Lazy/Lazy.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, Ref, ref } from "vue";
 import { getProjectsData } from "../../core/services/data-service.ts";
 import { Project } from "../../core/types/data.type.ts";
 
-const projects: Project[] = ref([]);
+const projects: Ref<Project[] | []> = ref([]);
 
 onMounted(async () => {
   projects.value = await getProjectsData();
@@ -18,7 +18,13 @@ onMounted(async () => {
       <Lazy v-for="project in projects" :key="project.id">
         <article>
           <div class="image-container">
-            <img :src="project.mainImage" alt="image" />
+            <img
+              :src="project.mainImage"
+              alt="image"
+              loading="lazy"
+              width="200"
+              height="200"
+            />
           </div>
           <h2>{{ project.year + " " + project.name }}</h2>
         </article>
@@ -32,13 +38,14 @@ onMounted(async () => {
   position: relative;
   padding: 5rem 0 0;
   height: fit-content;
-  max-width: 100vw;
+  width: 100%;
 }
 
 .projects {
-  padding: 2rem;
+  max-width: 90vw;
+  padding: 2rem 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   gap: 1rem;
 }
 
@@ -54,21 +61,21 @@ onMounted(async () => {
 
   opacity: 0;
   z-index: 1;
-  font-size: clamp(2rem, 10vw, 8rem);
+  font-size: clamp(4rem, 10vw, 8rem);
   text-transform: uppercase;
 
-  animation: appear-left 0.8s linear forwards;
+  animation: appear-left 0.5s linear forwards;
 }
 
 article {
   z-index: 2;
   min-width: 20rem;
-  height: 43vh;
+  height: 38vh;
   position: relative;
   cursor: pointer;
 
   opacity: 0;
-  animation: appearing 0.5s ease-in-out forwards;
+  animation: appearing 0.3s ease-in-out forwards;
 }
 
 .image-container {
@@ -79,7 +86,7 @@ article {
 }
 
 .image-container:after {
-  box-shadow: inset 0 0 100px -5px #000000;
+  box-shadow: inset 0 0 30px -59px #000000;
   content: "";
   display: block;
   height: 100%;
@@ -91,30 +98,47 @@ article {
 h2 {
   position: absolute;
   color: #fff;
-
   bottom: -1rem;
   left: 2rem;
-
-  text-decoration: underline 1px;
-  text-underline-offset: 6px;
-
-  font-size: 2.3rem;
+  font-size: 1.8rem;
 }
 
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all 0.8s ease;
+  transition: all 0.5s ease;
 }
 
 .image-container:hover img {
-  transform: scale(1.05);
+  transform: scale(1.04);
+}
+
+h2:before {
+  content: "";
+  width: 8rem;
+  height: 2px;
+  background-color: #fff;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+article:hover h2:before {
+  transform: scaleX(1);
 }
 
 @media screen and (max-width: 550px) {
   .projects {
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+
+  .projects-title {
+    top: 4rem;
+    left: -1.6rem;
   }
 }
 
@@ -131,7 +155,7 @@ img {
 @keyframes appear-left {
   0% {
     opacity: 0;
-    transform: translateX(-6rem);
+    transform: translateX(-2rem);
   }
 
   100% {

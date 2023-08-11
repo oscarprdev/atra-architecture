@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import Projects from "../../components/Projects/Projects.vue";
+import { defineAsyncComponent } from "vue";
+
+const Projects = defineAsyncComponent(
+  () => import("../../components/Projects/Projects.vue"),
+);
 </script>
 
 <template>
@@ -10,6 +14,10 @@ import Projects from "../../components/Projects/Projects.vue";
 
 <style scoped>
 .projects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 80vw;
   background-color: var(--bg-gray);
 }
 </style>

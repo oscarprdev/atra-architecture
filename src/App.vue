@@ -8,3 +8,14 @@ import Header from "./components/Header/Header.vue";
     <router-view></router-view>
   </main>
 </template>
+
+<style>
+main {
+  height: 100%;
+  width: 100vw;
+  background-color: var(--bg-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

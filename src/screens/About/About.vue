@@ -1,7 +1,30 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {defineAsyncComponent} from "vue";
+
+const About = defineAsyncComponent(
+    () => import("../../components/About/About.vue"),
+);
+</script>
 
 <template>
-  <h1>About</h1>
+  <section class="about">
+    <About />
+  </section>
 </template>
 
-<style scoped></style>
+<style>
+.about {
+  width: 100vw;
+  height: fit-content;
+  background-color: var(--bg-gray);
+
+  padding: 6rem 2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+
+  animation: fade-in 0.5s ease;
+}
+</style>

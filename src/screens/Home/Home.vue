@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import Hero from "../../components/Hero/Hero.vue";
-import HeroAnimations from "../../components/Hero-animations/Hero-animations.vue";
-import Gallery from "../../components/Projects/Projects.vue";
+import { defineAsyncComponent } from "vue";
+
+const HeroAnimations = defineAsyncComponent(
+  () => import("../../components/Hero-animations/Hero-animations.vue"),
+);
+const Hero = defineAsyncComponent(
+  () => import("../../components/Hero/Hero.vue"),
+);
+const Gallery = defineAsyncComponent(
+  () => import("../../components/Gallery/Gallery.vue"),
+);
 </script>
 
 <template>

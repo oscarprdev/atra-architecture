@@ -1,6 +1,7 @@
 export interface Data {
   home: Home;
-  projects: Projects[];
+  about: About;
+  projects: Project[];
 }
 
 export interface Home {
@@ -21,4 +22,10 @@ export interface Project {
   name: string;
   year: string;
   mainImage: any;
+  top: boolean;
+}
+
+export interface About {
+  mainImage: any;
+  description: string[];
 }

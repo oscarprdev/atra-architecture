@@ -13,7 +13,7 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.3 },
+  { threshold: 0.14 },
 );
 
 onMounted(() => {
@@ -30,10 +30,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section
-    ref="componentRef"
-    :class="isVisible ? 'visible' : 'notVisible'"
-  >
+  <section ref="componentRef" :class="isVisible ? 'visible' : 'notVisible'">
     <slot />
   </section>
 </template>
@@ -42,11 +39,11 @@ onBeforeUnmount(() => {
 .visible {
   opacity: 1;
   transform: translateY(0);
-  transition: all 1s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .notVisible {
   opacity: 0;
-  transform: translateY(80px);
+  transform: translateY(20px);
 }
 </style>

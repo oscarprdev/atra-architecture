@@ -42,7 +42,7 @@ onMounted(async () => {
 
   z-index: 1;
 
-  animation: fade-right 2s linear forwards;
+  animation: fade-right 1s linear forwards;
 }
 
 h1 {
@@ -61,7 +61,7 @@ p {
   bottom: 0;
   padding: 3rem 12rem;
 
-  animation: fade-left 2s linear forwards;
+  animation: fade-left 1s linear forwards;
 }
 
 .contact h2 {
@@ -115,7 +115,7 @@ p {
   .title {
     text-align: center;
 
-    animation: fade-right 1s linear forwards;
+    animation: fade-right 0.5s linear forwards;
   }
 
   .contact {
@@ -124,7 +124,7 @@ p {
     padding: 1rem;
     text-align: center;
 
-    animation: fade-left 1s linear forwards;
+    animation: fade-left 0.5s linear forwards;
   }
 
   .direction {

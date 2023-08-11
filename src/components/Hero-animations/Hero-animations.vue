@@ -1,21 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-const cubeLeft = ref(null);
-const cubeRight = ref(null);
-const lineTop = ref(null);
-const lineBottom = ref(null);
+const cubeLeft = ref(document.querySelector(".cube-left") as HTMLElement);
+const cubeRight = ref(document.querySelector(".cube-right") as HTMLElement);
+const lineTop = ref(document.querySelector(".line-top") as HTMLElement);
+const lineBottom = ref(document.querySelector(".line-bottom") as HTMLElement);
 
 const startAnimation = () => {
-  const cubeLeft = document.querySelector(".cube-left");
-  const cubeRight = document.querySelector(".cube-right");
-  const lineTop = document.querySelector(".line-top");
-  const lineBottom = document.querySelector(".line-bottom");
-
-  cubeLeft.style.animationPlayState = "running";
-  cubeRight.style.animationPlayState = "running";
-  lineTop.style.animationPlayState = "running";
-  lineBottom.style.animationPlayState = "running";
+  if (cubeLeft && cubeRight && lineTop && lineBottom) {
+    cubeLeft.value.style.animationPlayState = "running";
+    cubeRight.value.style.animationPlayState = "running";
+    lineTop.value.style.animationPlayState = "running";
+    lineBottom.value.style.animationPlayState = "running";
+  }
 };
 
 onMounted(() => {
@@ -24,6 +21,7 @@ onMounted(() => {
   cubeLeft.value.addEventListener("animationend", () => {
     cubeLeft.value.remove();
   });
+
   cubeRight.value.addEventListener("animationend", () => {
     cubeRight.value.remove();
   });
@@ -125,8 +123,8 @@ onMounted(() => {
   content: "";
   position: absolute;
 
-  width: 45rem;
-  height: 40rem;
+  width: 50rem;
+  height: 50rem;
 
   background-color: var(--bg-gray);
 
