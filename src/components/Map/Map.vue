@@ -48,9 +48,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 .map {
-  width: clamp(20rem, 30vw, 30rem);
-  height:  clamp(20rem, 30vw, 30rem);
-  border: 1px solid #fff;
+  width: 100%;
+  height: 100%;
 }
 </style>

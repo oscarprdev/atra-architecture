@@ -1,7 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { defineAsyncComponent } from "vue";
+
+const Contact = defineAsyncComponent(
+  () => import("../../components/Contact/Contact.vue"),
+);
+</script>
 
 <template>
-  <h1>Contact</h1>
+  <section class="contact">
+    <Contact />
+  </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+  padding-bottom: 5rem;
+  background-color: var(--bg-gray);
+  position: relative;
+}
+</style>

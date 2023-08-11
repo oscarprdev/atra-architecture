@@ -9,6 +9,8 @@
   --bg-gray: #dddddd;
   --dark-opacity: rgba(34, 34, 34, 0.39);
   --gallery: #000000;
+
+  --text-gray: #e6e6e6;
 }
 
 * {

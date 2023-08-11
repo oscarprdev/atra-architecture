@@ -78,7 +78,7 @@ onMounted(async () => {
 }
 
 article {
-  height: 23rem;
+  height: 22rem;
 }
 
 .image-container {
@@ -107,7 +107,7 @@ h2 {
   position: absolute;
   bottom: 0;
   left: 2rem;
-  font-size: clamp(1rem, 5vw,  2rem);
+  font-size: clamp(1rem, 5vw, 2rem);
   text-underline-offset: 10px;
   text-decoration: 2px underline;
   color: #fff;
@@ -124,15 +124,14 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
 }
 
 .box-0 {
-  grid-area: 1 / 1 / 2 / 6;
+  grid-area: 1 / 1 / 3 / 3;
+  height: 100%;
 }
-
 .box-1 {
-  grid-area: 2 / 1 / 3 / 3;
+  grid-area: 1 / 3 / 2 / 6;
 }
 .box-2 {
   grid-area: 2 / 3 / 3 / 6;
@@ -177,6 +176,7 @@ img {
 
   .gallery-title {
     top: -1rem;
+    left: 5.5rem;
   }
 
   .gallery-container {
@@ -190,6 +190,10 @@ img {
   .image-container .image-backdrop h2 {
     opacity: 1;
     left: 1rem;
+  }
+
+  .box-0 {
+    height: 13rem;
   }
 }
 </style>

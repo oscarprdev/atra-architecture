@@ -5,6 +5,7 @@ import image4 from "../../assets/images/image-4.webp";
 import image5 from "../../assets/images/image-5.webp";
 import image6 from "../../assets/images/image-6.webp";
 import about from "../../assets/images/about.webp";
+import Contact from "../../assets/images/contact.webp";
 import { Data } from "../types/data.type.ts";
 
 export const data: Data = {
@@ -25,6 +26,17 @@ export const data: Data = {
       "L'estudi individual detallat de cada idea o projecte, ens permet oferir una sol.lució única per a cada necessitat, lliure de complexos i de forma natural, dialogant continuament entre la economia i la plasticitat.",
       "Austeritat en els recursos i llibertat en la imaginació, son les eines que ens garantitzen l'èxit al solventar cadascuna de les noves oportunitats que ens ofereix l'obra arquitectònica.",
     ],
+  },
+  contact: {
+    mainImage: Contact,
+    form: {
+      name: 'NOM',
+      surname: 'COGNOM',
+      subject: 'ASUMPTE',
+      email: 'EMAIL',
+      content: 'ASUMPTE'
+    },
+    button: 'Enviar e-mail'
   },
   projects: [
     {

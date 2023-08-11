@@ -1,6 +1,7 @@
 export interface Data {
   home: Home;
   about: About;
+  contact: Contact;
   projects: Project[];
 }
 
@@ -28,4 +29,18 @@ export interface Project {
 export interface About {
   mainImage: any;
   description: string[];
+}
+
+export interface Contact {
+  mainImage: any;
+  form: ContactForm;
+  button: string
+}
+
+export interface ContactForm {
+  name: string,
+  surname: string,
+  subject: string,
+  email: string,
+  content: string
 }

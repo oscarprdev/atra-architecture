@@ -16,24 +16,26 @@ onMounted(async () => {
 </script>
 
 <template>
-    <figure class="about__image-container">
-      <img :src="aboutData.mainImage" alt="about-image" />
-      <h1>ATRArquitectura</h1>
-    </figure>
-    <div class="about__text">
-      <p v-for="(text, index) in aboutData.description" :key="index">
-        {{ text }}
-      </p>
+  <figure class="about__image-container">
+    <img :src="aboutData.mainImage" alt="about-image" />
+    <h1>ATRArquitectura</h1>
+  </figure>
+  <div class="about__text">
+    <p v-for="(text, index) in aboutData.description" :key="index">
+      {{ text }}
+    </p>
+  </div>
+  <article class="contact" v-if="personalInfo">
+    <div>
+      <h2>{{ personalInfo.name }}</h2>
+      <h3>{{ personalInfo.phone }}</h3>
+      <h3>{{ personalInfo.email }}</h3>
+      <h3 class="direction">{{ personalInfo.direction }}</h3>
     </div>
-    <article class="contact" v-if="personalInfo">
-      <div>
-        <h2>{{ personalInfo.name }}</h2>
-        <h3>{{ personalInfo.phone }}</h3>
-        <h3>{{ personalInfo.email }}</h3>
-        <h3 class="direction">{{ personalInfo.direction }}</h3>
-      </div>
-      <Map />
-    </article>
+    <section class="contact__map">
+      <Map/>
+    </section>
+  </article>
 </template>
 
 <style scoped>
@@ -59,8 +61,7 @@ h1 {
 }
 
 .about__text {
-  padding: 0 0 2rem;
-  border-bottom: 1px solid #fff;
+  padding: 0 0 1rem;
 }
 
 .about__text > p {
@@ -76,11 +77,21 @@ h1 {
   gap: 2rem;
   justify-content: center;
 
+  padding: 3rem 0 0 0;
+
+  border-top: 1px solid #fff;
+
 }
 
 .contact h2,
 .contact h3 {
   font-size: clamp(0.5rem, 4vw, 1.2rem);
+}
+
+.contact__map {
+  width: 32rem;
+  height: 25rem;
+  border: 1px solid #9b9b9b;
 }
 
 img {
@@ -112,7 +123,7 @@ img {
 }
 
 @media screen and (max-width: 550px) {
-  .about__image-container  {
+  .about__image-container {
     width: 100vw;
     height: 20vh;
   }

@@ -1,4 +1,4 @@
-import { About, Data, Home, Project } from "../types/data.type.ts";
+import {About, Contact, Data, Home, Project} from "../types/data.type.ts";
 import { data } from "../data/data.ts";
 
 export const dataService = async (): Promise<Data> => {
@@ -24,3 +24,7 @@ export const getProjectById = async (id: string): Promise<Project | void> => {
 export const getAboutData = async (): Promise<About> => {
   return Promise.resolve(data.about);
 };
+
+export const getContactData = async (): Promise<Contact> => {
+  return Promise.resolve(data.contact)
+}
