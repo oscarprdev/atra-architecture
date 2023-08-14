@@ -1,8 +1,9 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../../screens/Home/Home.vue";
-import About from "../../screens/About/About.vue";
-import Contact from "../../screens/Contact/Contact.vue";
-import Projects from "../../screens/Projects/Projects.vue";
+import About from "../../screens/About/About-screen.vue";
+import Contact from "../../screens/Contact/Contact-screen.vue";
+import Projects from "../../screens/Projects/Projects-screen.vue";
+import Project from "../../screens/Project/Project-screen.vue";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/contact",
     component: Contact,
+  },
+  {
+    path: "/projecte/:id",
+    component: Project,
   },
 ];
 
