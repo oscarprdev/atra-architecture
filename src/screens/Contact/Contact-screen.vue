@@ -7,20 +7,13 @@ const Contact = defineAsyncComponent(
 </script>
 
 <template>
-  <section class="contact">
+  <section class="screen contact-screen">
     <Contact />
   </section>
 </template>
 
 <style scoped>
-.contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100vw;
-  height: 100%;
+.contact-screen {
   padding-bottom: 5rem;
-  background-color: var(--bg-gray);
-  position: relative;
 }
 </style>

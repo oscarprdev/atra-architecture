@@ -23,6 +23,7 @@ export interface Project {
   name: string;
   year: string;
   mainImage: any;
+  images: any[];
   top: boolean;
 }
 
@@ -33,14 +34,14 @@ export interface About {
 
 export interface Contact {
   mainImage: any;
-  form: ContactForm;
-  button: string
+  form: ContactFormData;
+  button: string;
 }
 
-export interface ContactForm {
-  name: string,
-  surname: string,
-  subject: string,
-  email: string,
-  content: string
+export interface ContactFormData {
+  name: string;
+  surname: string;
+  subject: string;
+  email: string;
+  content: string;
 }

@@ -30,13 +30,13 @@ export const data: Data = {
   contact: {
     mainImage: Contact,
     form: {
-      name: 'NOM',
-      surname: 'COGNOM',
-      subject: 'ASUMPTE',
-      email: 'EMAIL',
-      content: 'ASUMPTE'
+      name: "NOM",
+      surname: "COGNOM",
+      subject: "ASUMPTE",
+      email: "EMAIL",
+      content: "ASUMPTE",
     },
-    button: 'Enviar e-mail'
+    button: "Enviar e-mail",
   },
   projects: [
     {
@@ -44,6 +44,7 @@ export const data: Data = {
       name: "Rocafort",
       year: "2018",
       mainImage: image1,
+      images: [image1, image1, image1, image1],
       top: true,
     },
     {
@@ -51,6 +52,7 @@ export const data: Data = {
       name: "Proges 343",
       year: "2016",
       mainImage: image2,
+      images: [image2, image2, image2, image2],
       top: true,
     },
     {
@@ -58,6 +60,7 @@ export const data: Data = {
       name: "Baldoma",
       year: "2015",
       mainImage: image3,
+      images: [image3, image3, image3, image3],
       top: true,
     },
     {
@@ -65,6 +68,7 @@ export const data: Data = {
       name: "Sagunt",
       year: "2014",
       mainImage: image4,
+      images: [image4, image4, image4, image4],
       top: true,
     },
     {
@@ -72,6 +76,7 @@ export const data: Data = {
       name: "Albal",
       year: "2013",
       mainImage: image5,
+      images: [image5, image5, image5, image5],
       top: true,
     },
     {
@@ -79,27 +84,31 @@ export const data: Data = {
       name: "Quart de les valls",
       year: "2011",
       mainImage: image6,
+      images: [image6, image6, image6, image6],
       top: true,
     },
     {
-      id: "project-007",
+      id: "project-001",
       name: "Rocafort",
       year: "2018",
       mainImage: image1,
+      images: [image1, image1, image1, image1],
       top: false,
     },
     {
-      id: "project-008",
+      id: "project-002",
       name: "Proges 343",
       year: "2016",
       mainImage: image2,
+      images: [image2, image2, image2, image2],
       top: false,
     },
     {
-      id: "project-009",
+      id: "project-003",
       name: "Baldoma",
       year: "2015",
       mainImage: image3,
+      images: [image3, image3, image3, image3],
       top: false,
     },
   ],
