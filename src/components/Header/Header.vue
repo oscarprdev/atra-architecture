@@ -48,7 +48,7 @@ header {
 
   opacity: 0;
 
-  animation: fade-in 1s linear forwards;
+  animation: fade-left 0.7s linear forwards;
 }
 
 h1 {
@@ -104,17 +104,5 @@ a:before {
 
 a:hover:before {
   transform: scaleX(1);
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateX(1rem);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
 }
 </style>

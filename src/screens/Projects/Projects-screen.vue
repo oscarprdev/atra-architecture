@@ -1,0 +1,28 @@
+<script setup lang="ts">
+import { defineAsyncComponent, onMounted, ref, Ref } from "vue";
+import { Project } from "../../core/types/data.type.ts";
+import { getProjectsData } from "../../core/services/data-service.ts";
+
+const Projects = defineAsyncComponent(
+  () => import("../../components/Projects/Projects.vue"),
+);
+
+const projects: Ref<Project[] | []> = ref([]);
+
+onMounted(async () => {
+  projects.value = await getProjectsData();
+});
+</script>
+
+<template>
+  <section class="screen projects-screen">
+    <Projects v-if="projects" :projects="projects" />
+  </section>
+</template>
+
+<style scoped>
+.projects-screen {
+  max-width: 80vw;
+  padding: 5rem 0 0;
+}
+</style>

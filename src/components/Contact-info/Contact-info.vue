@@ -28,6 +28,9 @@ const props = defineProps<{
 a {
   color: var(--text-gray);
   font-size: 1.1rem;
-  font-family: vercetti;
+  font-family:
+    vercetti,
+    -apple-system,
+    sans-serif;
 }
 </style>

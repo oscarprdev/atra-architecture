@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
 import { Home } from "../../core/types/data.type.ts";
-import { getHomeData } from "../../core/services/data-service.ts";
 
-const home = ref<Home>();
-
-onMounted(async () => {
-  home.value = await getHomeData();
-});
+const props = defineProps<{
+  homeInfo: Home;
+}>();
 </script>
 
 <template>
-  <section class="hero" v-if="home">
+  <section class="hero">
     <div class="title">
-      <h1>{{ home.title }}</h1>
-      <p>{{ home.subtitle }}</p>
+      <h1>{{ props.homeInfo.title }}</h1>
+      <p>{{ props.homeInfo.subtitle }}</p>
     </div>
     <div class="contact">
-      <h2>{{ home.data.name }}</h2>
-      <h3>{{ home.data.phone }}</h3>
-      <h3>{{ home.data.email }}</h3>
-      <h3 class="direction">{{ home.data.direction }}</h3>
+      <h2>{{ props.homeInfo.data.name }}</h2>
+      <h3>{{ props.homeInfo.data.phone }}</h3>
+      <h3>{{ props.homeInfo.data.email }}</h3>
+      <h3 class="direction">{{ props.homeInfo.data.direction }}</h3>
     </div>
   </section>
 </template>
@@ -42,7 +38,7 @@ onMounted(async () => {
 
   z-index: 1;
 
-  animation: fade-right 1s linear forwards;
+  animation: fade-right 0.8s linear forwards;
 }
 
 h1 {
@@ -61,7 +57,7 @@ p {
   bottom: 0;
   padding: 3rem 12rem;
 
-  animation: fade-left 1s linear forwards;
+  animation: fade-left 0.8s linear forwards;
 }
 
 .contact h2 {
@@ -70,38 +66,6 @@ p {
 
 .contact h3 {
   font-size: clamp(0.5rem, 4vw, 1.2rem);
-}
-
-@keyframes fade-right {
-  0% {
-    transform: translateX(clamp(-5rem, 10vw, -20rem));
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-left {
-  0% {
-    transform: translateX(clamp(5rem, 5vw, 20rem));
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 @media screen and (max-width: 450px) {

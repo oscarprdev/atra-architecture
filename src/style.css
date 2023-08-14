@@ -49,6 +49,81 @@ h1 {
 h2,
 h3,
 p {
-  font-family: vercetti;
+  font-family:
+    vercetti,
+    -apple-system,
+    sans-serif;
   font-weight: lighter;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: fit-content;
+  background-color: var(--bg-gray);
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+@keyframes appearing {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-right {
+  0% {
+    transform: translateX(clamp(-5rem, 10vw, -20rem));
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-left {
+  0% {
+    transform: translateX(clamp(5rem, 5vw, 20rem));
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

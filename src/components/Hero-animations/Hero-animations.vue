@@ -116,7 +116,7 @@ onMounted(() => {
   right: 0;
   z-index: -1;
 
-  animation: cube-rotate 2.2s ease-in-out forwards;
+  animation: cube-rotate 1.5s ease-in-out forwards;
 }
 
 .cube-left {
@@ -133,7 +133,7 @@ onMounted(() => {
   top: 0;
   z-index: -1;
 
-  animation: cube-rotate 2.2s ease-in-out forwards;
+  animation: cube-rotate 1.5s ease-in-out forwards;
 }
 
 .line-top {
@@ -146,7 +146,7 @@ onMounted(() => {
 
   top: 23rem;
 
-  animation: line-top 5s ease forwards;
+  animation: line-top 3s ease forwards;
 }
 
 .line-bottom {
@@ -161,7 +161,7 @@ onMounted(() => {
   top: 48rem;
   right: 0;
 
-  animation: line-bottom 5s ease forwards;
+  animation: line-bottom 3s ease forwards;
 }
 
 @keyframes cube-rotate {

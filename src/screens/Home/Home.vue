@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, onMounted, ref } from "vue";
+import { Home } from "../../core/types/data.type.ts";
+import { getHomeData } from "../../core/services/data-service.ts";
 
 const HeroAnimations = defineAsyncComponent(
   () => import("../../components/Hero-animations/Hero-animations.vue"),
@@ -10,21 +12,18 @@ const Hero = defineAsyncComponent(
 const Gallery = defineAsyncComponent(
   () => import("../../components/Gallery/Gallery.vue"),
 );
+
+const homeInfo = ref<Home>();
+
+onMounted(async () => {
+  homeInfo.value = await getHomeData();
+});
 </script>
 
 <template>
-  <section class="home">
+  <section class="screen">
     <HeroAnimations />
-    <Hero />
+    <Hero v-if="homeInfo" :homeInfo="homeInfo" />
     <Gallery />
   </section>
 </template>
-
-<style scoped>
-.home {
-  background-color: var(--bg-gray);
-  position: relative;
-  overflow: hidden;
-  z-index: 0;
-}
-</style>

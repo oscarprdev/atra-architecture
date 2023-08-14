@@ -30,8 +30,11 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section ref="componentRef" :class="isVisible ? 'visible' : 'notVisible'">
-    <slot />
+  <section
+    ref="componentRef"
+    :class="isVisible ? 'lazy visible' : 'lazy notVisible'"
+  >
+    <slot v-if="isVisible" />
   </section>
 </template>
 

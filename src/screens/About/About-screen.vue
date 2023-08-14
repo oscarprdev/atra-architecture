@@ -7,24 +7,14 @@ const About = defineAsyncComponent(
 </script>
 
 <template>
-  <section class="about">
+  <section class="screen about-screen">
     <About />
   </section>
 </template>
 
 <style>
-.about {
-  width: 100vw;
-  height: fit-content;
-  background-color: var(--bg-gray);
-
+.about-screen {
   padding: 6rem 2rem;
-
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-
   animation: fade-in 0.5s ease;
 }
 </style>

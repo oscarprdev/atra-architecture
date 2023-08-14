@@ -2,7 +2,6 @@
 import { onMounted, Ref, ref } from "vue";
 import { getAboutData, getHomeData } from "../../core/services/data-service.ts";
 import type { About, HomeData } from "../../core/types/data.type.ts";
-import Map from "../Map/Map.vue";
 
 const aboutData: Ref<About> = ref([]);
 const personalInfo: Ref<HomeData> = ref();
@@ -25,17 +24,6 @@ onMounted(async () => {
       {{ text }}
     </p>
   </div>
-  <article class="contact" v-if="personalInfo">
-    <div>
-      <h2>{{ personalInfo.name }}</h2>
-      <h3>{{ personalInfo.phone }}</h3>
-      <h3>{{ personalInfo.email }}</h3>
-      <h3 class="direction">{{ personalInfo.direction }}</h3>
-    </div>
-    <section class="contact__map">
-      <Map/>
-    </section>
-  </article>
 </template>
 
 <style scoped>
@@ -69,37 +57,6 @@ h1 {
   font-size: clamp(0.7rem, 5vw, 1.2rem);
 }
 
-.contact {
-  padding: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: start;
-  gap: 2rem;
-  justify-content: center;
-
-  padding: 3rem 0 0 0;
-
-  border-top: 1px solid #fff;
-
-}
-
-.contact h2,
-.contact h3 {
-  font-size: clamp(0.5rem, 4vw, 1.2rem);
-}
-
-.contact__map {
-  width: 32rem;
-  height: 25rem;
-  border: 1px solid #9b9b9b;
-}
-
-img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
-
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -130,10 +87,6 @@ img {
 
   h1 {
     bottom: -3rem;
-  }
-
-  .contact {
-    justify-content: center;
   }
 }
 </style>
