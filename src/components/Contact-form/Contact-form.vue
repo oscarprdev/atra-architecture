@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import {
   sendEmail,
-  SendEmailInput,
-} from "../../core/services/email-service.ts";
-import { reactive } from "vue";
-import { ContactFormData } from "../../core/types/data.type.ts";
+  type SendEmailInput
+} from '../../core/services/email-service.ts';
+import { reactive } from 'vue';
+import { type ContactFormData, type HomeData } from '../../core/types/data.type.ts';
 
 const props = defineProps<{
   buttonContent: string;
   formKeys: ContactFormData;
+  personalInfo: HomeData
 }>();
 
 interface Form {
@@ -20,53 +21,55 @@ interface Form {
 }
 
 const contactForm = reactive<Form>({
-  name: "",
-  surname: "",
-  email: "",
-  subject: "",
-  content: "",
+  name: '',
+  surname: '',
+  email: '',
+  subject: '',
+  content: ''
 });
 
-const handleChange = (e: FormDataEvent) => {
-  contactForm[e.target.id] = e.target.value;
+const handleChange = (e: FormDataEvent): void => {
+  const target = e.target as HTMLInputElement
+  const key = target?.id as keyof Form
+  contactForm[key] = target?.value;
 };
 
-const resetContactForm = () => {
-  contactForm.name = "";
-  contactForm.surname = "";
-  contactForm.email = "";
-  contactForm.subject = "";
-  contactForm.content = "";
+const resetContactForm = (): void => {
+  contactForm.name = '';
+  contactForm.surname = '';
+  contactForm.email = '';
+  contactForm.subject = '';
+  contactForm.content = '';
 };
 
-const handleContactSubmit = async (e: FormDataEvent) => {
+const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
   e.preventDefault();
 
   const sendEmailInput: SendEmailInput = {
-    to: personalInfo.value.email,
+    to: props.personalInfo.email,
     from: `${contactForm.name} ${contactForm.surname}`,
     email: contactForm.email,
     subject: contactForm.subject,
-    content: contactForm.content,
+    content: contactForm.content
   };
 
   const response = await sendEmail(sendEmailInput);
 
-  if (response.ok) {
+  if (response) {
     resetContactForm();
   }
 };
 </script>
 
 <template>
-  <form class="contact__form" :onsubmit="(e) => handleContactSubmit(e)">
+  <form class="contact__form" :onsubmit="(e: FormDataEvent) => handleContactSubmit(e)">
     <div class="contact__field">
       <label>
         {{ props.formKeys.name }}
         <input
           id="name"
           :value="contactForm.name"
-          :oninput="(e) => handleChange(e)"
+          :oninput="(e: FormDataEvent) => handleChange(e)"
           required
         />
       </label>
@@ -75,7 +78,7 @@ const handleContactSubmit = async (e: FormDataEvent) => {
         <input
           id="surname"
           :value="contactForm.surname"
-          :oninput="(e) => handleChange(e)"
+          :oninput="(e: FormDataEvent) => handleChange(e)"
           required
         />
       </label>
@@ -84,7 +87,7 @@ const handleContactSubmit = async (e: FormDataEvent) => {
         <input
           id="subject"
           :value="contactForm.subject"
-          :oninput="(e) => handleChange(e)"
+          :oninput="(e: FormDataEvent) => handleChange(e)"
           required
         />
       </label>
@@ -95,7 +98,7 @@ const handleContactSubmit = async (e: FormDataEvent) => {
           id="email"
           type="email"
           :value="contactForm.email"
-          :oninput="(e) => handleChange(e)"
+          :oninput="(e: FormDataEvent) => handleChange(e)"
           required
         />
       </label>
@@ -105,7 +108,7 @@ const handleContactSubmit = async (e: FormDataEvent) => {
           id="content"
           maxlength="500"
           :value="contactForm.content"
-          :oninput="(e) => handleChange(e)"
+          :oninput="(e: FormDataEvent) => handleChange(e)"
           required
         />
       </label>

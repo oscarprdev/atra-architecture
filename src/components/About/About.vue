@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, Ref, ref } from "vue";
-import { getAboutData, getHomeData } from "../../core/services/data-service.ts";
-import type { About, HomeData } from "../../core/types/data.type.ts";
+import { onMounted, type Ref, ref } from 'vue';
+import { getAboutData, getHomeData } from '../../core/services/data-service.ts';
+import type { About, HomeData } from '../../core/types/data.type.ts';
 
-const aboutData: Ref<About> = ref([]);
-const personalInfo: Ref<HomeData> = ref();
+const aboutData: Ref<About | null> = ref(null);
+const personalInfo: Ref<HomeData | null> = ref(null);
 
 onMounted(async () => {
   aboutData.value = await getAboutData();
@@ -16,10 +16,10 @@ onMounted(async () => {
 
 <template>
   <figure class="about__image-container">
-    <img :src="aboutData.mainImage" alt="about-image" />
+    <img v-if="aboutData" :src="aboutData.mainImage" alt="about-image" />
     <h1>ATRArquitectura</h1>
   </figure>
-  <div class="about__text">
+  <div class="about__text" v-if="aboutData">
     <p v-for="(text, index) in aboutData.description" :key="index">
       {{ text }}
     </p>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Project } from "../../core/types/data.type.ts";
-import { onMounted, Ref, ref } from "vue";
-import { getProjectsData } from "../../core/services/data-service.ts";
-import GalleryImage from "../Gallery-image/Gallery-image.vue";
+import { type Project } from '../../core/types/data.type.ts';
+import { onMounted, type Ref, ref } from 'vue';
+import { getProjectsData } from '../../core/services/data-service.ts';
+import GalleryImage from '../Gallery-image/Gallery-image.vue';
 
 const projects: Ref<Project[] | []> = ref([]);
 

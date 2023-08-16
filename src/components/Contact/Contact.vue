@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { onMounted, ref, Ref } from "vue";
-import type { ContactFormData, HomeData } from "../../core/types/data.type.ts";
-import ContactForm from "../Contact-form/Contact-form.vue";
+import { onMounted, ref, type Ref } from 'vue';
+import type { ContactFormData, HomeData } from '../../core/types/data.type.ts';
+import ContactForm from '../Contact-form/Contact-form.vue';
 import {
   getContactData,
-  getHomeData,
-} from "../../core/services/data-service.ts";
-import ContactInfo from "../Contact-info/Contact-info.vue";
+  getHomeData
+} from '../../core/services/data-service.ts';
+import ContactInfo from '../Contact-info/Contact-info.vue';
 
 const contactImage = ref();
 
-const personalInfo: Ref<HomeData> = ref();
+const personalInfo: Ref<HomeData | null> = ref(null);
 
-const formKeys: Ref<ContactFormData> = ref();
-const buttonContent: Ref<string> = ref();
+const formKeys: Ref<ContactFormData | null> = ref(null);
+const buttonContent: Ref<string | null> = ref(null);
 
 onMounted(async () => {
   const home = await getHomeData();
@@ -39,9 +39,10 @@ onMounted(async () => {
   <div class="contact__container">
     <ContactInfo v-if="personalInfo" :personalInfo="personalInfo" />
     <ContactForm
-      v-if="formKeys"
+      v-if="formKeys && buttonContent && personalInfo"
       :buttonContent="buttonContent"
       :formKeys="formKeys"
+      :personalInfo="personalInfo"
     />
   </div>
 </template>

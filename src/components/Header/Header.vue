@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useRoute } from "vue-router";
-import { ref, watch } from "vue";
-import HeaderDesktop from "../Header-desktop/Header-desktop.vue";
-import HeaderMobile from "../Header-mobile/Header-mobile.vue";
+import { useRoute } from 'vue-router';
+import { ref, watch } from 'vue';
+import HeaderDesktop from '../Header-desktop/Header-desktop.vue';
+import HeaderMobile from '../Header-mobile/Header-mobile.vue';
 
 const route = useRoute();
-const path = ref("");
+const path = ref('');
 
 watch(route, async (route) => {
   path.value = route.fullPath;
@@ -22,7 +22,6 @@ watch(route, async (route) => {
 .header-mobile {
   display: none;
 }
-
 
 @media screen and (max-width: 630px) {
   .header-desktop {

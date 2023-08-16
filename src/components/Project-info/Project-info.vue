@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Project } from "../../core/types/data.type.ts";
+import { type Project } from '../../core/types/data.type.ts';
 
 const props = defineProps<{
   project: Project;

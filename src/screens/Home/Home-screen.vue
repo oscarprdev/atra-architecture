@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref } from "vue";
-import { Home } from "../../core/types/data.type.ts";
-import { getHomeData } from "../../core/services/data-service.ts";
+import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { type Home } from '../../core/types/data.type';
+import { getHomeData } from '../../core/services/data-service';
 
 const HeroAnimations = defineAsyncComponent(
-  () => import("../../components/Hero-animations/Hero-animations.vue"),
+  async () => await import('../../components/Hero-animations/Hero-animations.vue')
 );
 const Hero = defineAsyncComponent(
-  () => import("../../components/Hero/Hero.vue"),
+  async () => await import('../../components/Hero/Hero.vue')
 );
 const Gallery = defineAsyncComponent(
-  () => import("../../components/Gallery/Gallery.vue"),
+  async () => await import('../../components/Gallery/Gallery.vue')
 );
 
 const homeInfo = ref<Home>();

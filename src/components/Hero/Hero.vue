@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Home } from "../../core/types/data.type.ts";
+import { type Home } from '../../core/types/data.type.ts';
 
 const props = defineProps<{
   homeInfo: Home;

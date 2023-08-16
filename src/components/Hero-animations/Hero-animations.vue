@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted } from 'vue';
 
-const cubeLeft = ref(document.querySelector(".cube-left") as HTMLElement);
-const cubeRight = ref(document.querySelector(".cube-right") as HTMLElement);
-const lineTop = ref(document.querySelector(".line-top") as HTMLElement);
-const lineBottom = ref(document.querySelector(".line-bottom") as HTMLElement);
+const cubeLeft = ref(document.querySelector('.cube-left') as HTMLElement);
+const cubeRight = ref(document.querySelector('.cube-right') as HTMLElement);
+const lineTop = ref(document.querySelector('.line-top') as HTMLElement);
+const lineBottom = ref(document.querySelector('.line-bottom') as HTMLElement);
 
-const startAnimation = () => {
-  if (cubeLeft && cubeRight && lineTop && lineBottom) {
-    cubeLeft.value.style.animationPlayState = "running";
-    cubeRight.value.style.animationPlayState = "running";
-    lineTop.value.style.animationPlayState = "running";
-    lineBottom.value.style.animationPlayState = "running";
+const startAnimation = (): void => {
+  if (cubeLeft.value && cubeRight && lineTop && lineBottom) {
+    cubeLeft.value.style.animationPlayState = 'running';
+    cubeRight.value.style.animationPlayState = 'running';
+    lineTop.value.style.animationPlayState = 'running';
+    lineBottom.value.style.animationPlayState = 'running';
   }
 };
 
 onMounted(() => {
   startAnimation();
 
-  cubeLeft.value.addEventListener("animationend", () => {
+  cubeLeft.value.addEventListener('animationend', () => {
     cubeLeft.value.remove();
   });
 
-  cubeRight.value.addEventListener("animationend", () => {
+  cubeRight.value.addEventListener('animationend', () => {
     cubeRight.value.remove();
   });
-  lineTop.value.addEventListener("animationend", () => {
+  lineTop.value.addEventListener('animationend', () => {
     lineTop.value.remove();
   });
-  lineBottom.value.addEventListener("animationend", () => {
+  lineBottom.value.addEventListener('animationend', () => {
     lineBottom.value.remove();
   });
 });

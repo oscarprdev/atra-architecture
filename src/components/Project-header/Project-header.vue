@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Project } from "../../core/types/data.type.ts";
-import ProjectInfo from "../Project-info/Project-info.vue";
+import { type Project } from '../../core/types/data.type.ts';
+import ProjectInfo from '../Project-info/Project-info.vue';
 
 const props = defineProps<{
   project: Project;

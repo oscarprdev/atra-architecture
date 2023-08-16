@@ -6,7 +6,7 @@ export interface SendEmailInput {
   content: string;
 }
 
-export const sendEmail = async (input: SendEmailInput) => {
+export const sendEmail = async (input: SendEmailInput): Promise<boolean> => {
   // const response = await fetch('url', {
   //     method: 'POST',
   //     body: JSON.stringify(input),
@@ -15,9 +15,7 @@ export const sendEmail = async (input: SendEmailInput) => {
   //     }
   // })
 
-  console.log(input, "email sent");
+  console.log(input, 'email sent')
 
-  return {
-    ok: true,
-  };
-};
+  return true
+}

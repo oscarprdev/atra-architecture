@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const isVisible = ref(false);
 const componentRef = ref(null);
@@ -13,7 +13,7 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.14 },
+  { threshold: 0.14 }
 );
 
 onMounted(() => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import { ref } from 'vue';
 
 const props = defineProps<{
   path: string
@@ -7,7 +7,7 @@ const props = defineProps<{
 
 const headerActive = ref(false)
 
-const handleIcon = () => {
+const handleIcon = (): void => {
   headerActive.value = !headerActive.value
 }
 </script>
@@ -102,7 +102,6 @@ header {
 .ham-active .hamburguer-bottom {
   transform: translate(0, -12px) rotate(45deg);
 }
-
 
   .header-mobile__list-links {
     display: flex;

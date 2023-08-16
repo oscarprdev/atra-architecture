@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref, Ref } from "vue";
-import { Project } from "../../core/types/data.type.ts";
-import { getProjectsData } from "../../core/services/data-service.ts";
+import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue';
+import { type Project } from '../../core/types/data.type.ts';
+import { getProjectsData } from '../../core/services/data-service.ts';
 
 const Projects = defineAsyncComponent(
-  () => import("../../components/Projects/Projects.vue"),
+  async () => await import('../../components/Projects/Projects.vue')
 );
 
 const projects: Ref<Project[] | []> = ref([]);

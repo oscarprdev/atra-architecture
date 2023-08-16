@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Lazy from "../Lazy/Lazy.vue";
-import { Project } from "../../core/types/data.type.ts";
+import Lazy from '../Lazy/Lazy.vue';
+import { type Project } from '../../core/types/data.type.ts';
 
 const props = defineProps<{
   project: Project;

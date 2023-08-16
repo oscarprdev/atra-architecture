@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from 'vue';
 
 const Contact = defineAsyncComponent(
-  () => import("../../components/Contact/Contact.vue"),
+  async () => await import('../../components/Contact/Contact.vue')
 );
 </script>
 
