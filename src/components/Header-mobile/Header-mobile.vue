@@ -50,9 +50,8 @@ header {
   display: flex;
   align-items: end;
   width: 100vw;
-
+  padding: 0;
   z-index: 3;
-  padding: 1rem;
 
   opacity: 1;
 }
@@ -107,12 +106,14 @@ header {
 
   .header-mobile__list-links {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 2rem;
     font-size: 1.5rem;
     padding: 7rem 2rem;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
 
     background-color: var(--bg-gray);
 
