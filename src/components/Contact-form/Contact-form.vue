@@ -175,6 +175,8 @@ button {
   border: none;
   position: relative;
   overflow: hidden;
+  background-color: var(--bg-gray);
+  color: var(--dark);
 
   transition: color 0.4s ease;
 }

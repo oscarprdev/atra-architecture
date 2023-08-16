@@ -46,7 +46,7 @@ const handleIcon = (): void => {
 
 <style scoped>
 header {
-  position: relative;
+  position: sticky;
   display: flex;
   align-items: end;
   width: 100vw;
@@ -62,8 +62,8 @@ header {
 }
 
 .hamburguer-container {
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
   position: absolute;
   top: 2rem;
   right: 3rem;
@@ -85,22 +85,22 @@ header {
 
 .hamburguer {
   position: absolute;
-  top: 0.8rem;
+  top: 0.6rem;
 }
 
 .hamburguer-bottom {
   position: absolute;
-  top: 1.6rem;
+  top: 1.2rem;
 }
 
 .ham-active .hamburguer-top {
-  transform: translate(0, 12px) rotate(-45deg);
+  transform: translate(0, 9px) rotate(-45deg);
 }
 
 .ham-active .hamburguer {opacity: 0;}
 
 .ham-active .hamburguer-bottom {
-  transform: translate(0, -12px) rotate(45deg);
+  transform: translate(0, -9px) rotate(45deg);
 }
 
   .header-mobile__list-links {
@@ -118,7 +118,7 @@ header {
 
     opacity: 0;
 
-    animation: header-fade 0.5s linear forwards;
+    animation: header-fade 0.2s linear forwards;
   }
 
 a {

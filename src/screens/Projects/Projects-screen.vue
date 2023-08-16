@@ -22,7 +22,7 @@ onMounted(async () => {
 
 <style scoped>
 .projects-screen {
-  max-width: 80vw;
+  max-width: 100vw;
   padding: 5rem 0 0;
 }
 </style>

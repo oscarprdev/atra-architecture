@@ -46,4 +46,19 @@ const props = defineProps<{
   padding: 0.5rem;
   grid-area: 2 / 5 / 3 / 7;
 }
+
+@media screen and (max-width: 950px) {
+  .project-gallery {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .image-0 {
+    padding: 0.5rem;
+    height: auto;
+    grid-area: 1 / 1 / 2 / 9;
+  }
+}
 </style>

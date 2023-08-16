@@ -38,4 +38,16 @@ const props = defineProps<{
   height: 100vh;
   overflow: hidden;
 }
+
+@media screen and (max-width: 950px) {
+  .project-header {
+    flex-direction: column;
+    height: 150vh;
+  }
+  .image-container {
+    position: relative;
+    width: 100vw;
+  }
+}
+
 </style>

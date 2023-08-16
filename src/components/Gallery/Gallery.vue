@@ -99,6 +99,10 @@ article {
     height: 12rem;
   }
 
+  .gallery {
+    width: 90vw;
+  }
+
   .gallery-title {
     top: -1rem;
     left: 5.5rem;

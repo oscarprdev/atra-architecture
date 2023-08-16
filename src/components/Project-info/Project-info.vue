@@ -53,4 +53,17 @@ const props = defineProps<{
 .project-description {
   max-width: 60ch;
 }
+
+@media screen and (max-width: 950px) {
+  .project-info {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90vw;
+
+    opacity: 0;
+    animation: appear-left 0.5s linear forwards;
+  }
+}
 </style>
