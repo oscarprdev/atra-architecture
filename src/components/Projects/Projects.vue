@@ -46,7 +46,7 @@ const props = defineProps<{ projects: Project }>();
 
   opacity: 0;
   z-index: 1;
-  font-size: clamp(4rem, 10vw, 8rem);
+  font-size: clamp(2.5rem, 10vw, 8rem);
   text-transform: uppercase;
 
   animation: appear-left 0.5s linear forwards;
@@ -112,14 +112,26 @@ article:hover h2:before {
   transform: scaleX(1);
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 1300px) {
   .projects-container {
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    padding: 5rem 0;
   }
 
   .projects-title {
     top: 4rem;
-    left: -1.6rem;
+    left: 1rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .projects-container {
+    padding: 5rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+
+  .projects-title {
+    top: 5rem;
+    left: 1rem;
   }
 }
 </style>

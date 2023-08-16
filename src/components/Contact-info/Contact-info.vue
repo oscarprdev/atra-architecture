@@ -23,14 +23,23 @@ const props = defineProps<{
 .contact__info {
   align-self: start;
   margin-left: 5rem;
+
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
 }
 
 a {
   color: var(--text-gray);
-  font-size: 1.1rem;
   font-family:
     vercetti,
     -apple-system,
     sans-serif;
 }
+
+@media screen and (max-width: 1200px) {
+  .contact__info {
+    align-self: center;
+    margin-left: 0;
+  }
+}
+
 </style>

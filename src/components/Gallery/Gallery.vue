@@ -89,7 +89,7 @@ article {
   grid-area: 4 / 4 / 5 / 6;
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 1000px) {
   .gallery {
     display: flex;
     flex-direction: column;
@@ -105,7 +105,7 @@ article {
   }
 
   .gallery-container {
-    padding: 2rem 0 3rem;
+    padding: 5rem 0 3rem;
   }
 
   .box-0 {

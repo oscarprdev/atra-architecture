@@ -68,7 +68,7 @@ p {
   font-size: clamp(0.5rem, 4vw, 1.2rem);
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 630px) {
   .hero {
     padding: 2rem 1rem;
     display: flex;

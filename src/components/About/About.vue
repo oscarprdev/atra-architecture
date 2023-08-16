@@ -79,6 +79,28 @@ h1 {
   }
 }
 
+@media screen and (max-width: 1100px) {
+  h1 {
+    bottom: -5.5rem;
+  }
+
+  .about__text {
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  h1 {
+    bottom: -4.5rem;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  h1 {
+    bottom: -3.5rem;
+  }
+}
+
 @media screen and (max-width: 550px) {
   .about__image-container {
     width: 100vw;
@@ -86,7 +108,7 @@ h1 {
   }
 
   h1 {
-    bottom: -3rem;
+    bottom: -4.8rem;
   }
 }
 </style>

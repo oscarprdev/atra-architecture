@@ -49,7 +49,7 @@ onMounted(async () => {
 <style scoped>
 .contact__title {
   color: #fff;
-  font-size: clamp(4rem, 10vw, 8rem);
+  font-size: clamp(3rem, 10vw, 8rem);
   text-transform: uppercase;
   z-index: 1;
 
@@ -108,11 +108,11 @@ onMounted(async () => {
 
 @media screen and (max-width: 1200px) {
   .contact__container {
-    width: 70vw;
+    width: 80vw;
   }
 
   .contact__title {
-    margin-top: 3rem;
+    margin-top: 5rem;
   }
 
   .contact__image-container {
@@ -126,7 +126,8 @@ onMounted(async () => {
 
 @media screen and (max-width: 550px) {
   .contact__container {
-    width: 90vw;
+    width: 95vw;
+    padding: 1rem;
   }
 
   .contact__title {

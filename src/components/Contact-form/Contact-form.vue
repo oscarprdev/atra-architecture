@@ -121,7 +121,7 @@ const handleContactSubmit = async (e: FormDataEvent) => {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  width: 80%;
+  width: 100%;
 }
 
 .contact__field {
