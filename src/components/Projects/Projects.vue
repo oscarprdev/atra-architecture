@@ -30,7 +30,7 @@ const props = defineProps<{ projects: Project[] }>();
   max-width: 90vw;
   padding: 2rem 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
   gap: 1rem;
 }
 
@@ -125,12 +125,12 @@ article:hover h2:before {
 
 @media screen and (max-width: 550px) {
   .projects-container {
-    padding: 5rem 0;
+    padding: 3rem 0;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   }
 
   .projects-title {
-    top: 5rem;
+    top: 3rem;
     left: 1rem;
   }
 }

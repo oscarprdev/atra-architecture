@@ -47,6 +47,7 @@ const props = defineProps<{
   .image-container {
     position: relative;
     width: 100vw;
+    margin-top: -2rem;
   }
 }
 

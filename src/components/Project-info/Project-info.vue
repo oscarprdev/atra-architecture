@@ -56,7 +56,7 @@ const props = defineProps<{
 
 @media screen and (max-width: 950px) {
   .project-info {
-    position: relative;
+    position: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;

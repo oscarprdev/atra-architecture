@@ -14,7 +14,7 @@ const About = defineAsyncComponent(
 
 <style>
 .about-screen {
-  padding: 6rem 2rem;
+  padding: 4rem 2rem;
   animation: fade-in 0.5s ease;
   gap: 2rem;
 }

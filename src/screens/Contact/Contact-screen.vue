@@ -14,6 +14,7 @@ const Contact = defineAsyncComponent(
 
 <style scoped>
 .contact-screen {
+  margin-top: -2rem;
   padding-bottom: 5rem;
 }
 </style>
