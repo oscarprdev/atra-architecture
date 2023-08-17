@@ -1,22 +1,4 @@
 @font-face {
-  font-family: "vercetti";
-  src: url("./assets/fonts/Vercetti-Regular.ttf") format("truetype");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "vonique";
-  src: url("./assets/fonts/Vonique64.ttf") format("truetype");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "norms";
-  src: url("./assets/fonts/TT-Norms.otf") format("opentype");
-  font-display: swap;
-}
-
-@font-face {
   font-family: "cormorant";
   src: url("./assets/fonts/Cormorant-Light.ttf") format("truetype");
   font-display: swap;

@@ -112,6 +112,7 @@ const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+  font-size: clamp(1rem, 5vw, 1.5rem);
 }
 
 .contact__field {
@@ -123,6 +124,10 @@ const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
 
 .email-input {
   text-transform: none;
+}
+
+input, textarea {
+  font-size: 1.2rem;
 }
 
 textarea {
