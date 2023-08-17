@@ -44,7 +44,7 @@ const props = defineProps<{
   width: 100%;
   height: 100%;
   opacity: 0;
-  background-color: var(--dark-opacity);
+  background-color: var(--dark-opacity-light);
   transition: opacity 0.6s ease;
 }
 
@@ -58,12 +58,13 @@ const props = defineProps<{
   position: absolute;
   bottom: 0;
   left: 2rem;
-  font-size: clamp(1rem, 5vw, 2rem);
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
   text-underline-offset: 10px;
-  text-decoration: 2px underline;
+  text-decoration: 1px underline;
   color: #fff;
   opacity: 0;
   transition: opacity 0.6s ease;
+  font-weight: 600;
 }
 
 @media screen and (max-width: 550px) {

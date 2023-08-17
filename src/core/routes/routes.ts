@@ -4,6 +4,8 @@ import About from '../../screens/About/About-screen.vue';
 import Contact from '../../screens/Contact/Contact-screen.vue';
 import Projects from '../../screens/Projects/Projects-screen.vue';
 import Project from '../../screens/Project/Project-screen.vue';
+import Admin from '../../screens/Admin/Admin.vue';
+import DashboardScreen from '../../screens/Dashboard/Dashboard-screen.vue';
 
 const routes = [
   {
@@ -25,6 +27,17 @@ const routes = [
   {
     path: '/projecte/:id',
     component: Project
+  },
+  {
+    path: '/admin',
+    component: Admin
+  },
+  {
+    path: '/dashboard',
+    component: DashboardScreen,
+    beforeEnter: (_: any, from: any) => {
+      return from.path === '/admin' && document.cookie === 'true'
+    }
   }
 ];
 

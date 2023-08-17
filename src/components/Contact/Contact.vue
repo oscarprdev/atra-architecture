@@ -49,10 +49,14 @@ onMounted(async () => {
 
 <style scoped>
 .contact__title {
-  color: #fff;
+  color: var(--dark);
   font-size: clamp(3rem, 10vw, 8rem);
   text-transform: uppercase;
   z-index: 1;
+
+  position: absolute;
+  right: 10rem;
+  top: 4rem;
 
   animation: fade-left ease-in-out 0.5s;
 }
@@ -71,6 +75,8 @@ onMounted(async () => {
   flex-direction: column;
   justify-content: center;
   gap: 3rem;
+
+  margin-top: 20rem;
 
   padding: 3rem;
   width: 50vw;
@@ -110,10 +116,14 @@ onMounted(async () => {
 @media screen and (max-width: 1200px) {
   .contact__container {
     width: 80vw;
+    margin-top: 0;
   }
 
   .contact__title {
     margin-top: 5rem;
+    color: #fff;
+    position: relative;
+    right: 0;
   }
 
   .contact__image-container {
@@ -129,10 +139,15 @@ onMounted(async () => {
   .contact__container {
     width: 95vw;
     padding: 1rem;
+    margin-top: 0;
   }
 
   .contact__title {
     margin-top: 8rem;
+    color: #fff;
+    position: relative;
+    top: 0;
+    right: 0;
   }
 
   .contact__image-container {

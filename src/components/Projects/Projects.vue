@@ -18,6 +18,7 @@ const props = defineProps<{ projects: Project[] }>();
             width="200"
             height="200"
           />
+<!--          <span class="number"><p>{{`0${index + 1}`}}</p></span>-->
         </article>
         <h2>{{ project.year + " " + project.name }}</h2>
       </RouterLink>
@@ -35,18 +36,15 @@ const props = defineProps<{ projects: Project[] }>();
 }
 
 .projects-title {
-  position: absolute;
-  top: -1rem;
-  left: 3rem;
   pointer-events: none;
-  line-height: 1rem;
+  line-height: 0.2rem;
 
-  color: #fff;
+  color: var(--dark);
   text-align: center;
 
   opacity: 0;
   z-index: 1;
-  font-size: clamp(2.5rem, 10vw, 8rem);
+  font-size: clamp(3rem, 10vw, 8rem);
   text-transform: uppercase;
 
   animation: appear-left 0.5s linear forwards;
@@ -63,6 +61,15 @@ const props = defineProps<{ projects: Project[] }>();
   animation: appearing 0.3s ease-in-out forwards;
 }
 
+.number {
+  position: absolute;
+  bottom: -20rem;
+  right: -2rem;
+  color: var(--bg-gray);
+  font-size: 15rem;
+  overflow: hidden;
+}
+
 .image-container {
   width: 100%;
   height: 100%;
@@ -70,6 +77,7 @@ const props = defineProps<{ projects: Project[] }>();
 }
 
 .image-container:after {
+  background: linear-gradient(rgba(5, 3, 3, 0.6), rgba(9, 5, 5, 0.1) 80px,rgba(51,29,30,0) 100px);
   box-shadow: inset 0 0 30px -59px #000000;
   content: "";
   display: block;
@@ -82,9 +90,19 @@ const props = defineProps<{ projects: Project[] }>();
 h2 {
   position: absolute;
   color: #fff;
-  bottom: -1rem;
+  top: -1rem;
+  left: 1rem;
+  font-size: clamp(1.5rem, 7vw, 2.5rem);
+}
+
+h2::after {
+  content: '';
+  width: 5rem;
+  height: 1px;
+  background-color: #fff;
+  position: absolute;
+  top: 3rem;
   left: 2rem;
-  font-size: 1.8rem;
 }
 
 img {
@@ -112,26 +130,18 @@ article:hover h2:before {
   transform: scaleX(1);
 }
 
-@media screen and (max-width: 1300px) {
-  .projects-container {
-    padding: 5rem 0;
-  }
-
-  .projects-title {
-    top: 4rem;
-    left: 1rem;
-  }
-}
-
 @media screen and (max-width: 550px) {
   .projects-container {
     padding: 3rem 0;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   }
 
-  .projects-title {
-    top: 3rem;
-    left: 1rem;
+  h2 {
+    top: 0;
+  }
+
+  h2::after {
+    top: 2rem;
   }
 }
 </style>

@@ -49,7 +49,8 @@ const props = defineProps<{
 
 @media screen and (max-width: 950px) {
   .project-gallery {
-    width: 80vw;
+    margin-top: 3rem;
+    width: 95vw;
     display: flex;
     flex-direction: column;
     align-items: center;

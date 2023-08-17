@@ -60,8 +60,8 @@ onMounted(() => {
   z-index: -1;
 
   box-shadow:
-    inset 0 0 2px 2px white,
-    0 0 2px 2px white;
+    inset 0 0 2px 2px var(--dark-light),
+    0 0 2px 2px var(--dark-light);
 }
 
 .circle-bottom {
@@ -78,8 +78,8 @@ onMounted(() => {
   z-index: -1;
 
   box-shadow:
-    inset 0 0 2px 2px white,
-    0 0 2px 2px white;
+    inset 0 0 2px 2px var(--dark-light),
+    0 0 2px 2px var(--dark-light);
 }
 
 @media (max-width: 450px) {
@@ -142,7 +142,7 @@ onMounted(() => {
 
   height: 2px;
 
-  background-color: #fff;
+  background-color: var(--dark-light);
 
   top: 23rem;
 
@@ -156,7 +156,7 @@ onMounted(() => {
   height: 2px;
   width: 100rem;
 
-  background-color: #fff;
+  background-color: var(--dark-light);
 
   top: 48rem;
   right: 0;

@@ -17,8 +17,8 @@ onMounted(async () => {
 <template>
   <figure class="about__image-container">
     <img v-if="aboutData" :src="aboutData.mainImage" alt="about-image" />
-    <h1>ATRArquitectura</h1>
   </figure>
+  <h1>ATRArquitectura</h1>
   <div class="about__text" v-if="aboutData">
     <p v-for="(text, index) in aboutData.description" :key="index">
       {{ text }}
@@ -29,27 +29,25 @@ onMounted(async () => {
 <style scoped>
 .about__image-container {
   position: relative;
-  max-width: 90vw;
-
-  display: grid;
-  place-items: center;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3rem;
+  margin-top: 3rem;
   box-shadow: 0 0 25px -10px rgba(0, 0, 0, 1);
 }
 
 h1 {
-  position: absolute;
-
-  bottom: -6.5rem;
-  left: 0;
   font-size: clamp(2.5rem, 6vw, 5rem);
-  color: #fff;
+  line-height: 0;
+
+  color: var(--dark);
 
   animation: fade-left ease-in-out 0.5s;
 }
 
 .about__text {
-  padding: 0 0 1rem;
+  padding: 1rem;
 }
 
 .about__text > p {
@@ -80,24 +78,8 @@ h1 {
 }
 
 @media screen and (max-width: 1100px) {
-  h1 {
-    bottom: -5.5rem;
-  }
-
   .about__text {
     width: 80vw;
-  }
-}
-
-@media screen and (max-width: 830px) {
-  h1 {
-    bottom: -4.5rem;
-  }
-}
-
-@media screen and (max-width: 650px) {
-  h1 {
-    bottom: -3.5rem;
   }
 }
 
@@ -105,10 +87,11 @@ h1 {
   .about__image-container {
     width: 100vw;
     height: 20vh;
+    padding: 0;
   }
 
-  h1 {
-    bottom: -4.8rem;
+  .about__text {
+    margin-top: -2rem;
   }
 }
 </style>

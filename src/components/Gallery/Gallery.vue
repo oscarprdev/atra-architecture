@@ -31,7 +31,7 @@ onMounted(async () => {
 <style scoped>
 .gallery-container {
   position: relative;
-  padding: 10rem 0 3rem;
+  padding: 3rem 0 3rem;
   width: 100vw;
   height: fit-content;
   z-index: 2;
@@ -42,17 +42,14 @@ onMounted(async () => {
 }
 
 .gallery-title {
-  position: absolute;
-  top: 2rem;
-  left: 14rem;
   pointer-events: none;
   line-height: 1rem;
 
-  color: #fff;
+  color: var(--dark);
   text-align: center;
 
   z-index: 3;
-  font-size: clamp(2rem, 10vw, 8rem);
+  font-size: clamp(3rem, 10vw, 8rem);
   text-transform: uppercase;
 }
 

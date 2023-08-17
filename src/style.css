@@ -4,13 +4,36 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "vonique";
+  src: url("./assets/fonts/Vonique64.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "norms";
+  src: url("./assets/fonts/TT-Norms.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "cormorant";
+  src: url("./assets/fonts/Cormorant-Light.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
   --dark: rgb(34, 34, 34);
-  --bg-gray: #dddddd;
+  --bg-gray: #ffffff;
+  --dark-light: rgb(220, 220, 220);
+
   --dark-opacity: rgba(34, 34, 34, 0.39);
+  --dark-opacity-light: rgba(53, 53, 53, 0.39);
   --gallery: #000000;
 
   --text-gray: #e6e6e6;
+
+  --image-border-brown: rgb(190, 178, 157);
 }
 
 * {
@@ -29,31 +52,32 @@ ul {
 }
 
 li {
-  font-family:
-    vercetti,
-    -apple-system,
-    sans-serif;
+  font-family: cormorant,
+  -apple-system,
+  sans-serif;
+  font-weight: 300;
 }
 
 a {
   text-decoration: none;
 }
 
-h1 {
-  font-family:
-    vercetti,
-    -apple-system,
-    sans-serif;
+h1
+{
+  font-family: cormorant,
+  -apple-system,
+  sans-serif;
+  font-weight: 300;
 }
 
+
+p,
 h2,
-h3,
-p {
-  font-family:
-    vercetti,
-    -apple-system,
-    sans-serif;
-  font-weight: lighter;
+h3  {
+  font-family: cormorant,
+  -apple-system,
+  sans-serif;
+  font-weight: 300;
 }
 
 img {
@@ -62,13 +86,27 @@ img {
   object-fit: cover;
 }
 
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-transform: uppercase;
+}
+
+input {
+  padding: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--text-gray);
+  caret-color: var(--text-gray);
+  color: var(--text-gray);
+}
+
 .screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100vw;
   height: fit-content;
-  background-color: var(--bg-gray);
   position: relative;
   overflow: hidden;
   z-index: 0;

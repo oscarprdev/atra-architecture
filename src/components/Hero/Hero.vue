@@ -42,13 +42,13 @@ const props = defineProps<{
 }
 
 h1 {
-  font-size: clamp(2rem, 25vw, 15rem);
+  font-size: clamp(2.4rem, 30vw, 15rem);
   line-height: 1px;
 }
 
 p {
   margin-top: -5rem;
-  font-size: clamp(1rem, 2vw, 1.72rem);
+  font-size: clamp(1.3rem, 2vw, 2rem);
 }
 
 .contact {
@@ -56,24 +56,23 @@ p {
   right: 0;
   bottom: 0;
   padding: 3rem 12rem;
-
   animation: fade-left 0.8s linear forwards;
 }
 
 .contact h2 {
-  font-size: clamp(0.6rem, 5vw, 1.5rem);
+  font-size: clamp(1.3rem, 5vw, 1.5rem);
 }
 
 .contact h3 {
-  font-size: clamp(0.5rem, 4vw, 1.2rem);
+  font-size: clamp(1.3rem, 4vw, 1.5rem);
 }
 
 @media screen and (max-width: 630px) {
   .hero {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 35vh;
+    gap: 25vh;
   }
 
   .title {

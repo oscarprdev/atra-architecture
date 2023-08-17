@@ -42,12 +42,19 @@ const props = defineProps<{
 @media screen and (max-width: 950px) {
   .project-header {
     flex-direction: column;
-    height: 150vh;
+    height: 110vh;
   }
   .image-container {
     position: relative;
     width: 100vw;
     margin-top: -2rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .project-header {
+    flex-direction: column;
+    height: 100vh;
   }
 }
 

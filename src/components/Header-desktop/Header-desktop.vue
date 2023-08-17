@@ -42,7 +42,7 @@ header {
   padding: 1rem 5rem;
 
   opacity: 0;
-
+  background: linear-gradient(rgba(58,32,33,.24),rgba(53,30,31,.08) 50px,rgba(51,29,30,0) 100px);
   animation: fade-left 0.7s linear forwards;
 }
 
@@ -62,7 +62,7 @@ li {
 .active:before {
   content: "";
   width: 3rem;
-  height: 2px;
+  height: 1px;
   background-color: var(--dark);
   position: absolute;
   bottom: -5px;
@@ -74,7 +74,7 @@ li {
 
 a {
   cursor: pointer;
-  font-size: clamp(1rem, 5vw, 1.5rem);
+  font-size: clamp(1rem, 5vw, 2rem);
   position: relative;
   color: var(--dark);
 }
@@ -82,7 +82,7 @@ a {
 a:before {
   content: "";
   width: 3rem;
-  height: 2px;
+  height: 1px;
   background-color: var(--dark);
   position: absolute;
   bottom: -5px;

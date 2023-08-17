@@ -48,10 +48,12 @@ const props = defineProps<{
 .project-year {
   color: var(--dark-opacity);
   margin-top: -3rem;
+  font-size: clamp(1rem, 7vw, 2.4rem);
 }
 
 .project-description {
   max-width: 60ch;
+  font-size: clamp(0.8rem, 5vw, 1.5rem);
 }
 
 @media screen and (max-width: 950px) {
@@ -64,6 +66,10 @@ const props = defineProps<{
 
     opacity: 0;
     animation: appear-left 0.5s linear forwards;
+  }
+
+  .project-description {
+    text-align: center;
   }
 }
 </style>

@@ -74,7 +74,7 @@ header {
 
 .hamburguer-container span {
   width: 100%;
-  height: 5px;
+  height: 2px;
   background-color: var(--dark);
   transition: 0.4s;
 }
