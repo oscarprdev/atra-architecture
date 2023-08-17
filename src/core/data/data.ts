@@ -34,7 +34,7 @@ export const data: Data = {
       surname: 'COGNOM',
       subject: 'ASUMPTE',
       email: 'EMAIL',
-      content: 'ASUMPTE'
+      content: 'MISSATGE'
     },
     button: 'Enviar e-mail'
   },

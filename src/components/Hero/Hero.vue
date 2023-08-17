@@ -72,7 +72,7 @@ p {
     padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 25vh;
+    gap: 12vh;
   }
 
   .title {

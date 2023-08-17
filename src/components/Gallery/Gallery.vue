@@ -93,16 +93,11 @@ article {
   }
 
   article {
-    height: 12rem;
+    height: 17rem;
   }
 
   .gallery {
     width: 90vw;
-  }
-
-  .gallery-title {
-    top: -1rem;
-    left: 5.5rem;
   }
 
   .gallery-container {
@@ -110,7 +105,7 @@ article {
   }
 
   .box-0 {
-    height: 13rem;
+    height: 17rem;
   }
 }
 </style>

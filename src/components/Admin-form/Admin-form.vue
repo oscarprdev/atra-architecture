@@ -70,4 +70,10 @@ const handleSubmit = async (e: FormDataEvent): Promise<void> => {
 
   padding: 5rem;
 }
+
+@media screen and (max-width: 550px) {
+  .admin__form {
+    padding: 1.5rem;
+  }
+}
 </style>

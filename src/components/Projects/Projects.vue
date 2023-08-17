@@ -8,21 +8,19 @@ const props = defineProps<{ projects: Project[] }>();
 <template>
   <h1 class="projects-title">Projectes</h1>
   <div class="projects-container">
-    <Lazy v-for="project in props.projects" :key="project.id">
-      <RouterLink class="project-container" :to="`projecte/${project.id}`">
-        <article class="image-container">
-          <img
-            :src="project.mainImage"
-            alt="image"
-            loading="lazy"
-            width="200"
-            height="200"
-          />
-<!--          <span class="number"><p>{{`0${index + 1}`}}</p></span>-->
-        </article>
-        <h2>{{ project.year + " " + project.name }}</h2>
-      </RouterLink>
-    </Lazy>
+      <Lazy v-for="project in props.projects" :key="project.id" class="project-container" >
+        <RouterLink class="image-container" :to="`projecte/${project.id}`">
+            <img
+              :src="project.mainImage"
+              alt="image"
+              loading="lazy"
+              width="200"
+              height="200"
+            />
+  <!--          <span class="number"><p>{{`0${index + 1}`}}</p></span>-->
+            <h2>{{ project.year + " " + project.name }}</h2>
+        </RouterLink>
+      </Lazy>
   </div>
 </template>
 
@@ -56,7 +54,7 @@ const props = defineProps<{ projects: Project[] }>();
   height: 38vh;
   position: relative;
   cursor: pointer;
-
+  overflow: hidden;
   opacity: 0;
   animation: appearing 0.3s ease-in-out forwards;
 }
@@ -92,6 +90,7 @@ h2 {
   color: #fff;
   top: -1rem;
   left: 1rem;
+  z-index: 2;
   font-size: clamp(1.5rem, 7vw, 2.5rem);
 }
 
@@ -133,6 +132,7 @@ article:hover h2:before {
 @media screen and (max-width: 550px) {
   .projects-container {
     padding: 3rem 0;
+    width: 90vw;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   }
 
