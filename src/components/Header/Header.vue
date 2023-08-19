@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import HeaderDesktop from '../Header-desktop/Header-desktop.vue';
 import HeaderMobile from '../Header-mobile/Header-mobile.vue';
+import HeaderDashboard from '../Header-dashboard/Header-dashboard.vue';
 
 const route = useRoute();
 const path = ref('');
@@ -10,11 +11,16 @@ const path = ref('');
 watch(route, async (route) => {
   path.value = route.fullPath;
 });
+
+onMounted(() => {
+  path.value = window.location.hash.replace('#', '')
+})
 </script>
 
 <template>
-    <HeaderDesktop class="header-desktop" :path="path"/>
-    <HeaderMobile class="header-mobile" :path="path"/>
+    <HeaderDesktop class="header-desktop" :path="path" v-if="path !== '/dashboard'"/>
+    <HeaderMobile class="header-mobile" :path="path" v-if="path !== '/dashboard'"/>
+    <HeaderDashboard v-if="path === '/dashboard'"/>
 </template>
 
 <style scoped>
