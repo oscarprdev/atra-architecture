@@ -27,7 +27,7 @@ const contactForm = reactive<Form>({
   content: ''
 });
 
-const handleChange = (e: FormDataEvent): void => {
+const handleChange = (e: Event): void => {
   const target = e.target as HTMLInputElement
   const key = target?.id as keyof Form
   contactForm[key] = target?.value;
@@ -40,7 +40,7 @@ const resetContactForm = (): void => {
   contactForm.content = '';
 };
 
-const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
+const handleContactSubmit = async (e: Event): Promise<void> => {
   e.preventDefault();
 
   const sendEmailInput: SendEmailInput = {
@@ -60,14 +60,14 @@ const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
 </script>
 
 <template>
-  <form class="contact__form" @onsubmit="(e: FormDataEvent) => handleContactSubmit(e)">
+  <form class="contact__form" v-on:submit="(e: Event) => handleContactSubmit(e)">
     <div class="contact__field">
       <label>
         {{ props.formKeys.name }}
         <input
           id="name"
           :value="contactForm.name"
-          @oninput="(e: FormDataEvent) => handleChange(e)"
+          v-on:input="(e: Event) => handleChange(e)"
           required
         />
       </label>
@@ -76,7 +76,7 @@ const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
         <input
           id="subject"
           :value="contactForm.subject"
-          @oninput="(e: FormDataEvent) => handleChange(e)"
+          v-on:input="(e: Event) => handleChange(e)"
           required
         />
       </label>
@@ -87,7 +87,7 @@ const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
           id="email"
           type="email"
           :value="contactForm.email"
-          @oninput="(e: FormDataEvent) => handleChange(e)"
+          v-on:input="(e: Event) => handleChange(e)"
           required
         />
       </label>
@@ -97,7 +97,7 @@ const handleContactSubmit = async (e: FormDataEvent): Promise<void> => {
           id="content"
           maxlength="500"
           :value="contactForm.content"
-          @oninput="(e: FormDataEvent) => handleChange(e)"
+          v-on:input="(e: Event) => handleChange(e)"
           required
         />
       </label>

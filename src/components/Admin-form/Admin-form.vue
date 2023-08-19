@@ -16,13 +16,13 @@ const adminForm = reactive<AdminForm>({
   password: ''
 });
 
-const handleChange = (e: FormDataEvent): void => {
+const handleChange = (e: Event): void => {
   const target = e.target as HTMLInputElement
   const key = target?.id as keyof AdminForm
   adminForm[key] = target?.value;
 };
 
-const handleSubmit = async (e: FormDataEvent): Promise<void> => {
+const handleSubmit = async (e: Event): Promise<void> => {
   e.preventDefault()
   const adminSignInInput: AdminSignInInput = {
     email: adminForm.email,
@@ -37,21 +37,21 @@ const handleSubmit = async (e: FormDataEvent): Promise<void> => {
 </script>
 
 <template>
-  <form @onsubmit="(e: FormDataEvent) => handleSubmit(e)" class="admin__form">
+  <form v-on:submit="(e: Event) => handleSubmit(e)" class="admin__form">
     <label>
       Email
       <input
           type="email"
           id="email"
           required
-          @oninput="(e: FormDataEvent) => handleChange(e)"/>
+          v-on:input="(e: Event) => handleChange(e)"/>
     </label>
     <label>
       Contrasenya
       <input
           type="password"
           id="password" required
-          @oninput="(e: FormDataEvent) => handleChange(e)"/>
+          v-on:input="(e: Event) => handleChange(e)"/>
     </label>
     <ButtonForm content="Entrar" />
   </form>
