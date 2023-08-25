@@ -1,26 +1,18 @@
 <script setup lang="ts">
-import { onMounted, type Ref, ref } from 'vue';
-import { getAboutData, getHomeData } from '../../core/services/data-service.ts';
-import type { About, HomeData } from '../../core/types/data.type.ts';
+import type { AboutInfo } from '../../core/types/data.types.ts';
 
-const aboutData: Ref<About | null> = ref(null);
-const personalInfo: Ref<HomeData | null> = ref(null);
-
-onMounted(async () => {
-  aboutData.value = await getAboutData();
-
-  const home = await getHomeData();
-  personalInfo.value = home.data;
-});
+defineProps<{
+  aboutInfo: AboutInfo;
+}>();
 </script>
 
 <template>
   <figure class="about__image-container">
-    <img v-if="aboutData" :src="aboutData.mainImage" alt="about-image" />
+    <img :src="aboutInfo.mainImage" alt="about-image" />
   </figure>
-  <h1>ATRArquitectura</h1>
-  <div class="about__text" v-if="aboutData">
-    <p v-for="(text, index) in aboutData.description" :key="index">
+  <h1>{{ aboutInfo.title }}</h1>
+  <div class="about__text">
+    <p v-for="(text, index) in aboutInfo.text" :key="index">
       {{ text }}
     </p>
   </div>

@@ -32,6 +32,12 @@ export interface About {
   description: string[];
 }
 
+export interface AboutInfo {
+  text: string;
+  title: string;
+  mainImage?: any;
+}
+
 export interface Contact {
   mainImage: any;
   form: ContactFormData;
