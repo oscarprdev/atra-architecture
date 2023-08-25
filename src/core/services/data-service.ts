@@ -1,4 +1,4 @@
-import { type About, type Contact, type Data, type Home, type Project } from '../types/data.type.ts';
+import { type About, type Contact, type Data, type Home, type Project } from '../types/data.types.ts';
 import { data } from '../data/data.ts';
 
 export const dataService = async (): Promise<Data> => {

@@ -8,10 +8,10 @@ export interface Data {
 export interface Home {
   title: string;
   subtitle: string;
-  data: HomeData;
+  data: PersonalInfo;
 }
 
-export interface HomeData {
+export interface PersonalInfo {
   name: string;
   phone: string;
   email: string;

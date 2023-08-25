@@ -6,7 +6,7 @@ import image5 from '../../assets/images/image-5.webp';
 import image6 from '../../assets/images/image-6.webp';
 import about from '../../assets/images/about.webp';
 import Contact from '../../assets/images/contact.webp';
-import { type Data } from '../types/data.type.ts';
+import { type Data } from '../types/data.types.ts';
 
 export const data: Data = {
   home: {
