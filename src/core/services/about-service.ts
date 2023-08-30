@@ -1,24 +1,17 @@
 import { AboutInfo } from '../types/data.types';
-import { getAboutData } from './data-service';
 import { DefaultHttpBase } from './http-base';
 
 interface AboutService {
-  getAboutScreenInfo(): Promise<AboutInfo | void>;
+  getAboutScreenInfo(): Promise<AboutInfo>;
 }
 
 export class DefaultAboutService
   extends DefaultHttpBase
   implements AboutService
 {
-  async getAboutScreenInfo() {
-    const mainImage = (await getAboutData()).mainImage;
+  async getAboutScreenInfo(): Promise<AboutInfo> {
     const aboutInfo = await this.get<AboutInfo>('about');
 
-    if (aboutInfo) {
-      return {
-        ...aboutInfo,
-        mainImage,
-      } satisfies AboutInfo;
-    }
+    return aboutInfo.data satisfies AboutInfo;
   }
 }

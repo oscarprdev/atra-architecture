@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Lazy from '../Lazy/Lazy.vue';
-import { type Project } from '../../core/types/data.type.ts';
+import { type Project } from '../../core/types/data.types.ts';
 
 const props = defineProps<{
   project: Project;
@@ -8,22 +7,20 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Lazy class="image-container">
-    <router-link :to="`projecte/${props.project.id}`">
-      <img
-        :src="props.project.mainImage"
-        alt="image"
-        loading="lazy"
-        width="200"
-        height="200"
-      />
-      <div class="image-backdrop">
-        <h2 class="image-title">
-          {{ props.project.year + " " + props.project.name }}
-        </h2>
-      </div>
-    </router-link>
-  </Lazy>
+  <router-link class="image-container" :to="`projecte/${props.project.id}`">
+    <img
+      :src="props.project.mainImage"
+      alt="image"
+      loading="lazy"
+      width="200"
+      height="200"
+    />
+    <div class="image-backdrop">
+      <h2 class="image-title">
+        {{ props.project.year + ' ' + props.project.name }}
+      </h2>
+    </div>
+  </router-link>
 </template>
 
 <style scoped>
@@ -37,7 +34,7 @@ const props = defineProps<{
 }
 
 .image-backdrop {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { type Ref, defineAsyncComponent, onMounted, ref } from 'vue';
 import { DefaultAboutService } from '../../core/services/about-service';
-import { AboutInfo } from '../../core/types/data.types';
+import { AboutInfo } from '../../core/types/data.types.ts';
 
 const About = defineAsyncComponent(
   async () => await import('../../components/About/About.vue')
 );
 
-const aboutInfo: Ref<AboutInfo | undefined> = ref();
+const aboutInfo: Ref<AboutInfo | null> = ref(null);
 
 onMounted(async () => {
   aboutInfo.value = await new DefaultAboutService().getAboutScreenInfo();

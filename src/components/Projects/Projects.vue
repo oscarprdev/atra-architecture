@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Lazy from '../Lazy/Lazy.vue';
-import { type Project } from '../../core/types/data.type.ts';
+import { type Project } from '../../core/types/data.types.ts';
 
 const props = defineProps<{ projects: Project[] }>();
 </script>
@@ -8,19 +7,22 @@ const props = defineProps<{ projects: Project[] }>();
 <template>
   <h1 class="projects-title">Projectes</h1>
   <div class="projects-container">
-      <Lazy v-for="project in props.projects" :key="project.id" class="project-container" >
-        <RouterLink class="image-container" :to="`projecte/${project.id}`">
-            <img
-              :src="project.mainImage"
-              alt="image"
-              loading="lazy"
-              width="200"
-              height="200"
-            />
-  <!--          <span class="number"><p>{{`0${index + 1}`}}</p></span>-->
-            <h2>{{ project.year + " " + project.name }}</h2>
-        </RouterLink>
-      </Lazy>
+    <RouterLink
+      v-for="project in props.projects"
+      :key="project.id"
+      class="project-container"
+      :to="`projecte/${project.id}`"
+    >
+      <img
+        :src="project.mainImage"
+        alt="image"
+        loading="lazy"
+        width="200"
+        height="200"
+      />
+      <!--          <span class="number"><p>{{`0${index + 1}`}}</p></span>-->
+      <h2>{{ project.year + ' ' + project.name }}</h2>
+    </RouterLink>
   </div>
 </template>
 
@@ -29,7 +31,7 @@ const props = defineProps<{ projects: Project[] }>();
   max-width: 90vw;
   padding: 2rem 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
   gap: 1rem;
 }
 
@@ -50,7 +52,7 @@ const props = defineProps<{ projects: Project[] }>();
 
 .project-container {
   z-index: 2;
-  min-width: 20rem;
+  min-width: 15rem;
   height: 38vh;
   position: relative;
   cursor: pointer;
@@ -68,16 +70,14 @@ const props = defineProps<{ projects: Project[] }>();
   overflow: hidden;
 }
 
-.image-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.image-container:after {
-  background: linear-gradient(rgba(5, 3, 3, 0.6), rgba(9, 5, 5, 0.1) 80px,rgba(51,29,30,0) 100px);
+.project-container:after {
+  background: linear-gradient(
+    rgba(5, 3, 3, 0.6),
+    rgba(9, 5, 5, 0.1) 80px,
+    rgba(51, 29, 30, 0) 100px
+  );
   box-shadow: inset 0 0 30px -59px #000000;
-  content: "";
+  content: '';
   display: block;
   height: 100%;
   position: absolute;
@@ -108,12 +108,12 @@ img {
   transition: all 0.5s ease;
 }
 
-.image-container:hover img {
+.project-container:hover img {
   transform: scale(1.04);
 }
 
 h2:before {
-  content: "";
+  content: '';
   width: 8rem;
   height: 2px;
   background-color: #fff;

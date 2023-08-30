@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { type HomeData } from '../../core/types/data.type.ts';
+import { type PersonalInfo } from '../../core/types/data.types.ts';
 
 const props = defineProps<{
-  personalInfo: HomeData;
+  personalInfo: PersonalInfo;
 }>();
 </script>
 
@@ -41,5 +41,4 @@ a {
     margin-left: 0;
   }
 }
-
 </style>

@@ -1,29 +1,32 @@
 <script setup lang="ts">
 import { onMounted, ref, type Ref } from 'vue';
-import type { ContactFormData, HomeData } from '../../core/types/data.type.ts';
+import type {
+  ContactFormData,
+  PersonalInfo,
+} from '../../core/types/data.types.ts';
 import ContactForm from '../Contact-form/Contact-form.vue';
-import {
-  getContactData,
-  getHomeData
-} from '../../core/services/data-service.ts';
 import ContactInfo from '../Contact-info/Contact-info.vue';
+import { DefaultContactService } from '../../core/services/contact-service';
 
 const contactImage = ref();
 
-const personalInfo: Ref<HomeData | null> = ref(null);
+const personalInfo: Ref<PersonalInfo | null> = ref(null);
 
 const formKeys: Ref<ContactFormData | null> = ref(null);
 const buttonContent: Ref<string | null> = ref(null);
 
 onMounted(async () => {
-  const home = await getHomeData();
-  personalInfo.value = home.data;
+  personalInfo.value = await new DefaultContactService().getPersonalInfo();
+  contactImage.value = await new DefaultContactService().getContactImage();
 
-  const contact = await getContactData();
-  contactImage.value = contact.mainImage;
-
-  formKeys.value = contact.form;
-  buttonContent.value = contact.button;
+  formKeys.value = {
+    name: 'Nom',
+    surname: 'Cognom',
+    subject: 'Asumpte',
+    email: 'Email',
+    content: 'Missatge',
+  };
+  buttonContent.value = 'enviar email';
 });
 </script>
 
@@ -36,14 +39,9 @@ onMounted(async () => {
       alt="random background contact image"
     />
   </div>
-  <div class="contact__container">
-    <ContactInfo v-if="personalInfo" :personalInfo="personalInfo" />
-    <ContactForm
-      v-if="formKeys && buttonContent && personalInfo"
-      :buttonContent="buttonContent"
-      :formKeys="formKeys"
-      :personalInfo="personalInfo"
-    />
+  <div class="contact__container" v-if="personalInfo">
+    <ContactInfo :personalInfo="personalInfo" />
+    <ContactForm :personalInfo="personalInfo" />
   </div>
 </template>
 

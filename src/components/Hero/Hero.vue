@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { type Home } from '../../core/types/data.type.ts';
+import { onMounted, ref } from 'vue';
+import { type Home } from '../../core/types/data.types.ts';
+import { DefaultHomeService } from '../../core/services/home-service';
 
-const props = defineProps<{
-  homeInfo: Home;
-}>();
+const homeInfo = ref<Home>();
+const isLoading = ref(false);
+
+onMounted(async () => {
+  isLoading.value = true;
+  homeInfo.value = await new DefaultHomeService().getHeroText();
+  isLoading.value = false;
+});
 </script>
 
 <template>
   <section class="hero">
-    <div class="title">
-      <h1>{{ props.homeInfo.title }}</h1>
-      <p>{{ props.homeInfo.subtitle }}</p>
+    <div class="title" v-if="homeInfo">
+      <h1>{{ homeInfo.title }}</h1>
+      <p>{{ homeInfo.subtitle }}</p>
     </div>
-    <div class="contact">
-      <h2>{{ props.homeInfo.data.name }}</h2>
-      <h3>{{ props.homeInfo.data.phone }}</h3>
-      <h3>{{ props.homeInfo.data.email }}</h3>
-      <h3 class="direction">{{ props.homeInfo.data.direction }}</h3>
+    <div class="contact" v-if="homeInfo">
+      <h2>{{ homeInfo.data.name }}</h2>
+      <h3>{{ homeInfo.data.phone }}</h3>
+      <h3>{{ homeInfo.data.email }}</h3>
+      <h3 class="direction">{{ homeInfo.data.direction }}</h3>
     </div>
   </section>
 </template>

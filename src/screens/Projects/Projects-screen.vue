@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent, onMounted, ref, type Ref } from 'vue';
-import { type Project } from '../../core/types/data.type.ts';
-import { getProjectsData } from '../../core/services/data-service.ts';
+import { type Project } from '../../core/types/data.types.ts';
+import { DefaultProjectsService } from '../../core/services/projects.service';
 
 const Projects = defineAsyncComponent(
   async () => await import('../../components/Projects/Projects.vue')
@@ -10,7 +10,7 @@ const Projects = defineAsyncComponent(
 const projects: Ref<Project[] | []> = ref([]);
 
 onMounted(async () => {
-  projects.value = await getProjectsData();
+  projects.value = await new DefaultProjectsService().getProjects();
 });
 </script>
 

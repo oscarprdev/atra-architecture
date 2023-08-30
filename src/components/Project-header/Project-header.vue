@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type Project } from '../../core/types/data.type.ts';
+import { type ProjectDetail } from '../../core/types/data.types.ts';
 import ProjectInfo from '../Project-info/Project-info.vue';
 
 const props = defineProps<{
-  project: Project;
+  project: ProjectDetail;
 }>();
 </script>
 
@@ -57,5 +57,4 @@ const props = defineProps<{
     height: 100vh;
   }
 }
-
 </style>

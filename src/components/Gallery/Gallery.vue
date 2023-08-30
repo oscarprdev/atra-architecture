@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { type Project } from '../../core/types/data.type.ts';
+import { type ProjectGallery } from '../../core/types/data.types.ts';
 import { onMounted, type Ref, ref } from 'vue';
-import { getProjectsData } from '../../core/services/data-service.ts';
 import GalleryImage from '../Gallery-image/Gallery-image.vue';
+import { DefaultProjectsService } from '../../core/services/projects.service';
 
-const projects: Ref<Project[] | []> = ref([]);
+const projects: Ref<ProjectGallery[] | []> = ref([]);
 
 onMounted(async () => {
-  const allProjects = await getProjectsData();
-
-  projects.value = allProjects.filter((project) => project.top);
+  projects.value = await new DefaultProjectsService().getProjectsGallery();
 });
 </script>
 

@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import {
   sendEmail,
-  type SendEmailInput
+  type SendEmailInput,
 } from '../../core/services/email-service.ts';
 import { reactive } from 'vue';
-import { type ContactFormData, type HomeData } from '../../core/types/data.type.ts';
+import { type PersonalInfo } from '../../core/types/data.types.ts';
 import ButtonForm from '../Button-form/Button-form.vue';
 
 const props = defineProps<{
-  buttonContent: string;
-  formKeys: ContactFormData;
-  personalInfo: HomeData
+  personalInfo: PersonalInfo;
 }>();
 
 interface Form {
@@ -24,12 +22,12 @@ const contactForm = reactive<Form>({
   name: '',
   email: '',
   subject: '',
-  content: ''
+  content: '',
 });
 
 const handleChange = (e: Event): void => {
-  const target = e.target as HTMLInputElement
-  const key = target?.id as keyof Form
+  const target = e.target as HTMLInputElement;
+  const key = target?.id as keyof Form;
   contactForm[key] = target?.value;
 };
 
@@ -48,7 +46,7 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
     from: contactForm.name,
     email: contactForm.email,
     subject: contactForm.subject,
-    content: contactForm.content
+    content: contactForm.content,
   };
 
   const response = await sendEmail(sendEmailInput);
@@ -60,10 +58,13 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
 </script>
 
 <template>
-  <form class="contact__form" v-on:submit="(e: Event) => handleContactSubmit(e)">
+  <form
+    class="contact__form"
+    v-on:submit="(e: Event) => handleContactSubmit(e)"
+  >
     <div class="contact__field">
       <label>
-        {{ props.formKeys.name }}
+        Nom
         <input
           id="name"
           :value="contactForm.name"
@@ -72,7 +73,7 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
         />
       </label>
       <label>
-        {{ props.formKeys.subject }}
+        Asumpte
         <input
           id="subject"
           :value="contactForm.subject"
@@ -81,7 +82,7 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
         />
       </label>
       <label>
-        {{ props.formKeys.email }}
+        Email
         <input
           class="email-input"
           id="email"
@@ -92,7 +93,7 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
         />
       </label>
       <label>
-        {{ props.formKeys.content }}
+        Missatge
         <textarea
           id="content"
           maxlength="500"
@@ -102,8 +103,8 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
         />
       </label>
     </div>
-    <ButtonForm v-if="props.buttonContent" :content="props.buttonContent" />
-   </form>
+    <ButtonForm content="Enviar email" />
+  </form>
 </template>
 
 <style scoped>
@@ -126,7 +127,8 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
   text-transform: none;
 }
 
-input, textarea {
+input,
+textarea {
   font-size: 1.2rem;
 }
 

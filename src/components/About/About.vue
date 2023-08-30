@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <figure class="about__image-container">
-    <img :src="aboutInfo.mainImage" alt="about-image" />
+    <img :src="aboutInfo.image" alt="about-image" />
   </figure>
   <h1>{{ aboutInfo.title }}</h1>
   <div class="about__text">

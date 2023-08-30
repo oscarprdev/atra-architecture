@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { type Project } from '../../core/types/data.type.ts';
+import { type ProjectDetail } from '../../core/types/data.types.ts';
 
 const props = defineProps<{
-  project: Project;
+  project: ProjectDetail;
 }>();
 </script>
 
@@ -11,15 +11,7 @@ const props = defineProps<{
     <h1 class="project-title">{{ props.project.name }}</h1>
     <h2 class="project-year">{{ props.project.year }}</h2>
     <p class="project-description">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-      commodo quis diam sit amet commodo. Nullam ut erat hendrerit, pretium
-      turpis vitae, malesuada nisl. Mauris sodales convallis sapien, ut cursus
-      libero rutrum ac. Nunc ex massa, ultrices quis erat at, convallis mollis
-      tellus. Praesent in pellentesque enim. Etiam ipsum sem, interdum vitae
-      odio a, rhoncus cursus arcu. Donec lacus leo, placerat a leo vel,
-      tincidunt hendrerit leo. Donec fringilla, nisl sed condimentum convallis,
-      purus velit mollis lectus, nec facilisis nunc nibh sed magna. Donec eget
-      sem augue.
+      {{ props.project.description }}
     </p>
   </div>
 </template>

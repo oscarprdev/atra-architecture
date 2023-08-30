@@ -22,24 +22,39 @@ export interface Project {
   id: string;
   name: string;
   year: string;
-  mainImage: any;
-  images: any[];
+  mainImage: string;
+}
+
+export interface ProjectDetail {
+  id: string;
+  name: string;
+  year: string;
+  mainImage: string;
+  images: string[];
+  description: string;
+}
+
+export interface ProjectGallery {
+  id: string;
+  name: string;
+  year: string;
+  mainImage: string;
   top: boolean;
 }
 
 export interface About {
-  mainImage: any;
+  mainImage: string;
   description: string[];
 }
 
 export interface AboutInfo {
   text: string;
   title: string;
-  mainImage?: any;
+  image: string;
 }
 
 export interface Contact {
-  mainImage: any;
+  mainImage: string;
   form: ContactFormData;
   button: string;
 }
