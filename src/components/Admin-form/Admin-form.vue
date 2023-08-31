@@ -1,39 +1,42 @@
 <script setup lang="ts">
-import ButtonForm from '../Button-form/Button-form.vue';
+import Button from '../Button/Button.vue';
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
-import { adminSignIn, type AdminSignInInput } from '../../core/services/admin-service';
+import {
+  adminSignIn,
+  type AdminSignInInput,
+} from '../../core/services/admin-service';
 
-const router = useRouter()
+const router = useRouter();
 
 interface AdminForm {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 const adminForm = reactive<AdminForm>({
   email: '',
-  password: ''
+  password: '',
 });
 
 const handleChange = (e: Event): void => {
-  const target = e.target as HTMLInputElement
-  const key = target?.id as keyof AdminForm
+  const target = e.target as HTMLInputElement;
+  const key = target?.id as keyof AdminForm;
   adminForm[key] = target?.value;
 };
 
 const handleSubmit = async (e: Event): Promise<void> => {
-  e.preventDefault()
+  e.preventDefault();
   const adminSignInInput: AdminSignInInput = {
     email: adminForm.email,
-    password: adminForm.password
-  }
-  const response = await adminSignIn(adminSignInInput)
+    password: adminForm.password,
+  };
+  const response = await adminSignIn(adminSignInInput);
   if (response) {
-    document.cookie = 'true'
-    await router.push('/dashboard')
+    document.cookie = 'true';
+    await router.push('/dashboard');
   }
-}
+};
 </script>
 
 <template>
@@ -41,19 +44,22 @@ const handleSubmit = async (e: Event): Promise<void> => {
     <label>
       Email
       <input
-          type="email"
-          id="email"
-          required
-          v-on:input="(e: Event) => handleChange(e)"/>
+        type="email"
+        id="email"
+        required
+        v-on:input="(e: Event) => handleChange(e)"
+      />
     </label>
     <label>
       Contrasenya
       <input
-          type="password"
-          id="password" required
-          v-on:input="(e: Event) => handleChange(e)"/>
+        type="password"
+        id="password"
+        required
+        v-on:input="(e: Event) => handleChange(e)"
+      />
     </label>
-    <ButtonForm content="Entrar" />
+    <Button content="Entrar" type="submit" />
   </form>
 </template>
 

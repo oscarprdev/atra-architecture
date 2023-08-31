@@ -3,7 +3,6 @@ import { useRoute } from 'vue-router';
 import { onMounted, ref, watch } from 'vue';
 import HeaderDesktop from '../Header-desktop/Header-desktop.vue';
 import HeaderMobile from '../Header-mobile/Header-mobile.vue';
-import HeaderDashboard from '../Header-dashboard/Header-dashboard.vue';
 
 const route = useRoute();
 const path = ref('');
@@ -13,18 +12,24 @@ watch(route, async (route) => {
 });
 
 onMounted(() => {
-  path.value = window.location.hash.replace('#', '')
-})
+  path.value = window.location.hash.replace('#', '');
+});
 </script>
 
 <template>
-    <HeaderDesktop class="header-desktop" :path="path" v-if="path !== '/dashboard'"/>
-    <HeaderMobile class="header-mobile" :path="path" v-if="path !== '/dashboard'"/>
-    <HeaderDashboard v-if="path === '/dashboard'"/>
+  <HeaderDesktop
+    class="header-desktop"
+    :path="path"
+    v-if="path !== '/dashboard'"
+  />
+  <HeaderMobile
+    class="header-mobile"
+    :path="path"
+    v-if="path !== '/dashboard'"
+  />
 </template>
 
 <style scoped>
-
 .header-mobile {
   display: none;
 }
@@ -38,5 +43,4 @@ onMounted(() => {
     display: block;
   }
 }
-
 </style>

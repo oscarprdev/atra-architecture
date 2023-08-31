@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
-  path: string
-}>()
-
+  path: string;
+}>();
 </script>
 
 <template>
@@ -13,19 +12,23 @@ const props = defineProps<{
       </li>
       <li>
         <router-link
-            to="/projects"
-            :class="`${props.path === '/projects' && 'active'}`"
-        >Projectes</router-link
+          to="/projects"
+          :class="`${props.path === '/projects' && 'active'}`"
+          >Projectes</router-link
         >
       </li>
       <li>
-        <router-link to="/about" :class="`${props.path === '/about' && 'active'}`"
-        >Qui som</router-link
+        <router-link
+          to="/about"
+          :class="`${props.path === '/about' && 'active'}`"
+          >Qui som</router-link
         >
       </li>
       <li>
-        <router-link to="/contact" :class="`${props.path === '/contact' && 'active'}`"
-        >Contacte</router-link
+        <router-link
+          to="/contact"
+          :class="`${props.path === '/contact' && 'active'}`"
+          >Contacte</router-link
         >
       </li>
     </ul>
@@ -42,7 +45,11 @@ header {
   padding: 1rem 5rem;
 
   opacity: 0;
-  background: linear-gradient(rgba(58,32,33,.24),rgba(53,30,31,.08) 50px,rgba(51,29,30,0) 100px);
+  background: linear-gradient(
+    rgba(58, 32, 33, 0.24),
+    rgba(53, 30, 31, 0.08) 50px,
+    rgba(51, 29, 30, 0) 100px
+  );
   animation: fade-left 0.7s linear forwards;
 }
 
@@ -60,7 +67,7 @@ li {
 }
 
 .active:before {
-  content: "";
+  content: '';
   width: 3rem;
   height: 1px;
   background-color: var(--dark);
@@ -80,7 +87,7 @@ a {
 }
 
 a:before {
-  content: "";
+  content: '';
   width: 3rem;
   height: 1px;
   background-color: var(--dark);

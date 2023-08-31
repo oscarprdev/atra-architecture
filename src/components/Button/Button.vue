@@ -1,14 +1,15 @@
 <script setup lang="ts">
 const props = defineProps<{
-  content: string
-}>()
+  content: string;
+  type: 'button' | 'submit' | 'reset' | undefined;
+}>();
 </script>
 
 <template>
-  <button type="submit">
-      <span>
-        {{ props.content }}
-      </span>
+  <button :type="props.type">
+    <span>
+      {{ props.content }}
+    </span>
   </button>
 </template>
 
@@ -24,13 +25,13 @@ button {
   overflow: hidden;
   background-color: var(--bg-gray);
   color: var(--dark);
-  border:  1px solid var(--dark);
+  border: 1px solid var(--dark);
 
   transition: color 0.4s ease;
 }
 
 button::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -49,7 +50,7 @@ button:hover::after {
 }
 
 button::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;

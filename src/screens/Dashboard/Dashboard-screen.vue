@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import Dashboard from '../../components/Dashboard/Dashboard.vue';
 </script>
 
 <template>
-<section><h1>This is the dashboard</h1></section>
+  <section class="dashboard-view">
+    <Dashboard />
+  </section>
 </template>
 
-<style scoped>
-
+<style>
+.dashboard-view {
+  width: 100vw;
+  display: flex;
+}
 </style>

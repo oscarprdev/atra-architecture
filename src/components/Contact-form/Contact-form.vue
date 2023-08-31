@@ -5,7 +5,7 @@ import {
 } from '../../core/services/email-service.ts';
 import { reactive } from 'vue';
 import { type PersonalInfo } from '../../core/types/data.types.ts';
-import ButtonForm from '../Button-form/Button-form.vue';
+import Button from '../Button/Button.vue';
 
 const props = defineProps<{
   personalInfo: PersonalInfo;
@@ -103,7 +103,7 @@ const handleContactSubmit = async (e: Event): Promise<void> => {
         />
       </label>
     </div>
-    <ButtonForm content="Enviar email" />
+    <Button content="Enviar email" type="submit" />
   </form>
 </template>
 

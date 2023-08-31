@@ -10,51 +10,51 @@ import DashboardScreen from '../../screens/Dashboard/Dashboard-screen.vue';
 const routes = [
   {
     path: '/',
-    component: Home
+    component: Home,
   },
   {
     path: '/projects',
-    component: Projects
+    component: Projects,
   },
   {
     path: '/about',
-    component: About
+    component: About,
   },
   {
     path: '/contact',
-    component: Contact
+    component: Contact,
   },
   {
     path: '/projecte/:id',
-    component: Project
+    component: Project,
   },
   {
     path: '/admin',
-    component: Admin
+    component: Admin,
   },
   {
     path: '/dashboard',
     component: DashboardScreen,
     beforeEnter: (_: any, from: any) => {
-      return from.path === '/admin' && document.cookie === 'true'
-    }
-  }
+      return from.path === '/admin' && document.cookie === 'true';
+    },
+  },
 ];
 
 export const router = createRouter({
   history: createWebHashHistory(),
   routes,
-  scrollBehavior (to, _, savedPosition) {
+  scrollBehavior(to, _, savedPosition) {
     if (savedPosition) {
       return savedPosition;
     } else if (to.hash) {
       return {
         el: to.hash,
         behavior: 'smooth',
-        top: 0
+        top: 0,
       };
     } else {
       return { left: 0, top: 0 };
     }
-  }
+  },
 });
