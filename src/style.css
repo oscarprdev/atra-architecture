@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "cormorant";
-  src: url("./assets/fonts/Cormorant-Light.ttf") format("truetype");
+  font-family: 'cormorant';
+  src: url('./assets/fonts/Cormorant-Light.ttf') format('truetype');
   font-display: swap;
 }
 
@@ -34,9 +34,10 @@ ul {
 }
 
 li {
-  font-family: cormorant,
-  -apple-system,
-  sans-serif;
+  font-family:
+    cormorant,
+    -apple-system,
+    sans-serif;
   font-weight: 300;
 }
 
@@ -44,21 +45,21 @@ a {
   text-decoration: none;
 }
 
-h1
-{
-  font-family: cormorant,
-  -apple-system,
-  sans-serif;
+h1 {
+  font-family:
+    cormorant,
+    -apple-system,
+    sans-serif;
   font-weight: 300;
 }
 
-
 p,
 h2,
-h3  {
-  font-family: cormorant,
-  -apple-system,
-  sans-serif;
+h3 {
+  font-family:
+    cormorant,
+    -apple-system,
+    sans-serif;
   font-weight: 300;
 }
 

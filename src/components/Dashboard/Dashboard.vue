@@ -33,4 +33,9 @@ const toggleDashboardView = (view: string) => {
   </aside>
 </template>
 
-<style></style>
+<style>
+aside {
+  display: grid;
+  place-items: start;
+}
+</style>

@@ -11,7 +11,7 @@ interface DashboardPersonalInfo {
   phone: string;
 }
 
-const personalInfoLoading = ref(false);
+const editDisabled = ref(true);
 
 const personalInfo = reactive<DashboardPersonalInfo>({
   email: '',
@@ -55,41 +55,59 @@ const handleSubmit = async (e: Event) => {
   toast.success('Informacio personal actualitzada correctament');
 };
 
+const toggleEdit = () => {
+  editDisabled.value = !editDisabled.value;
+};
+
 onMounted(async () => {
-  personalInfoLoading.value = true;
   await providePersonalInfo();
-  personalInfoLoading.value = false;
 });
 </script>
 
 <template>
   <h2 class="dashboard-personal-title">Actualitzar informacio personal</h2>
-  <div class="dashboard-personal">
-    <form class="dashboard-personal-form" v-on:submit="handleSubmit">
-      <label>
-        Email
-        <input type="email" id="email" v-on:input="handleChange" />
-      </label>
-      <label>
-        Direccio
-        <input id="direction" v-on:input="handleChange" />
-      </label>
-      <label>
-        Telefon
-        <input id="phone" v-on:input="handleChange" />
-      </label>
-      <Button content="Actualitzar" type="submit" />
-    </form>
-    <div class="dashboard-personal-prev">
-      <h3>Vista previa</h3>
-      <div class="dashboard-personal-card">
-        <p v-if="personalInfoLoading">Carregant...</p>
-        <p>{{ personalInfo?.email }}</p>
-        <p>{{ personalInfo?.direction }}</p>
-        <p>{{ personalInfo?.phone }}</p>
-      </div>
-    </div>
-  </div>
+  <form class="dashboard-personal-form" v-on:submit="handleSubmit">
+    <label>
+      Email
+      <input
+        type="email"
+        id="email"
+        v-on:input="handleChange"
+        :disabled="editDisabled"
+        :value="personalInfo.email"
+      />
+    </label>
+    <label>
+      Direccio
+      <input
+        id="direction"
+        :disabled="editDisabled"
+        v-on:input="handleChange"
+        :value="personalInfo.direction"
+      />
+    </label>
+    <label>
+      Telefon
+      <input
+        id="phone"
+        :disabled="editDisabled"
+        v-on:input="handleChange"
+        :value="personalInfo.phone"
+      />
+    </label>
+    <Button
+      class="submit-btn"
+      v-if="!editDisabled"
+      content="Actualitzar"
+      type="submit"
+    />
+    <Button
+      class="edit-btn"
+      :content="`${editDisabled ? 'Editar' : 'No editar'}`"
+      type="button"
+      v-on:click="toggleEdit"
+    />
+  </form>
 </template>
 
 <style scoped>
@@ -98,39 +116,33 @@ onMounted(async () => {
   width: 85vw;
 }
 
-.dashboard-personal {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3rem;
-  width: 85vw;
-}
-
 .dashboard-personal-form {
   width: 50%;
   padding: 3rem;
+  margin-top: -10rem;
+  justify-self: center;
+  position: relative;
+
+  background-color: var(--dark);
+  color: white;
+  padding: 3rem 2rem;
+  min-height: 180px;
 
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-input {
-  color: black;
+input:disabled {
+  border: none;
+  padding: 1rem 0;
 }
-
-.dashboard-personal-prev {
-  width: 50%;
-  padding: 3rem;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.dashboard-personal-card {
-  background-color: var(--dark);
-  color: white;
-  padding: 2rem;
-  min-height: 180px;
+.edit-btn {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  width: 10rem;
+  font-size: 0.8rem;
+  padding: 0.8rem 1rem !important;
 }
 </style>
