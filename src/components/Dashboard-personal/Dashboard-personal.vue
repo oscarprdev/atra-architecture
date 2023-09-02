@@ -3,7 +3,7 @@ import { DefaultHomeService } from '../../core/services/home-service';
 import Button from '../Button/Button.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
-import Toast from '../Toast/Toast.vue';
+import Toast, { ToastHandler } from '../Toast/Toast.vue';
 
 interface DashboardPersonalInfo {
   email: string;
@@ -13,16 +13,12 @@ interface DashboardPersonalInfo {
 
 const editDisabled = ref(true);
 const personalInfoUpdating = ref(false);
-const toastState = reactive<{
-  open: boolean;
-  type: 'success' | 'error';
-  content: string;
-}>({
+
+const toastState = reactive<ToastHandler>({
   open: false,
   type: 'success',
   content: '',
 });
-
 const personalInfo = reactive<DashboardPersonalInfo>({
   email: '...',
   direction: '...',
@@ -53,16 +49,12 @@ const handleToast = (content: string, type: 'success' | 'error') => {
   toastState.type = type;
 };
 
-const handleSubmit = async (e: Event) => {
-  e.preventDefault();
+const toggleEdit = () => {
+  editDisabled.value = !editDisabled.value;
+};
 
-  personalInfoUpdating.value = true;
-
-  const response = await new DefaultAdminService().updatePersonalInfo(
-    personalInfo
-  );
-
-  if (response.status === 400) {
+const manageToastState = (status: number) => {
+  if (status === 400) {
     const errorMessage =
       'Error actualitzant la informacio personal, proba en 1 minut o contacta amb servei tecnic';
     handleToast(errorMessage, 'error');
@@ -71,12 +63,20 @@ const handleSubmit = async (e: Event) => {
   }
 
   handleToast('Informacio personal actualitzada correctament', 'success');
-
-  personalInfoUpdating.value = false;
 };
 
-const toggleEdit = () => {
-  editDisabled.value = !editDisabled.value;
+const handleSubmit = async (e: Event) => {
+  e.preventDefault();
+
+  personalInfoUpdating.value = true;
+
+  const { status } = await new DefaultAdminService().updatePersonalInfo(
+    personalInfo
+  );
+
+  manageToastState(status);
+
+  personalInfoUpdating.value = false;
 };
 
 onMounted(async () => {

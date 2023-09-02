@@ -34,7 +34,12 @@ const emit = defineEmits<{
       >
         Descripcio
       </li>
-      <li class="nav-item">Projectes</li>
+      <li
+        :class="`nav-item ${props.dashboardView.projects && 'active'}`"
+        v-on:click="emit('toggleView', 'projects')"
+      >
+        Projectes
+      </li>
       <li class="nav-item">Admin</li>
     </ul>
     <Button
@@ -68,6 +73,8 @@ nav {
   align-items: start;
   justify-content: start;
   gap: 3rem;
+
+  text-align: center;
 }
 
 .button {

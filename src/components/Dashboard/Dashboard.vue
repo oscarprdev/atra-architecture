@@ -2,16 +2,27 @@
 import DashboardPersonal from '../Dashboard-personal/Dashboard-personal.vue';
 import DashboardAbout from '../Dashboard-about/Dashboard-about.vue';
 import DashboardNav from '../Dashboard-nav/Dashboard-nav.vue';
+import DashboardProjects from '../Dashboard-projects/Dashboard-projects.vue';
 import { reactive } from 'vue';
 
 export interface DashboardView {
   personal: boolean;
   about: boolean;
+  projects: boolean;
 }
+
+const emit = defineEmits<{
+  handleModal: [id: string];
+}>();
+
+const handleModal = (id: string) => {
+  emit('handleModal', id);
+};
 
 const dashboardView = reactive<DashboardView>({
   personal: true,
   about: false,
+  projects: false,
 });
 
 const toggleDashboardView = (view: string) => {
@@ -30,6 +41,10 @@ const toggleDashboardView = (view: string) => {
   <aside>
     <DashboardPersonal v-if="dashboardView.personal" />
     <DashboardAbout v-if="dashboardView.about" />
+    <DashboardProjects
+      v-if="dashboardView.projects"
+      @handleModal="handleModal"
+    />
   </aside>
 </template>
 

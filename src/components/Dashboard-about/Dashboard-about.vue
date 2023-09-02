@@ -4,7 +4,8 @@ import Button from '../Button/Button.vue';
 import { DefaultAboutService } from '../../core/services/about-service';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import { IconEdit } from '@tabler/icons-vue';
-import Toast from '../Toast/Toast.vue';
+import Toast, { ToastHandler } from '../Toast/Toast.vue';
+import Loader from '../Loader/Loader.vue';
 
 interface About {
   image: string;
@@ -15,23 +16,17 @@ const aboutInfoLoading = ref(false);
 const uploadImage = ref<HTMLInputElement | null>(null);
 const editDisabled = ref(true);
 const uploadingInfo = ref(false);
+const aboutImage = ref<File | null>(null);
 
-const toastState = reactive<{
-  open: boolean;
-  type: 'success' | 'error';
-  content: string;
-}>({
+const toastState = reactive<ToastHandler>({
   open: false,
   type: 'success',
   content: '',
 });
-
 const about = reactive<About>({
   image: '',
   text: ['...', '...', '...'],
 });
-
-const aboutImage = ref<File | null>(null);
 
 const toggleEdit = () => {
   editDisabled.value = !editDisabled.value;
@@ -72,21 +67,15 @@ const handleUploadImageChange = (e: Event) => {
   }
 };
 
-const handleAboutSubmit = async (e: Event) => {
-  e.preventDefault();
-
-  uploadingInfo.value = true;
-
-  const aboutInput = {
+const prepareAboutInput = () => {
+  return {
     ...(aboutImage.value && { image: aboutImage.value as File }),
     text: about.text,
     project: 'about',
   };
+};
 
-  const { status } = await new DefaultAdminService().updateAboutInfo(
-    aboutInput
-  );
-
+const manageToastState = (status: number) => {
   if (status === 400) {
     const errorMessage =
       'Error actualitzant la informacio de la vista de qui som, proba en 1 minut o contacta amb servei tecnic';
@@ -96,6 +85,20 @@ const handleAboutSubmit = async (e: Event) => {
   }
 
   handleToast('Informacio personal actualitzada correctament', 'success');
+};
+
+const handleAboutSubmit = async (e: Event) => {
+  e.preventDefault();
+
+  uploadingInfo.value = true;
+
+  const aboutInput = prepareAboutInput();
+
+  const { status } = await new DefaultAdminService().updateAboutInfo(
+    aboutInput
+  );
+
+  manageToastState(status);
 
   uploadingInfo.value = false;
 };
@@ -117,7 +120,7 @@ onMounted(async () => {
   <form class="dashboard-about-form" v-on:submit="handleAboutSubmit">
     <div class="dashboard-image-container">
       <div v-if="aboutInfoLoading" class="image-skeleton">
-        <span class="loader"></span>
+        <Loader />
       </div>
       <img
         v-if="!aboutInfoLoading"
@@ -186,7 +189,6 @@ onMounted(async () => {
   margin-top: -1rem;
   justify-self: center;
   width: 60vw;
-  padding: 1rem;
 
   background-color: var(--dark);
   color: white;
@@ -209,7 +211,7 @@ onMounted(async () => {
 .image-skeleton {
   width: 100%;
   height: 15rem;
-  background-color: white;
+  border: 1px solid white;
 
   display: grid;
   place-items: center;
@@ -267,25 +269,5 @@ textarea:disabled {
 .edit-image-btn:hover {
   background-color: black;
   color: white;
-}
-
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid rgb(107, 107, 107);
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>
