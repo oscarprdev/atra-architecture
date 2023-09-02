@@ -28,7 +28,7 @@ export class DefaultHttpBase implements HttpBase {
     }
   }
 
-  async patch<T>(keyEndpoint: string, input: T): Promise<Response<T>> {
+  async patchJson<T>(keyEndpoint: string, input: T): Promise<Response<T>> {
     try {
       const response = await fetch(`${this.apiUrl}${keyEndpoint}`, {
         method: 'PATCH',
@@ -37,6 +37,31 @@ export class DefaultHttpBase implements HttpBase {
         },
         body: JSON.stringify(input),
       });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+
+      const jsonResponse: Response<T> = await response.json();
+
+      return jsonResponse;
+    } catch (e: unknown) {
+      console.log(e);
+      throw new Error('An error occurred while fetching data');
+    }
+  }
+
+  async patchFormData<T>(
+    keyEndpoint: string,
+    input: FormData
+  ): Promise<Response<T>> {
+    try {
+      const response = await fetch(`${this.apiUrl}${keyEndpoint}`, {
+        method: 'PATCH',
+        body: input,
+      });
+
+      console.log(response, 'response');
 
       if (!response.ok) {
         throw new Error(`Request failed with status: ${response.status}`);

@@ -10,6 +10,7 @@
     "format": "prettier --write ./src"
   },
   "dependencies": {
+    "@tabler/icons-vue": "^2.32.0",
     "sonner": "^0.7.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",

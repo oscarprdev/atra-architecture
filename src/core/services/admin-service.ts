@@ -29,10 +29,21 @@ interface PersonalInfoServiceInput {
   phone: string;
 }
 
+interface AboutServiceInput {
+  image?: File;
+  text: string[];
+}
+
+interface AboutServiceOutput {
+  data: AboutServiceInput;
+  status: number;
+}
+
 export interface AdminService {
   updatePersonalInfo(
     input: PersonalInfoServiceInput
   ): Promise<PersonalInfoServiceOutput>;
+  updateAboutInfo(input: AboutServiceInput): Promise<AboutServiceOutput>;
 }
 
 export class DefaultAdminService
@@ -42,7 +53,7 @@ export class DefaultAdminService
   async updatePersonalInfo(
     input: PersonalInfoServiceInput
   ): Promise<PersonalInfoServiceOutput> {
-    const response = await this.patch<PersonalInfoServiceInput>(
+    const response = await this.patchJson<PersonalInfoServiceInput>(
       'personal-info',
       input
     );
@@ -54,6 +65,34 @@ export class DefaultAdminService
         phone: response.data.phone,
       },
       status: response.status,
+    };
+  }
+
+  async updateAboutInfo(input: AboutServiceInput): Promise<AboutServiceOutput> {
+    const formData = new FormData();
+
+    Object.entries(input).forEach(([key, entry]) => {
+      if (Array.isArray(entry)) {
+        formData.append(key, JSON.stringify(entry));
+        return;
+      }
+
+      formData.append(key, entry);
+    });
+
+    const response = await this.patchFormData<AboutServiceInput>(
+      'about',
+      formData
+    );
+
+    console.log(response);
+
+    return {
+      status: response.status,
+      data: {
+        image: response.data.image,
+        text: response.data.text,
+      },
     };
   }
 }

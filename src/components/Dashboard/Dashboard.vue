@@ -37,5 +37,9 @@ const toggleDashboardView = (view: string) => {
 aside {
   display: grid;
   place-items: start;
+  font-family:
+    system-ui,
+    -apple-system,
+    Roboto !important;
 }
 </style>

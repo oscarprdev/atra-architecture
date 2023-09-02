@@ -76,8 +76,13 @@ nav {
 
 .nav-item {
   cursor: pointer;
-  font-size: clamp(1rem, 5vw, 1.2rem);
+  font-size: clamp(0.7rem, 5vw, 1rem);
   position: relative;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    Roboto !important;
 }
 
 .nav-item:before {

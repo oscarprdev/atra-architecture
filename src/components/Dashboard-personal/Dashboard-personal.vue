@@ -3,7 +3,7 @@ import { DefaultHomeService } from '../../core/services/home-service';
 import Button from '../Button/Button.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
-import { toast } from 'vue-sonner';
+import Toast from '../Toast/Toast.vue';
 
 interface DashboardPersonalInfo {
   email: string;
@@ -12,11 +12,21 @@ interface DashboardPersonalInfo {
 }
 
 const editDisabled = ref(true);
+const personalInfoUpdating = ref(false);
+const toastState = reactive<{
+  open: boolean;
+  type: 'success' | 'error';
+  content: string;
+}>({
+  open: false,
+  type: 'success',
+  content: '',
+});
 
 const personalInfo = reactive<DashboardPersonalInfo>({
-  email: '',
-  direction: '',
-  phone: '',
+  email: '...',
+  direction: '...',
+  phone: '...',
 });
 
 const providePersonalInfo = async () => {
@@ -37,22 +47,32 @@ const handleChange = (e: Event): void => {
   }
 };
 
+const handleToast = (content: string, type: 'success' | 'error') => {
+  toastState.open = true;
+  toastState.content = content;
+  toastState.type = type;
+};
+
 const handleSubmit = async (e: Event) => {
   e.preventDefault();
+
+  personalInfoUpdating.value = true;
 
   const response = await new DefaultAdminService().updatePersonalInfo(
     personalInfo
   );
 
   if (response.status === 400) {
-    toast.error(
-      'Error actualitzant la informacio personal, proba en 1 minut o contacta amb servei tecnic'
-    );
+    const errorMessage =
+      'Error actualitzant la informacio personal, proba en 1 minut o contacta amb servei tecnic';
+    handleToast(errorMessage, 'error');
 
     return;
   }
 
-  toast.success('Informacio personal actualitzada correctament');
+  handleToast('Informacio personal actualitzada correctament', 'success');
+
+  personalInfoUpdating.value = false;
 };
 
 const toggleEdit = () => {
@@ -98,7 +118,7 @@ onMounted(async () => {
     <Button
       class="submit-btn"
       v-if="!editDisabled"
-      content="Actualitzar"
+      :content="`${personalInfoUpdating ? 'Actualitzant...' : 'Actualitzar'}`"
       type="submit"
     />
     <Button
@@ -108,12 +128,22 @@ onMounted(async () => {
       v-on:click="toggleEdit"
     />
   </form>
+  <Toast
+    v-if="toastState.open"
+    :content="toastState.content"
+    :type="toastState.type"
+  />
 </template>
 
 <style scoped>
 .dashboard-personal-title {
   text-align: center;
   width: 85vw;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    Roboto !important;
 }
 
 .dashboard-personal-form {

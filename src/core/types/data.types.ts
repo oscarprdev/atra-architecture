@@ -48,7 +48,7 @@ export interface About {
 }
 
 export interface AboutInfo {
-  text: string;
+  text: string[];
   title: string;
   image: string;
 }

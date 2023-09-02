@@ -10,6 +10,7 @@ const props = defineProps<{
     <span>
       {{ props.content }}
     </span>
+    <slot name="icon" />
   </button>
 </template>
 
