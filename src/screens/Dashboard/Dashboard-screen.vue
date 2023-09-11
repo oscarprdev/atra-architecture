@@ -22,7 +22,11 @@ const handleModal = (id: string) => {
 <template>
   <section class="dashboard-view">
     <Dashboard @handleModal="handleModal" />
-    <Modal v-if="modalState.isOpen" :projectId="modalState.id" />
+    <Modal
+      v-if="modalState.isOpen"
+      :projectId="modalState.id"
+      @closeModal="modalState.isOpen = false"
+    />
   </section>
 </template>
 

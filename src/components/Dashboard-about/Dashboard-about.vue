@@ -3,9 +3,8 @@ import { onMounted, reactive, ref } from 'vue';
 import Button from '../Button/Button.vue';
 import { DefaultAboutService } from '../../core/services/about-service';
 import { DefaultAdminService } from '../../core/services/admin-service';
-import { IconEdit } from '@tabler/icons-vue';
 import Toast, { ToastHandler } from '../Toast/Toast.vue';
-import Loader from '../Loader/Loader.vue';
+import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
 
 interface About {
   image: string;
@@ -13,10 +12,9 @@ interface About {
 }
 
 const aboutInfoLoading = ref(false);
-const uploadImage = ref<HTMLInputElement | null>(null);
 const editDisabled = ref(true);
 const uploadingInfo = ref(false);
-const aboutImage = ref<File | null>(null);
+const aboutImageFile = ref<File | null>(null);
 
 const toastState = reactive<ToastHandler>({
   open: false,
@@ -30,12 +28,6 @@ const about = reactive<About>({
 
 const toggleEdit = () => {
   editDisabled.value = !editDisabled.value;
-};
-
-const handleEditImage = () => {
-  if (uploadImage.value) {
-    uploadImage.value.click();
-  }
 };
 
 const handleToast = (content: string, type: 'success' | 'error') => {
@@ -52,24 +44,13 @@ const handleTextareaInput = (e: Event): void => {
   about.text[index] = target?.value;
 };
 
-const handleUploadImageChange = (e: Event) => {
-  const inputElement = e.target as HTMLInputElement;
-  const file = inputElement.files?.[0];
-
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      about.image = reader.result as string;
-    };
-
-    aboutImage.value = file;
-  }
+const updateImageFile = (file: File) => {
+  aboutImageFile.value = file;
 };
 
 const prepareAboutInput = () => {
   return {
-    ...(aboutImage.value && { image: aboutImage.value as File }),
+    ...(aboutImageFile.value && { image: aboutImageFile.value as File }),
     text: about.text,
     project: 'about',
   };
@@ -118,29 +99,13 @@ onMounted(async () => {
 <template>
   <h2 class="dashboard-about-title">Actualitzar Descripcio</h2>
   <form class="dashboard-about-form" v-on:submit="handleAboutSubmit">
-    <div class="dashboard-image-container">
-      <div v-if="aboutInfoLoading" class="image-skeleton">
-        <Loader />
-      </div>
-      <img
-        v-if="!aboutInfoLoading"
-        :src="about.image"
-        alt="Image for about screen"
-      />
-      <input
-        class="input-image"
-        type="file"
-        ref="uploadImage"
-        v-on:change="handleUploadImageChange"
-      />
-      <div
-        v-if="!editDisabled"
-        v-on:click="handleEditImage"
-        class="edit-image-btn"
-      >
-        <IconEdit />
-      </div>
-    </div>
+    <DashboardEditImage
+      :edit-disabled="editDisabled"
+      :image="about.image"
+      :is-loading="aboutInfoLoading"
+      typeImg="about"
+      @retrieveImageFile="updateImageFile"
+    />
     <label class="text-container" v-for="(text, index) in about.text">
       <p>{{ index + 1 }}</p>
       <textarea
@@ -181,14 +146,11 @@ onMounted(async () => {
     Roboto !important;
 }
 
-.input-image {
-  display: none;
-}
-
 .dashboard-about-form {
   margin-top: -1rem;
   justify-self: center;
   width: 60vw;
+  max-width: 900px;
 
   background-color: var(--dark);
   color: white;
@@ -198,23 +160,6 @@ onMounted(async () => {
   gap: 1rem;
 
   position: relative;
-}
-
-.dashboard-image-container {
-  width: 65%;
-  max-height: 15rem;
-  align-self: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.image-skeleton {
-  width: 100%;
-  height: 15rem;
-  border: 1px solid white;
-
-  display: grid;
-  place-items: center;
 }
 
 .text-container {
@@ -248,26 +193,5 @@ textarea:disabled {
   max-width: 8rem;
   font-size: 0.8rem;
   padding: 0.8rem 1rem !important;
-}
-
-.edit-image-btn {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  max-width: 10rem;
-  padding: 0.5rem;
-  font-size: 0.7rem;
-  cursor: pointer;
-  transition: 0.5s ease;
-  background-color: white;
-  color: black;
-
-  display: grid;
-  place-items: center;
-}
-
-.edit-image-btn:hover {
-  background-color: black;
-  color: white;
 }
 </style>

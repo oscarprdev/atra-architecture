@@ -1,8 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { IconX } from '@tabler/icons-vue';
+import ModalProject from '../Modal-project/Modal-project.vue';
+
+const props = defineProps<{
+  projectId: string;
+}>();
+
+const emit = defineEmits<{
+  closeModal: [];
+}>();
+</script>
 
 <template>
   <div class="modal-backdrop">
-    <div class="modal">this is the modal</div>
+    <div class="modal">
+      <IconX class="close-icon" v-on:click="emit('closeModal')" />
+      <ModalProject :projectId="props.projectId" />
+    </div>
   </div>
 </template>
 
@@ -22,9 +36,22 @@
 
 .modal {
   width: 50vw;
-  height: 50vh;
+  height: 80vh;
+
+  max-width: 800px;
+  max-height: 1000px;
   background-color: white;
   display: grid;
   place-items: center;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.close-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
 }
 </style>
