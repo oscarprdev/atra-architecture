@@ -39,6 +39,30 @@ interface AboutServiceOutput {
   status: number;
 }
 
+export interface UpdateProjectInput {
+  name: string;
+  year: number;
+  images: string[];
+  description: string;
+  top: boolean;
+  mainImage?: File;
+  newImages?: File[];
+}
+
+export interface UpdateProjectHttpInput {
+  name: string;
+  year: number;
+  images: string[];
+  description: string;
+  top: boolean;
+  newImages?: File[];
+}
+
+export interface UpdateMainImageHttpInput {
+  mainImage: File;
+  project: string;
+}
+
 export interface AdminService {
   updatePersonalInfo(
     input: PersonalInfoServiceInput
@@ -50,6 +74,55 @@ export class DefaultAdminService
   extends DefaultHttpBase
   implements AdminService
 {
+  private provideAboutFormData(input: AboutServiceInput) {
+    const formData = new FormData();
+
+    Object.entries(input).forEach(([key, entry]) => {
+      if (Array.isArray(entry)) {
+        formData.append(key, JSON.stringify(entry));
+        return;
+      }
+
+      formData.append(key, entry);
+    });
+
+    return formData;
+  }
+
+  private provideMainImageFormData(input: UpdateMainImageHttpInput) {
+    const formData = new FormData();
+
+    Object.entries(input).forEach(([key, entry]) => {
+      formData.append(key, entry);
+    });
+
+    return formData;
+  }
+
+  private provideProjectInputFormData(input: UpdateProjectInput) {
+    const formData = new FormData();
+
+    Object.entries(input).forEach(([key, entry]) => {
+      if (key !== 'mainImage') {
+        if (key === 'newImages') {
+          entry.forEach((file: File) => {
+            formData.append(key, file);
+          });
+          return;
+        }
+
+        if (key === 'images') {
+          formData.append(key, JSON.stringify(entry));
+          return;
+        }
+
+        formData.append(key, entry);
+      }
+    });
+
+    return formData;
+  }
+
   async updatePersonalInfo(
     input: PersonalInfoServiceInput
   ): Promise<PersonalInfoServiceOutput> {
@@ -69,23 +142,12 @@ export class DefaultAdminService
   }
 
   async updateAboutInfo(input: AboutServiceInput): Promise<AboutServiceOutput> {
-    const formData = new FormData();
-
-    Object.entries(input).forEach(([key, entry]) => {
-      if (Array.isArray(entry)) {
-        formData.append(key, JSON.stringify(entry));
-        return;
-      }
-
-      formData.append(key, entry);
-    });
+    const aboutFormData = this.provideAboutFormData(input);
 
     const response = await this.patchFormData<AboutServiceInput>(
       'about',
-      formData
+      aboutFormData
     );
-
-    console.log(response);
 
     return {
       status: response.status,
@@ -94,5 +156,48 @@ export class DefaultAdminService
         text: response.data.text,
       },
     };
+  }
+
+  private async provideMainImageProjectPromise(
+    input: { image: File; project: string },
+    id: string
+  ) {
+    const mainImageFormData = this.provideMainImageFormData({
+      mainImage: input.image,
+      project: input.project,
+    });
+
+    const mainImageResponse = await this.patchFormData<UpdateProjectHttpInput>(
+      `projects/main-image/${id}`,
+      mainImageFormData
+    );
+
+    return mainImageResponse;
+  }
+
+  async updateProjectById(input: UpdateProjectInput, id: string) {
+    const promises = [];
+
+    const projectFormData = this.provideProjectInputFormData(input);
+
+    promises.push(
+      this.patchFormData<UpdateProjectHttpInput>(
+        `projects/${id}`,
+        projectFormData
+      )
+    );
+
+    if (input.mainImage) {
+      promises.push(
+        this.provideMainImageProjectPromise(
+          { image: input.mainImage, project: input.name },
+          id
+        )
+      );
+    }
+
+    const [projectResponse, mainImageResponse] = await Promise.all(promises);
+
+    return projectResponse.data;
   }
 }

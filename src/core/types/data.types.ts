@@ -28,10 +28,11 @@ export interface Project {
 export interface ProjectDetail {
   id: string;
   name: string;
-  year: string;
+  year: number;
   mainImage: string;
   images: string[];
   description: string;
+  top: boolean;
 }
 
 export interface ProjectGallery {

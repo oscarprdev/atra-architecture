@@ -61,8 +61,6 @@ export class DefaultHttpBase implements HttpBase {
         body: input,
       });
 
-      console.log(response, 'response');
-
       if (!response.ok) {
         throw new Error(`Request failed with status: ${response.status}`);
       }

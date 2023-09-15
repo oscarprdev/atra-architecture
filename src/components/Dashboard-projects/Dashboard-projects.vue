@@ -30,6 +30,7 @@ onMounted(async () => {
     <article
       v-if="!projectsLoading"
       v-for="(project, index) in projects"
+      :key="project.id"
       class="project-container"
     >
       <div class="project-info">
