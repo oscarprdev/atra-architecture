@@ -57,7 +57,7 @@ const prepareAboutInput = () => {
 };
 
 const manageToastState = (status: number) => {
-  if (status === 400) {
+  if (status === 400 || status === 500) {
     const errorMessage =
       'Error actualitzant la informacio de la vista de qui som, proba en 1 minut o contacta amb servei tecnic';
     handleToast(errorMessage, 'error');

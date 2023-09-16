@@ -1,32 +1,12 @@
 <script setup lang="ts">
 import Dashboard from '../../components/Dashboard/Dashboard.vue';
-import Modal from '../../components/Modal/Modal.vue';
-import { reactive } from 'vue';
-
-interface ModalState {
-  isOpen: boolean;
-  id: string;
-}
-
-const modalState = reactive<ModalState>({
-  isOpen: false,
-  id: '',
-});
-
-const handleModal = (id: string) => {
-  modalState.isOpen = true;
-  modalState.id = id;
-};
+import { Toaster } from 'vue-sonner';
 </script>
 
 <template>
   <section class="dashboard-view">
-    <Dashboard @handleModal="handleModal" />
-    <Modal
-      v-if="modalState.isOpen"
-      :projectId="modalState.id"
-      @closeModal="modalState.isOpen = false"
-    />
+    <Dashboard />
+    <Toaster />
   </section>
 </template>
 
@@ -35,5 +15,27 @@ const handleModal = (id: string) => {
   width: 100vw;
   display: flex;
   position: relative;
+}
+
+.dashboard-view p,
+h1,
+h2,
+h3,
+input,
+label {
+  color: rgb(110, 110, 110);
+  font-weight: 100;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
 }
 </style>

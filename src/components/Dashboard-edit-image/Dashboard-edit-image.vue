@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Loader from '../Loader/Loader.vue';
-import { IconEdit } from '@tabler/icons-vue';
 import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -24,13 +23,13 @@ watch(
   }
 );
 
-const handleEditImage = () => {
+const onEditImage = (e: Event) => {
+  e.preventDefault();
   if (uploadImage.value) {
     uploadImage.value.click();
   }
 };
-
-const handleInputImageChange = (e: Event) => {
+const onInputImageChange = (e: Event) => {
   const inputElement = e.target as HTMLInputElement;
   const file = inputElement.files?.[0];
 
@@ -51,7 +50,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="`dashboard-image-container ${props.typeImg}`">
+  <article :class="`dashboard-image-container ${props.typeImg}`">
     <div v-if="props.isLoading" class="image-skeleton">
       <Loader />
     </div>
@@ -60,21 +59,20 @@ onMounted(() => {
       class="input-image"
       type="file"
       ref="uploadImage"
-      v-on:change="(e) => handleInputImageChange(e)"
+      v-on:change="(e) => onInputImageChange(e)"
     />
-    <div
+    <button
       v-if="!props.editDisabled"
-      v-on:click="handleEditImage"
+      v-on:click="(e) => onEditImage(e)"
       class="edit-image-btn"
     >
-      <IconEdit />
-    </div>
-  </div>
+      Editar
+    </button>
+  </article>
 </template>
 
 <style>
 .dashboard-image-container {
-  max-height: 15rem;
   align-self: center;
   position: relative;
 }
@@ -85,7 +83,12 @@ onMounted(() => {
 }
 
 .main {
-  width: 50%;
+  width: var(--width-main-edit-image);
+  height: 30vh;
+  overflow: hidden;
+  border-radius: var(--dashboard-radius);
+
+  box-shadow: var(--dashboard-gallery-image-shadow);
 }
 
 .image-skeleton {
@@ -103,22 +106,26 @@ onMounted(() => {
 
 .edit-image-btn {
   position: absolute;
-  bottom: 1rem;
-  left: 1rem;
-  max-width: 10rem;
-  padding: 0.5rem;
-  font-size: 0.7rem;
-  cursor: pointer;
-  transition: 0.5s ease;
-  background-color: white;
-  color: black;
+  bottom: 0.5rem;
+  left: 0.5rem;
 
-  display: grid;
-  place-items: center;
-}
-
-.edit-image-btn:hover {
-  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--dashboard-radius);
+  border: none;
+  box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  cursor: pointer;
+
+  background: linear-gradient(
+    0deg,
+    rgb(255, 157, 60) 0%,
+    rgb(255, 110, 6) 100%
+  );
 }
 </style>

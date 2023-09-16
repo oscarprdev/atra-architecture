@@ -11,14 +11,6 @@ export interface DashboardView {
   projects: boolean;
 }
 
-const emit = defineEmits<{
-  handleModal: [id: string];
-}>();
-
-const handleModal = (id: string) => {
-  emit('handleModal', id);
-};
-
 const dashboardView = reactive<DashboardView>({
   personal: true,
   about: false,
@@ -41,17 +33,15 @@ const toggleDashboardView = (view: string) => {
   <aside>
     <DashboardPersonal v-if="dashboardView.personal" />
     <DashboardAbout v-if="dashboardView.about" />
-    <DashboardProjects
-      v-if="dashboardView.projects"
-      @handleModal="handleModal"
-    />
+    <DashboardProjects v-if="dashboardView.projects" />
   </aside>
 </template>
 
-<style>
+<style scoped>
 aside {
   display: grid;
   place-items: start;
+  background-color: var(--bg-admin);
   font-family:
     system-ui,
     -apple-system,

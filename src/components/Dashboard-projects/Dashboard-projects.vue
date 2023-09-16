@@ -1,16 +1,27 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive } from 'vue';
 import { DefaultProjectsService } from '../../core/services/projects.service.ts';
 import { Project } from '../../core/types/data.types';
-import Button from '../Button/Button.vue';
+import Modal from '../Modal/Modal.vue';
+import DashboardProjectDetail from '../Dashboard-project-detail/Dashboard-project-detail.vue';
 import Loader from '../Loader/Loader.vue';
 
+interface ModalState {
+  isOpen: boolean;
+  id: string;
+}
 const projects = ref<Project[]>();
 const projectsLoading = ref(false);
 
-const emit = defineEmits<{
-  handleModal: [id: string];
-}>();
+// const handleModal = (id: string) => {
+//   modalState.isOpen = true;
+//   modalState.id = id;
+// };
+
+const modalState = reactive<ModalState>({
+  isOpen: false,
+  id: '',
+});
 
 onMounted(async () => {
   projectsLoading.value = true;
@@ -33,21 +44,13 @@ onMounted(async () => {
       :key="project.id"
       class="project-container"
     >
-      <div class="project-info">
-        <p>{{ index + 1 }}</p>
-        <div class="image-container">
-          <img :src="project.mainImage" alt="project image" />
-        </div>
-        <p>{{ project.name }}</p>
-        <p>{{ project.year }}</p>
-      </div>
-      <Button
-        class="project-btn"
-        content="Editar projecte"
-        type="button"
-        v-on:click="emit('handleModal', project.id)"
-      />
+      <Dashboard-project-detail :project="project" :index="index" />
     </article>
+    <Modal
+      v-if="modalState.isOpen"
+      :projectId="modalState.id"
+      @closeModal="modalState.isOpen = false"
+    />
   </section>
 </template>
 
@@ -56,54 +59,33 @@ onMounted(async () => {
   text-align: center;
   width: 85vw;
 
-  font-family:
-    system-ui,
-    -apple-system,
-    Roboto !important;
+  font-family: 'mona-sans' !important;
 }
 
 .dashboard-projects {
   display: grid;
   place-items: center;
-  gap: 1rem;
   justify-self: center;
   width: 80vw;
   height: 87vh;
-
-  background-color: var(--dark);
-  color: white;
+  background-color: rgb(250, 250, 250);
+  box-shadow: 0 0 5px 5px rgba(201, 201, 201, 0.295);
+  color: black;
   padding: 1.5rem 2rem;
   overflow-y: scroll;
+  border-radius: var(--dashboard-radius);
 }
 
 .project-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 0.4rem 1rem;
-
-  border-bottom: 1px solid var(--text-gray);
+  border-bottom: 1px solid var(--border-admin);
 }
 
 .project-container:last-child {
   border-bottom: none;
-}
-
-.project-info {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-}
-
-.image-container {
-  width: 10rem;
-  height: 5rem;
-  border: 1px solid var(--text-gray);
-}
-
-.project-btn {
-  width: 10rem !important;
-  font-size: 0.8rem !important;
 }
 </style>

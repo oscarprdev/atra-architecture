@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive } from 'vue';
+
+import Loader from '../Loader/Loader.vue';
+import { ToastHandler } from '../Toast/Toast.vue';
+
 import {
   DefaultAdminService,
   UpdateProjectInput,
 } from '../../core/services/admin-service';
 import { DefaultProjectsService } from '../../core/services/projects.service';
+
 import { ProjectDetail } from '../../core/types/data.types';
+
 import Button from '../Button/Button.vue';
-import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
 import DashboardProjectGallery from '../Dashboard-project-gallery/Dashboard-project-gallery.vue';
-import Loader from '../Loader/Loader.vue';
-import { ToastHandler } from '../Toast/Toast.vue';
+import DashboardProjectEditCard from '../Dashboard-project-edit-card/Dashboard-project-edit-card.vue';
 
 const props = defineProps<{
   projectId: string;
@@ -78,10 +82,9 @@ const onProjectSubmit = async (e: Event) => {
       props.projectId
     );
 
-    manageToastState(status);
-
     projectsLoading.value = false;
 
+    manageToastState(status);
     emit('onProjectSubmitted');
   }
 };
@@ -108,21 +111,17 @@ const onInputChange = (e: Event): void => {
     }
   }
 };
-
 const onToggleSwitch = () => {
   if (projectInfo.value) {
     projectInfo.value.top = !projectInfo.value.top;
   }
 };
-
 const onRetrieveMainImage = (image: File) => {
   newMainImage.value = image;
 };
-
 const onNewImageUploaded = (image: File) => {
   newImages.value.push(image);
 };
-
 const onRemoveCurrentImage = (index: number) => {
   projectInfo.value?.images.splice(index, 1);
 };
@@ -147,100 +146,121 @@ onMounted(async () => {
     @:submit="onProjectSubmit"
     class="form-container"
   >
-    <label>
-      Name
-      <input id="name" :value="projectInfo.name" @change="onInputChange" />
-    </label>
-    <label>
-      Year
-      <input id="year" :value="projectInfo.year" @change="onInputChange" />
-    </label>
-    <label>
-      Description
-      <input
-        id="description"
-        :value="projectInfo.description"
-        @change="onInputChange"
-      /> </label
-    >\
-    <label>
-      Projecte destacat
-      <div class="switch-container">
-        <span
-          :class="`switch ${projectInfo.top ? 'switch--active' : ''}`"
-          @click="onToggleSwitch"
-        />
-      </div>
-    </label>
-    <DashboardEditImage
-      :is-loading="projectsLoading"
-      :edit-disabled="false"
-      :image="projectInfo.mainImage"
-      @retrieve-image-file="onRetrieveMainImage"
-      typeImg="main"
-    />
     <DashboardProjectGallery
       v-if="projectInfo.images"
       :current-images="projectInfo.images"
+      :main-image="projectInfo.mainImage"
+      :is-loding="projectsLoading"
       @on-new-image-uploaded="onNewImageUploaded"
       @on-remove-current-image="onRemoveCurrentImage"
+      @on-retrieve-main-image="onRetrieveMainImage"
     />
-
-    <Button class="modal-btn" content="Actualitzar projecte" type="submit" />
+    <section class="project-edit-info">
+      <div class="project-edit-info--form">
+        <Dashboard-project-edit-card
+          :project="projectInfo"
+          @on-input-change="onInputChange"
+          @on-toggle-switch="onToggleSwitch"
+        />
+      </div>
+      <div class="buttons-wrapper">
+        <button class="edit-btn edit-btn--remove">Eliminar</button>
+        <button class="edit-btn edit-btn--update" type="submit">
+          Actualitzar
+        </button>
+      </div>
+    </section>
   </form>
 </template>
 
 <style scoped>
 .form-container {
   width: 100%;
-  height: 100%;
+  height: 70vh;
   overflow: scroll;
 
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  align-items: start;
 
   padding: 2rem;
   gap: 1rem;
-}
-
-.modal-btn {
-  margin-top: 2rem;
-  max-width: 60%;
-}
-
-label {
-  width: 60%;
-  color: black;
-}
-
-input {
-  color: black;
-  border: 1px solid var(--image-border-brown);
-  caret-color: var(--dark);
-}
-
-.switch-container {
-  width: 5rem;
-  height: 2rem;
-  border: 1px solid black;
-
-  position: relative;
-  padding: 0.1rem;
-}
-
-.switch {
-  width: 2rem;
-  height: 1.8rem;
 
   position: absolute;
-  top: 0.05rem;
-  left: 0.05rem;
-  background-color: black;
-  transition: 0.3s ease;
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
 }
 
-.switch--active {
-  transform: translateX(2.8rem);
+.project-edit-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+
+  width: 30%;
+  height: 100%;
+  border-radius: var(--dashboard-radius);
+  padding: 1rem;
+
+  box-shadow: 0 0 3px 3px rgba(104, 104, 104, 0.082);
+}
+
+.project-edit-info--form {
+  width: 100%;
+  height: fit-content;
+}
+
+.buttons-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+  gap: 2rem;
+  height: fit-content;
+}
+
+.edit-btn {
+  padding: 1rem 3rem;
+  border-radius: var(--dashboard-radius);
+  border: none;
+  box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
+  color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  cursor: pointer;
+}
+
+.edit-btn--remove {
+  background: linear-gradient(
+    0deg,
+    rgb(182, 182, 182) 0%,
+    rgb(73, 73, 73) 100%
+  );
+}
+
+.edit-btn--remove:hover {
+  background: linear-gradient(
+    0deg,
+    rgb(160, 160, 160) 0%,
+    rgb(68, 68, 68) 100%
+  );
+}
+
+.edit-btn--update {
+  background: linear-gradient(
+    0deg,
+    rgb(255, 179, 103) 0%,
+    rgba(255, 119, 21, 1) 100%
+  );
+}
+
+.edit-btn--update:hover {
+  background: linear-gradient(
+    0deg,
+    rgb(255, 157, 60) 0%,
+    rgb(255, 110, 6) 100%
+  );
 }
 </style>

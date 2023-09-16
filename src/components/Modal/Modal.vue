@@ -23,6 +23,8 @@ const emit = defineEmits<{
 <style>
 .modal-backdrop {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(58, 58, 58, 0.3);
@@ -53,5 +55,6 @@ const emit = defineEmits<{
   top: 1rem;
   right: 1rem;
   cursor: pointer;
+  color: black;
 }
 </style>

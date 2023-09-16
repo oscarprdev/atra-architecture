@@ -198,6 +198,9 @@ export class DefaultAdminService
 
     const [projectResponse, mainImageResponse] = await Promise.all(promises);
 
-    return projectResponse.data;
+    return {
+      projectResponse,
+      mainImageResponse,
+    };
   }
 }

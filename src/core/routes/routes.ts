@@ -35,9 +35,9 @@ const routes = [
   {
     path: '/dashboard',
     component: DashboardScreen,
-    beforeEnter: (_: any, from: any) => {
-      return from.path === '/admin' && document.cookie === 'true';
-    },
+    // beforeEnter: (_: any, from: any) => {
+    //   return from.path === '/admin' && document.cookie === 'true';
+    // },
   },
 ];
 

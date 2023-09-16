@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import Header from './components/Header/Header.vue';
-import { Toaster } from 'vue-sonner';
 </script>
 
 <template>
   <main>
     <Header />
     <router-view></router-view>
-    <Toaster />
   </main>
 </template>
 
