@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
+import { IconPhotoPlus } from '@tabler/icons-vue';
 
 const props = defineProps<{
   currentImages: string[];
@@ -89,7 +90,7 @@ const onInputImageChange = (e: Event) => {
       type="button"
       @click="onUploadProjectImage"
     >
-      Carregar imatge
+      Carregar imatge <IconPhotoPlus />
     </button>
     <section class="project-gallery">
       <DashboardEditImage
@@ -100,6 +101,7 @@ const onInputImageChange = (e: Event) => {
         typeImg="main"
       />
       <article
+        ref="projectImage"
         class="project-image-container"
         v-for="image in currentImages.concat(previewNewImages)"
       >
@@ -132,11 +134,15 @@ const onInputImageChange = (e: Event) => {
 }
 
 .upload-image-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
   position: absolute;
   top: 1rem;
   right: 1.3rem;
 
-  padding: 1rem 3rem;
+  padding: 1rem 2.5rem;
   border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
@@ -178,5 +184,7 @@ const onInputImageChange = (e: Event) => {
   height: 13vh;
   width: calc(var(--width-main-edit-image) / 2 - 0.15rem);
   overflow: hidden;
+
+  animation: appearing 0.3s ease forwards;
 }
 </style>

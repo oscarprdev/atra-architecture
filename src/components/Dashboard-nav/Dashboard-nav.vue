@@ -2,6 +2,11 @@
 import { useRouter } from 'vue-router';
 import Button from '../Button/Button.vue';
 import type { DashboardView } from '../Dashboard/Dashboard.vue';
+import { IconId } from '@tabler/icons-vue';
+import { IconFileDescription } from '@tabler/icons-vue';
+import { IconListDetails } from '@tabler/icons-vue';
+import { IconKey } from '@tabler/icons-vue';
+import { IconLogout } from '@tabler/icons-vue';
 
 const props = defineProps<{
   dashboardView: DashboardView;
@@ -22,41 +27,43 @@ const emit = defineEmits<{
 <template>
   <nav>
     <ul class="nav-list">
+      <li class="nav-header"><h2>ATRA</h2></li>
       <li
         :class="`nav-item ${props.dashboardView.personal && 'active'}`"
         v-on:click="emit('toggleView', 'personal')"
       >
-        Informacio personal
+        <IconFileDescription /> Informacio personal
       </li>
       <li
         :class="`nav-item ${props.dashboardView.about && 'active'}`"
         v-on:click="emit('toggleView', 'about')"
       >
-        Descripcio
+        <IconId /> Descripcio
       </li>
       <li
         :class="`nav-item ${props.dashboardView.projects && 'active'}`"
         v-on:click="emit('toggleView', 'projects')"
       >
+        <IconListDetails />
         Projectes
       </li>
-      <li class="nav-item">Admin</li>
+      <li class="nav-item">
+        <IconKey />
+        Admin
+      </li>
     </ul>
-    <Button
-      class="button"
-      v-on:click="handleCloseSession"
-      content="Tancar sessio"
-      type="button"
-    />
+    <button class="logout-btn" v-on:click="handleCloseSession">
+      <IconLogout /> Tancar sessio
+    </button>
   </nav>
 </template>
 
 <style>
 nav {
   display: flex;
-  align-items: center;
+  align-items: start;
   flex-direction: column;
-  padding: 3rem 1rem;
+  padding: 1rem 0 3rem;
   justify-content: space-between;
   font-size: 1.3rem;
   width: 15vw;
@@ -72,52 +79,85 @@ nav {
   flex-direction: column;
   align-items: start;
   justify-content: start;
-  gap: 3rem;
+  gap: 0.8rem;
+  width: 15vw;
 
   text-align: center;
 }
 
-.button {
-  padding: 1rem;
+.nav-header {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(0.7rem, 5vw, 1rem);
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+  height: 5rem;
+  position: relative;
+  margin-left: -1.4rem;
+}
+
+.nav-header h2 {
+  color: white;
+}
+
+.nav-header::after {
+  content: '';
+  width: 10rem;
+  height: 1px;
+  background-color: rgb(131, 131, 131);
+  margin-top: 3rem;
+
+  position: absolute;
+  bottom: 0;
 }
 
 .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   cursor: pointer;
   font-size: clamp(0.7rem, 5vw, 1rem);
   position: relative;
+
+  color: rgb(131, 131, 131);
+  width: 100%;
+  padding: 0 1rem;
+  height: 4rem;
+  margin-left: -1.4rem;
+  border-radius: 1rem;
 
   font-family:
     system-ui,
     -apple-system,
     Roboto !important;
+  transition: all 0.2s ease;
 }
 
-.nav-item:before {
-  content: '';
-  width: 3rem;
-  height: 1px;
-  background-color: white;
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.3s ease;
+.nav-item:hover {
+  color: white;
+  background-color: rgba(131, 131, 131, 0.158);
 }
 
-.nav-item:hover:before {
-  transform: scaleX(1);
+.active {
+  color: white;
+  background-color: rgba(131, 131, 131, 0.158);
 }
 
-.active:before {
-  content: '';
-  width: 3rem;
-  height: 1px;
-  background-color: white;
-  bottom: -5px;
-  left: 0;
-  transform: scaleX(1);
-  transform-origin: left center;
-  transition: transform 0.3s ease;
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 2rem;
+  background-color: transparent;
+  border: none;
+
+  color: rgb(131, 131, 131);
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  color: white;
 }
 </style>

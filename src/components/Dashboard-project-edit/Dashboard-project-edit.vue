@@ -3,6 +3,8 @@ import { onMounted, ref, reactive } from 'vue';
 
 import Loader from '../Loader/Loader.vue';
 import { ToastHandler } from '../Toast/Toast.vue';
+import { IconCloudUpload } from '@tabler/icons-vue';
+import { IconSquareRoundedX } from '@tabler/icons-vue';
 
 import {
   DefaultAdminService,
@@ -164,9 +166,11 @@ onMounted(async () => {
         />
       </div>
       <div class="buttons-wrapper">
-        <button class="edit-btn edit-btn--remove">Eliminar</button>
+        <button class="edit-btn edit-btn--remove">
+          Eliminar <IconSquareRoundedX />
+        </button>
         <button class="edit-btn edit-btn--update" type="submit">
-          Actualitzar
+          Actualitzar <IconCloudUpload />
         </button>
       </div>
     </section>
@@ -222,7 +226,10 @@ onMounted(async () => {
 }
 
 .edit-btn {
-  padding: 1rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.8rem 1.7rem;
   border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);

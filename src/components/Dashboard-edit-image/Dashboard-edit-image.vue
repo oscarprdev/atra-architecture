@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Loader from '../Loader/Loader.vue';
 import { onMounted, ref, watch } from 'vue';
+import { IconPhotoEdit } from '@tabler/icons-vue';
 
 const props = defineProps<{
   isLoading: boolean;
@@ -66,7 +67,7 @@ onMounted(() => {
       v-on:click="(e) => onEditImage(e)"
       class="edit-image-btn"
     >
-      Editar
+      <IconPhotoEdit />
     </button>
   </article>
 </template>
@@ -113,8 +114,8 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: var(--dashboard-radius);
+  padding: 0.4rem;
+  border-radius: 2rem;
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;

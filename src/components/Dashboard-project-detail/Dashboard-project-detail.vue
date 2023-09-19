@@ -45,6 +45,7 @@ const expandProjectDetail = (index: number) => {
 
 <style scoped>
 .project-container-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,6 +60,22 @@ const expandProjectDetail = (index: number) => {
 
 .project-container-header:hover {
   background-color: rgb(241, 241, 241);
+}
+
+.project-container-header::before {
+  position: absolute;
+  content: '';
+  width: 4px;
+  height: 100%;
+  background-color: #afafaf;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 10;
+}
+
+.project-container-header:hover.project-container-header::before {
+  opacity: 1;
 }
 
 .project-info {
