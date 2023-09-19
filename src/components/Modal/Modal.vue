@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { IconX } from '@tabler/icons-vue';
-import ModalProject from '../Modal-project/Modal-project.vue';
-
-const props = defineProps<{
-  projectId: string;
-}>();
 
 const emit = defineEmits<{
   closeModal: [];
@@ -15,7 +10,7 @@ const emit = defineEmits<{
   <div class="modal-backdrop">
     <div class="modal">
       <IconX class="close-icon" v-on:click="emit('closeModal')" />
-      <ModalProject :projectId="props.projectId" />
+      <slot></slot>
     </div>
   </div>
 </template>

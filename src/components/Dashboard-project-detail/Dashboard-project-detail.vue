@@ -8,15 +8,26 @@ defineProps<{
   index: number;
 }>();
 
+const emit = defineEmits<{
+  (e: 'onProjectRemoved', name: string): void;
+}>();
+
 const projectIndex = ref<number | null>(null);
 
 const expandProjectDetail = (index: number) => {
   projectIndex.value = typeof projectIndex.value === 'number' ? null : index;
 };
+
+const onProjectRemoved = (name: string) => emit('onProjectRemoved', name);
 </script>
 
 <template>
-  <header :class="`project-container-header ${projectIndex === index && 'header-active'}`" @:click="expandProjectDetail(index)">
+  <header
+    :class="`project-container-header ${
+      projectIndex === index && 'header-active'
+    }`"
+    @:click="expandProjectDetail(index)"
+  >
     <div class="project-info">
       <p>{{ index + 1 }}</p>
       <figure class="image-container">
@@ -39,6 +50,7 @@ const expandProjectDetail = (index: number) => {
     <Dashboard-project-edit
       v-if="projectIndex === index"
       :project-id="project.id"
+      @on-project-removed="onProjectRemoved"
     />
   </section>
 </template>

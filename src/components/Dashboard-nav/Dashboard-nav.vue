@@ -66,7 +66,6 @@ nav {
   padding: 1rem 0 3rem;
   justify-content: space-between;
   font-size: 1.3rem;
-  width: 15vw;
   height: 100vh;
   border-right: 1px solid black;
 
@@ -80,7 +79,7 @@ nav {
   align-items: start;
   justify-content: start;
   gap: 0.8rem;
-  width: 15vw;
+  width: 18vw;
 
   text-align: center;
 }

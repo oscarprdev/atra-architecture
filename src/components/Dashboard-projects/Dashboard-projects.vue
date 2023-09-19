@@ -5,23 +5,31 @@ import { Project } from '../../core/types/data.types';
 import Modal from '../Modal/Modal.vue';
 import DashboardProjectDetail from '../Dashboard-project-detail/Dashboard-project-detail.vue';
 import Loader from '../Loader/Loader.vue';
+import ModalContent from '../Modal-content/Modal-content.vue'
 
 interface ModalState {
   isOpen: boolean;
   id: string;
+  name: string;
 }
 const projects = ref<Project[]>();
 const projectsLoading = ref(false);
 
-// const handleModal = (id: string) => {
-//   modalState.isOpen = true;
-//   modalState.id = id;
-// };
+const handleModal = (name: string) => {
+  modalState.isOpen = true;
+  modalState.id = `${name}-01`;
+  modalState.name = name;
+};
 
 const modalState = reactive<ModalState>({
   isOpen: false,
   id: '',
+  name: '',
 });
+
+const onProjectRemoved = (name: string) => {
+  handleModal(name);
+};
 
 onMounted(async () => {
   projectsLoading.value = true;
@@ -43,13 +51,18 @@ onMounted(async () => {
       :key="project.id"
       class="project-container"
     >
-      <Dashboard-project-detail :project="project" :index="index" />
+      <Dashboard-project-detail
+        :project="project"
+        :index="index"
+        @on-project-removed="onProjectRemoved"
+      />
     </article>
     <Modal
       v-if="modalState.isOpen"
-      :projectId="modalState.id"
       @closeModal="modalState.isOpen = false"
-    />
+    >
+    <ModalContent :project-name="modalState.name" :project-id="modalState.id" @on-close-modal="modalState.isOpen = false"/>
+  </Modal>
   </section>
 </template>
 

@@ -4,7 +4,7 @@ import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue
 import { IconPhotoPlus } from '@tabler/icons-vue';
 import Toast, { ToastHandler } from '../Toast/Toast.vue';
 
-const MAX_NUM_IMAGES = 14
+const MAX_NUM_IMAGES = 14;
 
 const props = defineProps<{
   currentImages: string[];
@@ -32,8 +32,8 @@ const handleToast = (content: string, type: 'error') => {
   toastState.type = type;
 
   setTimeout(() => {
-    toastState.open = false
-  }, 2000)
+    toastState.open = false;
+  }, 2000);
 };
 
 const removeImageFromCurrentImages = (currentImage: string) => {
@@ -78,23 +78,24 @@ const onUploadProjectImage = () => {
 };
 
 const onInputImageChange = (e: Event) => {
-  const totalImages = props.currentImages.length + previewNewImages.value.length
+  const totalImages =
+    props.currentImages.length + previewNewImages.value.length;
 
-  if(totalImages < MAX_NUM_IMAGES) {
+  if (totalImages < MAX_NUM_IMAGES) {
     const inputElement = e.target as HTMLInputElement;
     const file = inputElement.files?.[0];
 
     if (file) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          const imageUrl = reader.result as string;
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const imageUrl = reader.result as string;
 
-          previewNewImages.value.push(imageUrl);
+        previewNewImages.value.push(imageUrl);
 
-          emit('onNewImageUploaded', file);
-        }
+        emit('onNewImageUploaded', file);
       };
+    }
   } else {
     handleToast('Maxim 14 imatges per projecte', 'error');
   }

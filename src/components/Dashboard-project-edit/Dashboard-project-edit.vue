@@ -23,7 +23,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'onProjectSubmitted'): void;
+  (e: 'onProjectRemoved', name: string): void;
 }>();
 
 const projectsLoading = ref(false);
@@ -87,7 +87,6 @@ const onProjectSubmit = async (e: Event) => {
     projectsLoading.value = false;
 
     manageToastState(status);
-    emit('onProjectSubmitted');
   }
 };
 
@@ -126,6 +125,12 @@ const onNewImageUploaded = (image: File) => {
 };
 const onRemoveCurrentImage = (index: number) => {
   projectInfo.value?.images.splice(index, 1);
+};
+const onRemoveProject = (e: Event) => {
+  e.preventDefault()
+  if (projectInfo.value) {
+    emit('onProjectRemoved', projectInfo.value?.name);
+  }
 };
 
 onMounted(async () => {
@@ -166,7 +171,7 @@ onMounted(async () => {
         />
       </div>
       <div class="buttons-wrapper">
-        <button class="edit-btn edit-btn--remove">
+        <button class="edit-btn edit-btn--remove" @click="onRemoveProject">
           Eliminar <IconSquareRoundedX />
         </button>
         <button class="edit-btn edit-btn--update" type="submit">
