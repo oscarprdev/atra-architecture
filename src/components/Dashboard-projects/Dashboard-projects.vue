@@ -31,7 +31,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h2 class="dashboard-projects-title">Actualitzar projectes</h2>
   <section class="dashboard-projects">
     <Loader v-if="projectsLoading">
       <template #text>
@@ -67,7 +66,7 @@ onMounted(async () => {
   place-items: center;
   justify-self: center;
   width: 80vw;
-  height: 87vh;
+  height: 100vh;
   background-color: rgb(250, 250, 250);
   box-shadow: 0 0 5px 5px rgba(201, 201, 201, 0.295);
   color: black;

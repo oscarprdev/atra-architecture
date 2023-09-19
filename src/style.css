@@ -28,6 +28,7 @@
 
   --width-main-edit-image: 39.4%;
   --dashboard-radius: 0.1rem;
+  --dashboard-items-radius: 2rem;
   --dashboard-gallery-image-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
 }
 
@@ -51,7 +52,7 @@ li {
     cormorant,
     -apple-system,
     sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 a {
@@ -63,7 +64,7 @@ h1 {
     cormorant,
     -apple-system,
     sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 p,
@@ -73,7 +74,7 @@ h3 {
     cormorant,
     -apple-system,
     sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 img {

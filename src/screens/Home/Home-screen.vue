@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue';
 
-
 const HeroAnimations = defineAsyncComponent(
   async () =>
     await import('../../components/Hero-animations/Hero-animations.vue')

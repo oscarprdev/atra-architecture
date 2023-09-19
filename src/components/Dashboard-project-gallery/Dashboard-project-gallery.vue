@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
 import { IconPhotoPlus } from '@tabler/icons-vue';
+import Toast, { ToastHandler } from '../Toast/Toast.vue';
+
+const MAX_NUM_IMAGES = 14
 
 const props = defineProps<{
   currentImages: string[];
@@ -17,6 +20,21 @@ const emit = defineEmits<{
 
 const previewNewImages = ref<string[]>([]);
 const uploadImage = ref<HTMLInputElement | null>(null);
+const toastState = reactive<ToastHandler>({
+  open: false,
+  type: 'success',
+  content: '',
+});
+
+const handleToast = (content: string, type: 'error') => {
+  toastState.open = true;
+  toastState.content = content;
+  toastState.type = type;
+
+  setTimeout(() => {
+    toastState.open = false
+  }, 2000)
+};
 
 const removeImageFromCurrentImages = (currentImage: string) => {
   const index = props.currentImages.findIndex((i) => i === currentImage);
@@ -60,19 +78,25 @@ const onUploadProjectImage = () => {
 };
 
 const onInputImageChange = (e: Event) => {
-  const inputElement = e.target as HTMLInputElement;
-  const file = inputElement.files?.[0];
+  const totalImages = props.currentImages.length + previewNewImages.value.length
 
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const imageUrl = reader.result as string;
+  if(totalImages < MAX_NUM_IMAGES) {
+    const inputElement = e.target as HTMLInputElement;
+    const file = inputElement.files?.[0];
 
-      previewNewImages.value.push(imageUrl);
+    if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const imageUrl = reader.result as string;
 
-      emit('onNewImageUploaded', file);
-    };
+          previewNewImages.value.push(imageUrl);
+
+          emit('onNewImageUploaded', file);
+        }
+      };
+  } else {
+    handleToast('Maxim 14 imatges per projecte', 'error');
   }
 };
 </script>
@@ -113,6 +137,11 @@ const onInputImageChange = (e: Event) => {
       </article>
     </section>
   </section>
+  <Toast
+    v-if="toastState.open"
+    :content="toastState.content"
+    :type="toastState.type"
+  />
 </template>
 
 <style scoped>
@@ -143,7 +172,7 @@ const onInputImageChange = (e: Event) => {
   right: 1.3rem;
 
   padding: 1rem 2.5rem;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-items-radius);
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;

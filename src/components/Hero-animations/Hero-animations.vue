@@ -47,7 +47,7 @@ onMounted(() => {
 
 <style scoped>
 .circle-top {
-  content: "";
+  content: '';
   position: fixed;
 
   width: 82rem;
@@ -65,7 +65,7 @@ onMounted(() => {
 }
 
 .circle-bottom {
-  content: "";
+  content: '';
   position: fixed;
 
   width: 80rem;
@@ -103,7 +103,7 @@ onMounted(() => {
 }
 
 .cube-right {
-  content: "";
+  content: '';
   position: fixed;
 
   width: 65rem;
@@ -120,7 +120,7 @@ onMounted(() => {
 }
 
 .cube-left {
-  content: "";
+  content: '';
   position: absolute;
 
   width: 50rem;
@@ -137,7 +137,7 @@ onMounted(() => {
 }
 
 .line-top {
-  content: "";
+  content: '';
   position: absolute;
 
   height: 2px;
@@ -150,7 +150,7 @@ onMounted(() => {
 }
 
 .line-bottom {
-  content: "";
+  content: '';
   position: absolute;
 
   height: 2px;

@@ -15,7 +15,7 @@ export const sendEmail = async (input: SendEmailInput): Promise<boolean> => {
   //     }
   // })
 
-  console.log(input, 'email sent')
+  console.log(input, 'email sent');
 
-  return true
-}
+  return true;
+};

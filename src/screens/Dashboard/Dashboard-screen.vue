@@ -24,7 +24,7 @@ h3,
 input,
 label {
   color: rgb(110, 110, 110);
-  font-weight: 100;
+  font-weight: 300;
   font-family:
     system-ui,
     -apple-system,

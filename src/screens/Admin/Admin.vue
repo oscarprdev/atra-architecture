@@ -9,9 +9,9 @@ import AdminForm from '../../components/Admin-form/Admin-form.vue';
 </template>
 
 <style scoped>
-  .admin-screen {
-    display: grid;
-    place-items: center;
-    height: 100vh;
-  }
+.admin-screen {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
 </style>

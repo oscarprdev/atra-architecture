@@ -2,45 +2,56 @@
 import { ref } from 'vue';
 
 const props = defineProps<{
-  path: string
-}>()
+  path: string;
+}>();
 
-const headerActive = ref(false)
+const headerActive = ref(false);
 
 const handleIcon = (): void => {
-  headerActive.value = !headerActive.value
-}
+  headerActive.value = !headerActive.value;
+};
 </script>
 
 <template>
   <header :class="`${headerActive && 'header-active'}`">
-    <div :class="`${headerActive ? 'hamburguer-container ham-active' : 'hamburguer-container'}`" @click="handleIcon">
-      <span class="hamburguer-top"/>
-      <span class="hamburguer"/>
-      <span class="hamburguer-bottom"/>
+    <div
+      :class="`${
+        headerActive
+          ? 'hamburguer-container ham-active'
+          : 'hamburguer-container'
+      }`"
+      @click="handleIcon"
+    >
+      <span class="hamburguer-top" />
+      <span class="hamburguer" />
+      <span class="hamburguer-bottom" />
     </div>
     <ul v-if="headerActive" class="header-mobile__list-links">
-        <li @click="handleIcon">
-          <router-link v-if="props.path !== '/'" to="/">Inici</router-link>
-        </li>
-        <li @click="handleIcon">
-          <router-link
-              to="/projects"
-              :class="`${props.path === '/projects' && 'active'}`"
+      <li @click="handleIcon">
+        <router-link v-if="props.path !== '/'" to="/">Inici</router-link>
+      </li>
+      <li @click="handleIcon">
+        <router-link
+          to="/projects"
+          :class="`${props.path === '/projects' && 'active'}`"
           >Projectes</router-link
-          >
-        </li>
-        <li @click="handleIcon">
-          <router-link to="/about" :class="`${props.path === '/about' && 'active'}`"
+        >
+      </li>
+      <li @click="handleIcon">
+        <router-link
+          to="/about"
+          :class="`${props.path === '/about' && 'active'}`"
           >Qui som</router-link
-          >
-        </li>
-        <li @click="handleIcon">
-          <router-link to="/contact" :class="`${props.path === '/contact' && 'active'}`"
+        >
+      </li>
+      <li @click="handleIcon">
+        <router-link
+          to="/contact"
+          :class="`${props.path === '/contact' && 'active'}`"
           >Contacte</router-link
-          >
-        </li>
-      </ul>
+        >
+      </li>
+    </ul>
   </header>
 </template>
 
@@ -97,29 +108,31 @@ header {
   transform: translate(0, 9px) rotate(-45deg);
 }
 
-.ham-active .hamburguer {opacity: 0;}
+.ham-active .hamburguer {
+  opacity: 0;
+}
 
 .ham-active .hamburguer-bottom {
   transform: translate(0, -9px) rotate(45deg);
 }
 
-  .header-mobile__list-links {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    font-size: 1.5rem;
-    padding: 7rem 2rem;
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
+.header-mobile__list-links {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  font-size: 1.5rem;
+  padding: 7rem 2rem;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
 
-    background-color: var(--bg-gray);
+  background-color: var(--bg-gray);
 
-    opacity: 0;
+  opacity: 0;
 
-    animation: header-fade 0.2s linear forwards;
-  }
+  animation: header-fade 0.2s linear forwards;
+}
 
 a {
   cursor: pointer;
@@ -129,7 +142,7 @@ a {
 }
 
 a:before {
-  content: "";
+  content: '';
   width: 3rem;
   height: 2px;
   background-color: var(--dark);
@@ -145,15 +158,15 @@ a:hover:before {
   transform: scaleX(1);
 }
 
-  @keyframes header-fade {
-    0% {
-      opacity: 0;
-      transform: translateX(10rem);
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
+@keyframes header-fade {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
   }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>

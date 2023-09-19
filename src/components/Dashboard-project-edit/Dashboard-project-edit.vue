@@ -180,13 +180,13 @@ onMounted(async () => {
 <style scoped>
 .form-container {
   width: 100%;
-  height: 70vh;
+  height: 80vh;
   overflow: scroll;
 
   display: flex;
   align-items: start;
 
-  padding: 2rem;
+  padding: 1rem;
   gap: 1rem;
 
   position: absolute;
@@ -219,9 +219,9 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 0;
   width: 100%;
-  gap: 2rem;
+  gap: 1rem;
   height: fit-content;
 }
 
@@ -229,8 +229,10 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.8rem 1.7rem;
-  border-radius: var(--dashboard-radius);
+  padding: 0.8rem 1.2rem;
+
+  border-radius: var(--dashboard-items-radius);
+  border-radius: 3rem;
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;

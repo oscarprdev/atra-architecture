@@ -16,7 +16,7 @@ const expandProjectDetail = (index: number) => {
 </script>
 
 <template>
-  <header class="project-container-header" @:click="expandProjectDetail(index)">
+  <header :class="`project-container-header ${projectIndex === index && 'header-active'}`" @:click="expandProjectDetail(index)">
     <div class="project-info">
       <p>{{ index + 1 }}</p>
       <figure class="image-container">
@@ -62,6 +62,10 @@ const expandProjectDetail = (index: number) => {
   background-color: rgb(241, 241, 241);
 }
 
+.header-active {
+  background-color: rgb(232, 231, 231);
+}
+
 .project-container-header::before {
   position: absolute;
   content: '';
@@ -86,7 +90,7 @@ const expandProjectDetail = (index: number) => {
 
 .project-info p {
   color: rgb(110, 110, 110);
-  font-weight: 100;
+  font-weight: 300;
 }
 
 .image-container {
