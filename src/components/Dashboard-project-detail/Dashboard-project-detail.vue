@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Project } from '../../core/types/data.types';
-import DashboardProjectEdit from '../Dashboard-project-edit/Dashboard-project-edit.vue';
+import DashboardProjectEdit, {
+  OnOpenRemoveModalinput,
+} from '../Dashboard-project-edit/Dashboard-project-edit.vue';
 
 defineProps<{
   project: Project;
@@ -9,7 +11,8 @@ defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'onProjectRemoved', name: string): void;
+  (e: 'onOpenRemoveModal', input: OnOpenRemoveModalinput): void;
+  (e: 'onProjectUpdate'): void;
 }>();
 
 const projectIndex = ref<number | null>(null);
@@ -18,7 +21,13 @@ const expandProjectDetail = (index: number) => {
   projectIndex.value = typeof projectIndex.value === 'number' ? null : index;
 };
 
-const onProjectRemoved = (name: string) => emit('onProjectRemoved', name);
+const onProjectIsUpdated = () => {
+  projectIndex.value = null;
+  emit('onProjectUpdate');
+};
+
+const onOpenRemoveModal = (input: OnOpenRemoveModalinput) =>
+  emit('onOpenRemoveModal', input);
 </script>
 
 <template>
@@ -50,7 +59,8 @@ const onProjectRemoved = (name: string) => emit('onProjectRemoved', name);
     <Dashboard-project-edit
       v-if="projectIndex === index"
       :project-id="project.id"
-      @on-project-removed="onProjectRemoved"
+      @on-open-remove-modal="onOpenRemoveModal"
+      @on-project-update="onProjectIsUpdated"
     />
   </section>
 </template>

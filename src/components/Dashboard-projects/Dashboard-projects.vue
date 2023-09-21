@@ -5,35 +5,77 @@ import { Project } from '../../core/types/data.types';
 import Modal from '../Modal/Modal.vue';
 import DashboardProjectDetail from '../Dashboard-project-detail/Dashboard-project-detail.vue';
 import Loader from '../Loader/Loader.vue';
-import ModalContent from '../Modal-content/Modal-content.vue'
+import ModalRemoveProject from '../Modal-remove-project/Modal-remove-project.vue';
+import Toast, { ToastHandler } from '../Toast/Toast.vue';
 
 interface ModalState {
   isOpen: boolean;
   id: string;
-  name: string;
+  projectName: string;
 }
 const projects = ref<Project[]>();
 const projectsLoading = ref(false);
 
-const handleModal = (name: string) => {
+const handleModal = (id: string, name: string) => {
   modalState.isOpen = true;
-  modalState.id = `${name}-01`;
-  modalState.name = name;
+  modalState.id = id;
+  modalState.projectName = name;
 };
 
 const modalState = reactive<ModalState>({
   isOpen: false,
   id: '',
-  name: '',
+  projectName: '',
 });
 
-const onProjectRemoved = (name: string) => {
-  handleModal(name);
+const toastState = reactive<ToastHandler>({
+  open: false,
+  type: 'success',
+  content: '',
+});
+
+const handleToast = (content: string, type: 'success' | 'error') => {
+  toastState.open = true;
+  toastState.content = content;
+  toastState.type = type;
+
+  setTimeout(() => {
+    toastState.open = false;
+  }, 2000);
+};
+
+const manageToastState = (status: number, text: string) => {
+  if (status === 400 || status === 500) {
+    const errorMessage =
+      'Error actualitzant els projectes, proba en 1 minut o contacta amb servei tecnic';
+    handleToast(errorMessage, 'error');
+
+    return;
+  }
+
+  handleToast(text, 'success');
+};
+
+const onOpenRemoveModal = ({ id, name }: { id: string; name: string }) => {
+  handleModal(id, name);
+};
+const onProjectRemoved = () => {
+  manageToastState(200, 'Projecte Eliminat');
+  updateProjectList();
+};
+
+const onUpdateProject = () => {
+  manageToastState(200, 'Projectes actualitzats');
+  updateProjectList();
+};
+
+const updateProjectList = async () => {
+  projects.value = await new DefaultProjectsService().getProjects();
 };
 
 onMounted(async () => {
   projectsLoading.value = true;
-  projects.value = await new DefaultProjectsService().getProjects();
+  updateProjectList();
   projectsLoading.value = false;
 });
 </script>
@@ -54,16 +96,28 @@ onMounted(async () => {
       <Dashboard-project-detail
         :project="project"
         :index="index"
-        @on-project-removed="onProjectRemoved"
+        @on-open-remove-modal="onOpenRemoveModal"
+        @on-project-update="onUpdateProject"
       />
     </article>
     <Modal
       v-if="modalState.isOpen"
       @closeModal="modalState.isOpen = false"
+      @on-close-modal="modalState.isOpen = false"
     >
-    <ModalContent :project-name="modalState.name" :project-id="modalState.id" @on-close-modal="modalState.isOpen = false"/>
-  </Modal>
+      <ModalRemoveProject
+        :project-name="modalState.projectName"
+        :project-id="modalState.id"
+        @on-close-modal="modalState.isOpen = false"
+        @on-update-project-list="onProjectRemoved"
+      />
+    </Modal>
   </section>
+  <Toast
+    v-if="toastState.open"
+    :content="toastState.content"
+    :type="toastState.type"
+  />
 </template>
 
 <style>

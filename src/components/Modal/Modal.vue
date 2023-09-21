@@ -1,15 +1,25 @@
 <script setup lang="ts">
 import { IconX } from '@tabler/icons-vue';
+import { onMounted } from 'vue';
 
 const emit = defineEmits<{
-  closeModal: [];
+  (e: 'onCloseModal'): void;
 }>();
+
+onMounted(() => {
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      emit('onCloseModal');
+      console.log('heelo');
+    }
+  });
+});
 </script>
 
 <template>
   <div class="modal-backdrop">
     <div class="modal">
-      <IconX class="close-icon" v-on:click="emit('closeModal')" />
+      <IconX class="close-icon" @:click="emit('onCloseModal')" />
       <slot></slot>
     </div>
   </div>
@@ -32,9 +42,6 @@ const emit = defineEmits<{
 }
 
 .modal {
-  width: 50vw;
-  height: 80vh;
-
   max-width: 800px;
   max-height: 1000px;
   background-color: white;

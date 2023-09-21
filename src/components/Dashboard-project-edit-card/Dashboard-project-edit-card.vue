@@ -6,7 +6,7 @@ defineProps<{
   project: ProjectDetail;
 }>();
 const emit = defineEmits<{
-  (e: 'onInputChange'): void;
+  (e: 'onInputChange', a: Event): void;
   (e: 'onToggleSwitch'): void;
 }>();
 </script>
@@ -15,18 +15,26 @@ const emit = defineEmits<{
   <h3 class="form-card-title">Informacio del projecte</h3>
   <label>
     Nom
-    <input id="name" :value="project.name" @change="emit('onInputChange')" />
+    <input
+      id="name"
+      :value="project.name"
+      v-on:input="(e) => emit('onInputChange', e)"
+    />
   </label>
   <label>
     Any
-    <input id="year" :value="project.year" @change="emit('onInputChange')" />
+    <input
+      id="year"
+      :value="project.year"
+      @input="(e) => emit('onInputChange', e)"
+    />
   </label>
   <label>
     Descripcio
     <input
       id="description"
       :value="project.description"
-      @change="emit('onInputChange')"
+      @input="(e) => emit('onInputChange', e)"
     />
   </label>
   <label>

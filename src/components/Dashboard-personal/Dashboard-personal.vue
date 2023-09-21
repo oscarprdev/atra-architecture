@@ -47,6 +47,10 @@ const handleToast = (content: string, type: 'success' | 'error') => {
   toastState.open = true;
   toastState.content = content;
   toastState.type = type;
+
+  setTimeout(() => {
+    toastState.open = false;
+  }, 2000);
 };
 
 const toggleEdit = () => {

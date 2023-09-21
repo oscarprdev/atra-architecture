@@ -73,4 +73,23 @@ export class DefaultHttpBase implements HttpBase {
       throw new Error('An error occurred while fetching data');
     }
   }
+
+  async delete<T>(keyEndpoint: string): Promise<Response<T>> {
+    try {
+      const response = await fetch(`${this.apiUrl}${keyEndpoint}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+
+      const jsonResponse: Response<T> = await response.json();
+
+      return jsonResponse;
+    } catch (e: unknown) {
+      console.log(e);
+      throw new Error('An error occurred while fetching data');
+    }
+  }
 }

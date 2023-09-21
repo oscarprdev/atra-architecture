@@ -1,3 +1,17 @@
+import {
+  AboutServiceInput,
+  AboutServiceOutput,
+  DeleteProjectOk,
+  PersonalInfoServiceInput,
+  PersonalInfoServiceOutput,
+  ProvideMainImageProjectPromiseInput,
+  RemoveProjectInput,
+  UpdateMainImageHttpInput,
+  UpdateProjectByIdOutput,
+  UpdateProjectFormData,
+  UpdateProjectHttpInput,
+  UpdateProjectInput,
+} from '../types/admin.types';
 import { DefaultHttpBase } from './http-base';
 
 export interface AdminSignInInput {
@@ -18,56 +32,15 @@ export const adminSignIn = async (
   );
 };
 
-interface PersonalInfoServiceOutput {
-  data: PersonalInfoServiceInput;
-  status: number;
-}
-
-interface PersonalInfoServiceInput {
-  email: string;
-  direction: string;
-  phone: string;
-}
-
-interface AboutServiceInput {
-  image?: File;
-  text: string[];
-}
-
-interface AboutServiceOutput {
-  data: AboutServiceInput;
-  status: number;
-}
-
-export interface UpdateProjectInput {
-  name: string;
-  year: number;
-  images: string[];
-  description: string;
-  top: boolean;
-  mainImage?: File;
-  newImages?: File[];
-}
-
-export interface UpdateProjectHttpInput {
-  name: string;
-  year: number;
-  images: string[];
-  description: string;
-  top: boolean;
-  newImages?: File[];
-}
-
-export interface UpdateMainImageHttpInput {
-  mainImage: File;
-  project: string;
-}
-
 export interface AdminService {
   updatePersonalInfo(
     input: PersonalInfoServiceInput
   ): Promise<PersonalInfoServiceOutput>;
   updateAboutInfo(input: AboutServiceInput): Promise<AboutServiceOutput>;
+  updateProjectById(
+    input: UpdateProjectInput
+  ): Promise<UpdateProjectByIdOutput>;
+  removeProjectById(input: RemoveProjectInput): Promise<number>;
 }
 
 export class DefaultAdminService
@@ -99,7 +72,7 @@ export class DefaultAdminService
     return formData;
   }
 
-  private provideProjectInputFormData(input: UpdateProjectInput) {
+  private provideProjectInputFormData(input: UpdateProjectFormData) {
     const formData = new FormData();
 
     Object.entries(input).forEach(([key, entry]) => {
@@ -121,6 +94,24 @@ export class DefaultAdminService
     });
 
     return formData;
+  }
+
+  private async provideMainImageProjectPromise({
+    image,
+    project,
+    id,
+  }: ProvideMainImageProjectPromiseInput) {
+    const mainImageFormData = this.provideMainImageFormData({
+      mainImage: image,
+      project: project,
+    });
+
+    const mainImageResponse = await this.patchFormData<UpdateProjectHttpInput>(
+      `projects/main-image/${id}`,
+      mainImageFormData
+    );
+
+    return mainImageResponse;
   }
 
   async updatePersonalInfo(
@@ -158,49 +149,56 @@ export class DefaultAdminService
     };
   }
 
-  private async provideMainImageProjectPromise(
-    input: { image: File; project: string },
-    id: string
-  ) {
-    const mainImageFormData = this.provideMainImageFormData({
-      mainImage: input.image,
-      project: input.project,
-    });
-
-    const mainImageResponse = await this.patchFormData<UpdateProjectHttpInput>(
-      `projects/main-image/${id}`,
-      mainImageFormData
-    );
-
-    return mainImageResponse;
-  }
-
-  async updateProjectById(input: UpdateProjectInput, id: string) {
+  async updateProjectById(
+    input: UpdateProjectInput
+  ): Promise<UpdateProjectByIdOutput> {
     const promises = [];
 
-    const projectFormData = this.provideProjectInputFormData(input);
+    const projectFormData = this.provideProjectInputFormData(input.project);
 
     promises.push(
       this.patchFormData<UpdateProjectHttpInput>(
-        `projects/${id}`,
+        `projects/${input.id}`,
         projectFormData
       )
     );
 
-    if (input.mainImage) {
+    if (input.project.mainImage) {
       promises.push(
-        this.provideMainImageProjectPromise(
-          { image: input.mainImage, project: input.name },
-          id
-        )
+        this.provideMainImageProjectPromise({
+          image: input.project.mainImage,
+          project: input.project.name,
+          id: input.id,
+        })
       );
     }
 
     const [projectResponse, mainImageResponse] = await Promise.all(promises);
 
-    return {
-      projectResponse,
-      mainImageResponse,
-    };
+    if (mainImageResponse) {
+      return {
+        projectResponse: {
+          status: projectResponse.status,
+          data: projectResponse.data,
+        },
+        mainImageResponse: {
+          status: mainImageResponse.status,
+          data: mainImageResponse.data,
+        },
+      };
+    } else {
+      return {
+        projectResponse: {
+          status: projectResponse.status,
+          data: projectResponse.data,
+        },
+      };
+    }
+  }
+
+  async removeProjectById({ id }: RemoveProjectInput): Promise<number> {
+    const response = await this.delete<DeleteProjectOk>(`projects/${id}`);
+
+    return response.status;
   }
 }

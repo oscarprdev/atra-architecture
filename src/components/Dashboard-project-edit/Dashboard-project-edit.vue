@@ -1,29 +1,28 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from 'vue';
-
+import { onMounted, ref } from 'vue';
 import Loader from '../Loader/Loader.vue';
-import { ToastHandler } from '../Toast/Toast.vue';
 import { IconCloudUpload } from '@tabler/icons-vue';
 import { IconSquareRoundedX } from '@tabler/icons-vue';
-
-import {
-  DefaultAdminService,
-  UpdateProjectInput,
-} from '../../core/services/admin-service';
+import { DefaultAdminService } from '../../core/services/admin-service';
 import { DefaultProjectsService } from '../../core/services/projects.service';
-
 import { ProjectDetail } from '../../core/types/data.types';
-
 import Button from '../Button/Button.vue';
 import DashboardProjectGallery from '../Dashboard-project-gallery/Dashboard-project-gallery.vue';
 import DashboardProjectEditCard from '../Dashboard-project-edit-card/Dashboard-project-edit-card.vue';
+import { UpdateProjectFormData } from '../../core/types/admin.types';
+
+export interface OnOpenRemoveModalinput {
+  id: string;
+  name: string;
+}
 
 const props = defineProps<{
   projectId: string;
 }>();
 
 const emit = defineEmits<{
-  (e: 'onProjectRemoved', name: string): void;
+  (e: 'onOpenRemoveModal', input: OnOpenRemoveModalinput): void;
+  (e: 'onProjectUpdate'): void;
 }>();
 
 const projectsLoading = ref(false);
@@ -31,13 +30,10 @@ const projectInfo = ref<ProjectDetail>();
 
 const newMainImage = ref<File | null>(null);
 const newImages = ref<File[]>([]);
-const toastState = reactive<ToastHandler>({
-  open: false,
-  type: 'success',
-  content: '',
-});
 
-const generateProjectInput = (project: ProjectDetail): UpdateProjectInput => {
+const generateProjectInput = (
+  project: ProjectDetail
+): UpdateProjectFormData => {
   return {
     name: project.name,
     description: project.description,
@@ -49,44 +45,24 @@ const generateProjectInput = (project: ProjectDetail): UpdateProjectInput => {
   };
 };
 
-const handleToast = (content: string, type: 'success' | 'error') => {
-  toastState.open = true;
-  toastState.content = content;
-  toastState.type = type;
-};
-
-const manageToastState = (status: number) => {
-  if (status === 400 || status === 500) {
-    const errorMessage =
-      'Error actualitzant la informacio de la vista de qui som, proba en 1 minut o contacta amb servei tecnic';
-    handleToast(errorMessage, 'error');
-
-    return;
-  }
-
-  handleToast('Informacio personal actualitzada correctament', 'success');
-};
-
 const onProjectSubmit = async (e: Event) => {
   e.preventDefault();
 
   if (projectInfo.value) {
-    const projectInput: UpdateProjectInput = generateProjectInput(
+    const projectInput: UpdateProjectFormData = generateProjectInput(
       projectInfo.value
     );
 
     projectsLoading.value = true;
 
-    const {
-      projectResponse: { status },
-    } = await new DefaultAdminService().updateProjectById(
-      projectInput,
-      props.projectId
-    );
+    await new DefaultAdminService().updateProjectById({
+      project: projectInput,
+      id: props.projectId,
+    });
 
     projectsLoading.value = false;
 
-    manageToastState(status);
+    emit('onProjectUpdate');
   }
 };
 
@@ -126,10 +102,13 @@ const onNewImageUploaded = (image: File) => {
 const onRemoveCurrentImage = (index: number) => {
   projectInfo.value?.images.splice(index, 1);
 };
-const onRemoveProject = (e: Event) => {
-  e.preventDefault()
+const onOpenRemoveModal = (e: Event) => {
+  e.preventDefault();
   if (projectInfo.value) {
-    emit('onProjectRemoved', projectInfo.value?.name);
+    emit('onOpenRemoveModal', {
+      id: props.projectId,
+      name: projectInfo.value?.name,
+    });
   }
 };
 
@@ -149,7 +128,7 @@ onMounted(async () => {
     <Loader />
   </div>
   <form
-    v-if="projectInfo && !projectsLoading"
+    v-else-if="projectInfo && !projectsLoading"
     @:submit="onProjectSubmit"
     class="form-container"
   >
@@ -171,7 +150,7 @@ onMounted(async () => {
         />
       </div>
       <div class="buttons-wrapper">
-        <button class="edit-btn edit-btn--remove" @click="onRemoveProject">
+        <button class="edit-btn edit-btn--remove" @click="onOpenRemoveModal">
           Eliminar <IconSquareRoundedX />
         </button>
         <button class="edit-btn edit-btn--update" type="submit">
