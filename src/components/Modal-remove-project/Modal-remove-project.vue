@@ -1,44 +1,22 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import Loader from '../Loader/Loader.vue';
-import Toast, { ToastHandler } from '../Toast/Toast.vue';
+import Toast from '../Toast/Toast.vue';
+import { useToast } from '../../core/composables/useToast';
 
 const props = defineProps<{
   projectId: string;
   projectName: string;
 }>();
 
-const isRemoving = ref(false);
-
 const emit = defineEmits<{
   (e: 'onCloseModal'): void;
   (e: 'onUpdateProjectList'): void;
 }>();
 
-const toastState = reactive<ToastHandler>({
-  open: false,
-  type: 'success',
-  content: '',
-});
-
-const handleToast = (content: string, type: 'success' | 'error') => {
-  toastState.open = true;
-  toastState.content = content;
-  toastState.type = type;
-};
-
-const manageToastState = (status: number) => {
-  if (status === 400 || status === 500) {
-    const errorMessage =
-      'Error triant de eliminar el projecte, proba en 1 minut o contacta amb servei tecnic';
-    handleToast(errorMessage, 'error');
-
-    return;
-  }
-
-  handleToast('Projecte eliminat correctament', 'success');
-};
+const isRemoving = ref(false);
+const { toastState, manageToastState } = useToast();
 
 const onRemoveProject = async () => {
   isRemoving.value = true;
@@ -47,7 +25,11 @@ const onRemoveProject = async () => {
     id: props.projectId,
   });
 
-  manageToastState(status);
+  manageToastState(
+    status,
+    'Project eliminat correctament',
+    'Error eliminant projecte'
+  );
   emit('onCloseModal');
   emit('onUpdateProjectList');
   isRemoving.value = false;
@@ -98,6 +80,7 @@ const onRemoveProject = async () => {
 .loader-wrapper {
   display: grid;
   place-items: center;
+  height: 7rem;
 }
 
 .buttons-wrapper {

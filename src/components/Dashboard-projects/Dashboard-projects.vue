@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref } from 'vue';
 import { DefaultProjectsService } from '../../core/services/projects.service.ts';
 import { Project } from '../../core/types/data.types';
 import Modal from '../Modal/Modal.vue';
@@ -8,44 +8,29 @@ import Loader from '../Loader/Loader.vue';
 import ModalRemoveProject from '../Modal-remove-project/Modal-remove-project.vue';
 import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
+import { useModals } from '../../core/composables/useModals';
 
-interface ModalState {
-  isOpen: boolean;
-  id: string;
-  projectName: string;
-}
 const projects = ref<Project[]>();
 const projectsLoading = ref(false);
 
 const { toastState, manageToastState } = useToast();
-
-const handleModal = (id: string, name: string) => {
-  modalState.isOpen = true;
-  modalState.id = id;
-  modalState.projectName = name;
-};
-
-const modalState = reactive<ModalState>({
-  isOpen: false,
-  id: '',
-  projectName: '',
-});
+const { modalState, openModal, isModalOpened, closeModal } = useModals();
 
 const onOpenRemoveModal = ({ id, name }: { id: string; name: string }) => {
-  handleModal(id, name);
+  openModal('remove-project', { id, projectName: name });
 };
-const onProjectRemoved = () => {
+const onProjectRemoved = async () => {
   manageToastState(200, 'Projecte Eliminat', 'Error eliminant projecte');
-  updateProjectList();
+  await updateProjectList();
 };
 
-const onUpdateProject = () => {
+const onUpdateProject = async () => {
   manageToastState(
     200,
     'Projectes actualitzats',
     'Error actualitzant projectes'
   );
-  updateProjectList();
+  await updateProjectList();
 };
 
 const updateProjectList = async () => {
@@ -54,18 +39,20 @@ const updateProjectList = async () => {
 
 onMounted(async () => {
   projectsLoading.value = true;
-  updateProjectList();
+  await updateProjectList();
   projectsLoading.value = false;
 });
 </script>
 
 <template>
   <section class="dashboard-projects">
-    <Loader v-if="projectsLoading">
-      <template #text>
-        <p>Carregant projectes</p>
-      </template>
-    </Loader>
+    <div class="loader-wrapper" v-if="projectsLoading">
+      <Loader>
+        <template #text>
+          <p>Carregant projectes</p>
+        </template>
+      </Loader>
+    </div>
     <article
       v-if="!projectsLoading"
       v-for="(project, index) in projects"
@@ -79,15 +66,12 @@ onMounted(async () => {
         @on-project-update="onUpdateProject"
       />
     </article>
-    <Modal
-      v-if="modalState.isOpen"
-      @closeModal="modalState.isOpen = false"
-      @on-close-modal="modalState.isOpen = false"
-    >
+    <Modal v-if="isModalOpened()" @on-close-modal="closeModal()">
       <ModalRemoveProject
-        :project-name="modalState.projectName"
-        :project-id="modalState.id"
-        @on-close-modal="modalState.isOpen = false"
+        v-if="isModalOpened('remove-project')"
+        :project-name="modalState.removeModal.projectName"
+        :project-id="modalState.removeModal.id"
+        @on-close-modal="closeModal('remove-project')"
         @on-update-project-list="onProjectRemoved"
       />
     </Modal>
@@ -105,6 +89,12 @@ onMounted(async () => {
   width: 85vw;
 
   font-family: 'mona-sans' !important;
+}
+
+.loader-wrapper {
+  display: grid;
+  place-items: center;
+  height: 10vh;
 }
 
 .dashboard-projects {

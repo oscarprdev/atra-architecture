@@ -7,7 +7,7 @@
 
 <style>
 .loader-container {
-  height: 50vh;
+  height: inherit;
   width: 100%;
   display: grid;
   place-items: center;

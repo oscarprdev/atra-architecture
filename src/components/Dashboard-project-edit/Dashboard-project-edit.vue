@@ -124,7 +124,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="projectsLoading">
+  <div class="loader-wrapper" v-if="projectsLoading">
     <Loader />
   </div>
   <form
@@ -178,6 +178,12 @@ onMounted(async () => {
   left: 0;
 
   overflow: hidden;
+}
+
+.loader-wrapper {
+  display: grid;
+  place-items: center;
+  height: 80vh;
 }
 
 .project-edit-info {
