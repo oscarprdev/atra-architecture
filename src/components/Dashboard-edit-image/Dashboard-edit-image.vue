@@ -10,7 +10,7 @@ const props = defineProps<{
   typeImg: 'about' | 'main' | 'list';
 }>();
 
-const prevImage = ref();
+const prevImage = ref<string | null>();
 const uploadImage = ref<HTMLInputElement | null>(null);
 
 const emit = defineEmits<{
@@ -55,7 +55,11 @@ onMounted(() => {
     <div v-if="props.isLoading" class="image-skeleton">
       <Loader />
     </div>
-    <img v-if="!props.isLoading" :src="prevImage" alt="Project image" />
+    <img
+      v-if="!props.isLoading && prevImage"
+      :src="prevImage"
+      alt="Project image"
+    />
     <input
       class="input-image"
       type="file"

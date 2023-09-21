@@ -3,7 +3,8 @@ import { DefaultHomeService } from '../../core/services/home-service';
 import Button from '../Button/Button.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
-import Toast, { ToastHandler } from '../Toast/Toast.vue';
+import Toast from '../Toast/Toast.vue';
+import { useToast } from '../../core/composables/useToast';
 
 interface DashboardPersonalInfo {
   email: string;
@@ -14,16 +15,12 @@ interface DashboardPersonalInfo {
 const editDisabled = ref(true);
 const personalInfoUpdating = ref(false);
 
-const toastState = reactive<ToastHandler>({
-  open: false,
-  type: 'success',
-  content: '',
-});
 const personalInfo = reactive<DashboardPersonalInfo>({
   email: '...',
   direction: '...',
   phone: '...',
 });
+const { toastState, manageToastState } = useToast();
 
 const providePersonalInfo = async () => {
   const heroText = await new DefaultHomeService().getHeroText();
@@ -43,30 +40,8 @@ const handleChange = (e: Event): void => {
   }
 };
 
-const handleToast = (content: string, type: 'success' | 'error') => {
-  toastState.open = true;
-  toastState.content = content;
-  toastState.type = type;
-
-  setTimeout(() => {
-    toastState.open = false;
-  }, 2000);
-};
-
 const toggleEdit = () => {
   editDisabled.value = !editDisabled.value;
-};
-
-const manageToastState = (status: number) => {
-  if (status === 400) {
-    const errorMessage =
-      'Error actualitzant la informacio personal, proba en 1 minut o contacta amb servei tecnic';
-    handleToast(errorMessage, 'error');
-
-    return;
-  }
-
-  handleToast('Informacio personal actualitzada correctament', 'success');
 };
 
 const handleSubmit = async (e: Event) => {
@@ -78,7 +53,11 @@ const handleSubmit = async (e: Event) => {
     personalInfo
   );
 
-  manageToastState(status);
+  manageToastState(
+    status,
+    'Dades personals actualitzades correctament',
+    'Error actualitzant les daded personals'
+  );
 
   personalInfoUpdating.value = false;
 };

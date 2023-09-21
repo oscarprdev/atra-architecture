@@ -2,12 +2,6 @@
 import { onMounted } from 'vue';
 import { toast } from 'vue-sonner';
 
-export interface ToastHandler {
-  open: boolean;
-  type: 'success' | 'error';
-  content: string;
-}
-
 const props = defineProps<{
   content: string;
   type: 'success' | 'error';

@@ -3,8 +3,9 @@ import { onMounted, reactive, ref } from 'vue';
 import Button from '../Button/Button.vue';
 import { DefaultAboutService } from '../../core/services/about-service';
 import { DefaultAdminService } from '../../core/services/admin-service';
-import Toast, { ToastHandler } from '../Toast/Toast.vue';
+import Toast from '../Toast/Toast.vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
+import { useToast } from '../../core/composables/useToast';
 
 interface About {
   image: string;
@@ -16,11 +17,8 @@ const editDisabled = ref(true);
 const uploadingInfo = ref(false);
 const aboutImageFile = ref<File | null>(null);
 
-const toastState = reactive<ToastHandler>({
-  open: false,
-  type: 'success',
-  content: '',
-});
+const { toastState, manageToastState } = useToast();
+
 const about = reactive<About>({
   image: '',
   text: ['...', '...', '...'],
@@ -28,16 +26,6 @@ const about = reactive<About>({
 
 const toggleEdit = () => {
   editDisabled.value = !editDisabled.value;
-};
-
-const handleToast = (content: string, type: 'success' | 'error') => {
-  toastState.open = true;
-  toastState.content = content;
-  toastState.type = type;
-
-  setTimeout(() => {
-    toastState.open = false;
-  }, 2000);
 };
 
 const handleTextareaInput = (e: Event): void => {
@@ -60,18 +48,6 @@ const prepareAboutInput = () => {
   };
 };
 
-const manageToastState = (status: number) => {
-  if (status === 400 || status === 500) {
-    const errorMessage =
-      'Error actualitzant la informacio de la vista de qui som, proba en 1 minut o contacta amb servei tecnic';
-    handleToast(errorMessage, 'error');
-
-    return;
-  }
-
-  handleToast('Informacio personal actualitzada correctament', 'success');
-};
-
 const handleAboutSubmit = async (e: Event) => {
   e.preventDefault();
 
@@ -83,7 +59,11 @@ const handleAboutSubmit = async (e: Event) => {
     aboutInput
   );
 
-  manageToastState(status);
+  manageToastState(
+    status,
+    'Informacio de ATRA actualitzada',
+    'Error actualitzant informacio de ATRA'
+  );
 
   uploadingInfo.value = false;
 };

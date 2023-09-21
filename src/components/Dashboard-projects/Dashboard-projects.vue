@@ -6,7 +6,8 @@ import Modal from '../Modal/Modal.vue';
 import DashboardProjectDetail from '../Dashboard-project-detail/Dashboard-project-detail.vue';
 import Loader from '../Loader/Loader.vue';
 import ModalRemoveProject from '../Modal-remove-project/Modal-remove-project.vue';
-import Toast, { ToastHandler } from '../Toast/Toast.vue';
+import Toast from '../Toast/Toast.vue';
+import { useToast } from '../../core/composables/useToast';
 
 interface ModalState {
   isOpen: boolean;
@@ -15,6 +16,8 @@ interface ModalState {
 }
 const projects = ref<Project[]>();
 const projectsLoading = ref(false);
+
+const { toastState, manageToastState } = useToast();
 
 const handleModal = (id: string, name: string) => {
   modalState.isOpen = true;
@@ -28,44 +31,20 @@ const modalState = reactive<ModalState>({
   projectName: '',
 });
 
-const toastState = reactive<ToastHandler>({
-  open: false,
-  type: 'success',
-  content: '',
-});
-
-const handleToast = (content: string, type: 'success' | 'error') => {
-  toastState.open = true;
-  toastState.content = content;
-  toastState.type = type;
-
-  setTimeout(() => {
-    toastState.open = false;
-  }, 2000);
-};
-
-const manageToastState = (status: number, text: string) => {
-  if (status === 400 || status === 500) {
-    const errorMessage =
-      'Error actualitzant els projectes, proba en 1 minut o contacta amb servei tecnic';
-    handleToast(errorMessage, 'error');
-
-    return;
-  }
-
-  handleToast(text, 'success');
-};
-
 const onOpenRemoveModal = ({ id, name }: { id: string; name: string }) => {
   handleModal(id, name);
 };
 const onProjectRemoved = () => {
-  manageToastState(200, 'Projecte Eliminat');
+  manageToastState(200, 'Projecte Eliminat', 'Error eliminant projecte');
   updateProjectList();
 };
 
 const onUpdateProject = () => {
-  manageToastState(200, 'Projectes actualitzats');
+  manageToastState(
+    200,
+    'Projectes actualitzats',
+    'Error actualitzant projectes'
+  );
   updateProjectList();
 };
 

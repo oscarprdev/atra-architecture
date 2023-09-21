@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
 import { IconPhotoPlus } from '@tabler/icons-vue';
-import Toast, { ToastHandler } from '../Toast/Toast.vue';
+import Toast from '../Toast/Toast.vue';
+import { useToast } from '../../core/composables/useToast';
 
 const MAX_NUM_IMAGES = 14;
 
@@ -20,21 +21,8 @@ const emit = defineEmits<{
 
 const previewNewImages = ref<string[]>([]);
 const uploadImage = ref<HTMLInputElement | null>(null);
-const toastState = reactive<ToastHandler>({
-  open: false,
-  type: 'success',
-  content: '',
-});
 
-const handleToast = (content: string, type: 'error') => {
-  toastState.open = true;
-  toastState.content = content;
-  toastState.type = type;
-
-  setTimeout(() => {
-    toastState.open = false;
-  }, 2000);
-};
+const { toastState, manageToastState } = useToast();
 
 const removeImageFromCurrentImages = (currentImage: string) => {
   const index = props.currentImages.findIndex((i) => i === currentImage);
@@ -97,7 +85,7 @@ const onInputImageChange = (e: Event) => {
       };
     }
   } else {
-    handleToast('Maxim 14 imatges per projecte', 'error');
+    manageToastState(400, '', 'Maxim 14 imatges per projecte');
   }
 };
 </script>
