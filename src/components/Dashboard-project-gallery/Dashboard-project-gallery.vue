@@ -166,21 +166,13 @@ const onInputImageChange = (e: Event) => {
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;
 
-  background: linear-gradient(
-    0deg,
-    rgb(255, 179, 103) 0%,
-    rgba(255, 119, 21, 1) 100%
-  );
+  background: var(--colorful-bg-btn);
 
   cursor: pointer;
 }
 
 .upload-image-btn:hover {
-  background: linear-gradient(
-    0deg,
-    rgb(255, 169, 82) 0%,
-    rgb(255, 108, 2) 100%
-  );
+  background: var(--colorful-hover-bg-btn);
 }
 .project-gallery {
   display: flex;

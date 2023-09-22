@@ -17,8 +17,26 @@ const emit = defineEmits<{
 
 const projectIndex = ref<number | null>(null);
 
-const expandProjectDetail = (index: number) => {
+const expandProjectDetail = (e: MouseEvent, index: number) => {
+  e.preventDefault();
+  e.stopPropagation();
+
   projectIndex.value = typeof projectIndex.value === 'number' ? null : index;
+  const scrollSection = document.getElementById('projects-section');
+  const projectHeader = document.getElementById('project-detail-header');
+
+  if (scrollSection && projectHeader) {
+    const headerHeight = projectHeader.getBoundingClientRect().height;
+    const scrollPosition = e.clientY - e.offsetY - 20;
+
+    setTimeout(() => {
+      scrollSection.scrollBy({
+        top:
+          scrollPosition < headerHeight / 1.5 ? e.offsetY * -1 : scrollPosition,
+        behavior: 'smooth',
+      });
+    }, 150);
+  }
 };
 
 const onProjectIsUpdated = () => {
@@ -32,10 +50,11 @@ const onOpenRemoveModal = (input: OnOpenRemoveModalinput) =>
 
 <template>
   <header
+    id="project-detail-header"
     :class="`project-container-header ${
       projectIndex === index && 'header-active'
     }`"
-    @:click="expandProjectDetail(index)"
+    @:click="(e: MouseEvent) => expandProjectDetail(e, index)"
   >
     <div class="project-info">
       <p>{{ index + 1 }}</p>

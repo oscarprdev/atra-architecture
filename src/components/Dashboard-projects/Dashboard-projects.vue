@@ -45,7 +45,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="dashboard-projects">
+  <section class="dashboard-projects" id="projects-section">
+    <button class="create-project-btn">Crear projecte</button>
+
     <div class="loader-wrapper" v-if="projectsLoading">
       <Loader>
         <template #text>
@@ -116,11 +118,41 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  margin-top: 1rem;
   width: 100%;
   border-bottom: 1px solid var(--border-admin);
 }
 
 .project-container:last-child {
   border-bottom: none;
+}
+
+.create-project-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.8rem 1.2rem;
+
+  border-radius: var(--dashboard-items-radius);
+  border-radius: 3rem;
+  border: none;
+  box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
+  color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  cursor: pointer;
+  background: linear-gradient(
+    0deg,
+    rgb(255, 179, 103) 0%,
+    rgba(255, 119, 21, 1) 100%
+  );
+}
+
+.create-project-btn:hover {
+  background: linear-gradient(
+    0deg,
+    rgb(255, 157, 60) 0%,
+    rgb(255, 110, 6) 100%
+  );
 }
 </style>

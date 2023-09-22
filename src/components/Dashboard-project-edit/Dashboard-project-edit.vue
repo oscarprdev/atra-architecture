@@ -221,10 +221,9 @@ onMounted(async () => {
   gap: 0.3rem;
   padding: 0.8rem 1.2rem;
 
-  border-radius: var(--dashboard-items-radius);
-  border-radius: 3rem;
+  border-radius: var(--border-radius-btn);
   border: none;
-  box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
+  box-shadow: var(--shadow-btn);
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -232,34 +231,18 @@ onMounted(async () => {
 }
 
 .edit-btn--remove {
-  background: linear-gradient(
-    0deg,
-    rgb(182, 182, 182) 0%,
-    rgb(73, 73, 73) 100%
-  );
+  background: var(--dark-bg-btn);
 }
 
 .edit-btn--remove:hover {
-  background: linear-gradient(
-    0deg,
-    rgb(160, 160, 160) 0%,
-    rgb(68, 68, 68) 100%
-  );
+  background: var(--dark-hover-bg-btn);
 }
 
 .edit-btn--update {
-  background: linear-gradient(
-    0deg,
-    rgb(255, 179, 103) 0%,
-    rgba(255, 119, 21, 1) 100%
-  );
+  background: var(--colorful-bg-btn);
 }
 
 .edit-btn--update:hover {
-  background: linear-gradient(
-    0deg,
-    rgb(255, 157, 60) 0%,
-    rgb(255, 110, 6) 100%
-  );
+  background: var(--colorful-hover-bg-btn);
 }
 </style>
