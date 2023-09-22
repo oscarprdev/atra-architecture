@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { IconX, IconCheck } from '@tabler/icons-vue';
 import { ProjectDetail } from '../../core/types/data.types';
+import Switch from '../Switch/Switch.vue';
 
 defineProps<{
   project: ProjectDetail;
@@ -39,20 +39,7 @@ const emit = defineEmits<{
   </label>
   <label>
     Projecte destacat
-    <div
-      :class="`switch-container ${
-        project.top ? 'switch-container--active' : ''
-      }`"
-      @click="emit('onToggleSwitch')"
-    >
-      <span :class="`switch ${project.top ? 'switch--active' : ''}`" />
-      <template v-if="project.top">
-        <IconCheck class="switch-icon switch-top" />
-      </template>
-      <template v-else>
-        <IconX class="switch-icon" />
-      </template>
-    </div>
+    <Switch :top="project.top" @on-toggle-switch="emit('onToggleSwitch')" />
   </label>
 </template>
 
@@ -86,59 +73,5 @@ input {
   caret-color: var(--dark);
   border-radius: var(--dashboard-items-radius);
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.switch-container {
-  width: 4rem;
-  height: 2rem;
-  background: linear-gradient(
-    0deg,
-    rgba(191, 191, 191, 1) 0%,
-    rgba(94, 94, 94, 1) 100%
-  );
-
-  position: relative;
-  padding: 0.1rem;
-  border-radius: 5rem;
-  cursor: pointer;
-}
-
-.switch-container--active {
-  background: linear-gradient(
-    0deg,
-    rgba(255, 169, 84, 1) 0%,
-    rgba(255, 119, 21, 1) 100%
-  );
-}
-.switch {
-  width: 1.7rem;
-  height: 1.7rem;
-
-  border-radius: 50%;
-
-  position: absolute;
-  top: 0.15rem;
-  left: 0.17rem;
-  background: linear-gradient(
-    0deg,
-    rgba(230, 230, 230, 1) 0%,
-    rgba(255, 255, 255, 1) 100%
-  );
-  transition: 0.3s ease;
-}
-
-.switch--active {
-  transform: translateX(1.9rem);
-}
-
-.switch-icon {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.3rem;
-  color: white;
-}
-
-.switch-top {
-  right: 2rem;
 }
 </style>

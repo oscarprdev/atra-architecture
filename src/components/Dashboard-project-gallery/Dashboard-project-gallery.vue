@@ -107,6 +107,7 @@ const onInputImageChange = (e: Event) => {
     </button>
     <section class="project-gallery">
       <DashboardEditImage
+        v-if="mainImage"
         :is-loading="isLoding"
         :edit-disabled="false"
         :image="mainImage"
@@ -114,6 +115,7 @@ const onInputImageChange = (e: Event) => {
         typeImg="main"
       />
       <article
+        v-if="currentImages.length > 0"
         ref="projectImage"
         class="project-image-container"
         v-for="image in currentImages.concat(previewNewImages)"

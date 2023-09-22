@@ -42,7 +42,7 @@ onMounted(() => {
 }
 
 .modal {
-  max-width: 800px;
+  max-width: 900px;
   max-height: 1000px;
   background-color: white;
   display: grid;

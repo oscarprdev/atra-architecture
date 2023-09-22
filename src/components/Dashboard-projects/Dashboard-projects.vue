@@ -9,6 +9,8 @@ import ModalRemoveProject from '../Modal-remove-project/Modal-remove-project.vue
 import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
 import { useModals } from '../../core/composables/useModals';
+import { IconFolderPlus } from '@tabler/icons-vue';
+import ModalCreateProject from '../Modal-create-project/Modal-create-project.vue';
 
 const projects = ref<Project[]>();
 const projectsLoading = ref(false);
@@ -46,7 +48,12 @@ onMounted(async () => {
 
 <template>
   <section class="dashboard-projects" id="projects-section">
-    <button class="create-project-btn">Crear projecte</button>
+    <header class="dashboard-projects-header">
+      <h1>Projectes</h1>
+      <button class="create-project-btn" @click="openModal('create-project')">
+        Crear projecte <IconFolderPlus />
+      </button>
+    </header>
 
     <div class="loader-wrapper" v-if="projectsLoading">
       <Loader>
@@ -76,6 +83,7 @@ onMounted(async () => {
         @on-close-modal="closeModal('remove-project')"
         @on-update-project-list="onProjectRemoved"
       />
+      <ModalCreateProject v-if="isModalOpened('create-project')" />
     </Modal>
   </section>
   <Toast
@@ -85,18 +93,22 @@ onMounted(async () => {
   />
 </template>
 
-<style>
-.dashboard-projects-title {
-  text-align: center;
-  width: 85vw;
+<style scoped>
+.dashboard-projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  font-family: 'mona-sans' !important;
+h1 {
+  font-size: 1.6rem;
 }
 
 .loader-wrapper {
   display: grid;
   place-items: center;
-  height: 10vh;
+  height: 100vh;
 }
 
 .dashboard-projects {
@@ -130,8 +142,9 @@ onMounted(async () => {
 .create-project-btn {
   display: flex;
   align-items: center;
+  justify-self: end;
   gap: 0.3rem;
-  padding: 0.8rem 1.2rem;
+  padding: 0.9rem 1.5rem;
 
   border-radius: var(--dashboard-items-radius);
   border-radius: 3rem;

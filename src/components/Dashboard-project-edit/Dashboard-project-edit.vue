@@ -6,7 +6,6 @@ import { IconSquareRoundedX } from '@tabler/icons-vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import { DefaultProjectsService } from '../../core/services/projects.service';
 import { ProjectDetail } from '../../core/types/data.types';
-import Button from '../Button/Button.vue';
 import DashboardProjectGallery from '../Dashboard-project-gallery/Dashboard-project-gallery.vue';
 import DashboardProjectEditCard from '../Dashboard-project-edit-card/Dashboard-project-edit-card.vue';
 import { UpdateProjectFormData } from '../../core/types/admin.types';
