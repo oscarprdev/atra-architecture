@@ -1,26 +1,32 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { ProjectDetail } from '../../core/types/data.types';
 import Switch from '../Switch/Switch.vue';
 import { IconCloudUpload } from '@tabler/icons-vue';
 import { IconSquareRoundedX } from '@tabler/icons-vue';
+import { IconPhotoPlus } from '@tabler/icons-vue';
+import { IconCheck } from '@tabler/icons-vue';
 
 interface CreateProjectFormState {
-  id: string | null;
   name: string | null;
   year: string | null;
   mainImage: string | null;
-  images: string[] | null;
+  images: string[];
   description: string | null;
   top: boolean;
 }
 
+const uploadImage = ref<HTMLInputElement | null>(null);
+const imagesFiles = ref<File[]>([]);
+
+const uploadMainImage = ref<HTMLInputElement | null>(null);
+const mainImageFile = ref<File>();
+
 const projectState = reactive<CreateProjectFormState>({
-  id: null,
   name: null,
   year: null,
   mainImage: null,
-  images: null,
+  images: [],
   description: null,
   top: false,
 });
@@ -28,6 +34,16 @@ const projectState = reactive<CreateProjectFormState>({
 const emit = defineEmits<{
   (e: 'onCloseModal'): void;
 }>();
+
+const canCreateProject = computed(() => {
+  return (
+    projectState.name &&
+    projectState.description &&
+    projectState.year &&
+    projectState.mainImage &&
+    projectState.images.length > 0
+  );
+});
 
 const onToggleSwitch = () => {
   projectState.top = !projectState.top;
@@ -53,6 +69,45 @@ const onInputChange = (e: Event): void => {
       break;
   }
 };
+const onUploadMainImage = (e: Event) => {
+  e.preventDefault();
+  if (uploadMainImage.value) {
+    uploadMainImage.value.click();
+  }
+};
+const onInputMainImageChange = (e: Event) => {
+  const inputElement = e.target as HTMLInputElement;
+  const file = inputElement.files?.[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      projectState.mainImage = reader.result as string;
+      mainImageFile.value = file;
+    };
+  }
+};
+
+const onUploadImage = (e: Event) => {
+  e.preventDefault();
+  if (uploadImage.value) {
+    uploadImage.value.click();
+  }
+};
+const onInputImageChange = (e: Event) => {
+  const inputElement = e.target as HTMLInputElement;
+  const file = inputElement.files?.[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      projectState.images?.unshift(reader.result as string);
+      imagesFiles.value.unshift(file);
+    };
+  }
+};
 </script>
 
 <template>
@@ -60,15 +115,52 @@ const onInputChange = (e: Event): void => {
     <h2 class="create-project-modal-title">Crear un nou projecte</h2>
     <form class="form-container">
       <label>
-        Nom
+        <div class="input-title">
+          Nom
+          <p class="input-error" v-if="!projectState.name">
+            * El nom del projecte es requerit
+          </p>
+          <IconCheck class="icon-check" v-else :size="17" />
+        </div>
+
         <input id="name" :value="projectState.name" @input="onInputChange" />
       </label>
       <label>
-        Any
+        <div class="input-title">
+          Any
+          <p class="input-error" v-if="!projectState.year">
+            * El any del projecte es requerit
+          </p>
+          <p class="input-error" v-else-if="!Number(projectState.year)">
+            * El valor del any deu ser un numero
+          </p>
+          <p class="input-error" v-else-if="Number(projectState.year) < 1980">
+            * El valor del any deu ser mes gran que 1980
+          </p>
+          <p
+            class="input-error"
+            v-else-if="Number(projectState.year) > new Date().getFullYear() + 1"
+          >
+            {{
+              `El valor del any deu ser menor que ${
+                new Date().getFullYear() + 1
+              }`
+            }}
+          </p>
+          <IconCheck class="icon-check" v-else :size="17" />
+        </div>
+
         <input id="year" :value="projectState.year" @input="onInputChange" />
       </label>
       <label>
-        Descripcio
+        <div class="input-title">
+          Descripcio
+          <p class="input-error" v-if="!projectState.description">
+            * La descripcio del projecte es requerida
+          </p>
+          <IconCheck class="icon-check" v-else :size="17" />
+        </div>
+
         <input
           id="description"
           :value="projectState.description"
@@ -89,6 +181,7 @@ const onInputChange = (e: Event): void => {
         <button
           class="create-project-btn create-project-btn--create"
           type="submit"
+          :disabled="!canCreateProject"
         >
           Crear projecte <IconCloudUpload />
         </button>
@@ -96,9 +189,60 @@ const onInputChange = (e: Event): void => {
     </form>
     <div class="images-section">
       <figure class="main-image-wrapper">
-        <img v-if="projectState.mainImage" :src="projectState.mainImage" />
-        <span v-else class="default-image"></span>
+        <input
+          class="input-image"
+          type="file"
+          ref="uploadMainImage"
+          @change="onInputMainImageChange"
+        />
+        <p class="input-error main-image-error" v-if="!projectState.mainImage">
+          * La imatge principal es requerida
+        </p>
+        <img
+          v-if="projectState.mainImage"
+          :src="projectState.mainImage"
+          alt="project main image"
+        />
+        <button
+          v-if="projectState.mainImage"
+          @:click="onUploadMainImage"
+          class="upload-image-btn main-btn"
+        >
+          <IconPhotoPlus />
+        </button>
+        <span v-else class="default-image">
+          <div class="default-image-content">
+            <p>Imatge principal</p>
+            <button @:click="onUploadMainImage" class="upload-image-btn">
+              <IconPhotoPlus />
+            </button>
+          </div>
+        </span>
       </figure>
+      <section v-if="projectState.images" class="images-list">
+        <figure
+          v-if="projectState.images.length > 0"
+          v-for="image in projectState.images"
+          class="image-wrapper"
+        >
+          <img :src="image" alt="project image" />
+        </figure>
+        <span v-if="projectState.images.length < 10" class="default-image-item">
+          <p
+            class="input-error image-error"
+            v-if="projectState.images.length === 0"
+          >
+            * Minim una imatge es requerida
+          </p>
+          <input
+            class="input-image"
+            type="file"
+            ref="uploadImage"
+            @change="onInputImageChange" />
+          <button @:click="onUploadImage" class="upload-image-btn">
+            <IconPhotoPlus /></button
+        ></span>
+      </section>
     </div>
   </section>
 </template>
@@ -118,6 +262,10 @@ const onInputChange = (e: Event): void => {
   padding: 2rem;
 }
 
+.icon-check {
+  animation: appearing 0.8s ease;
+}
+
 .form-container {
   margin-top: 3rem;
   width: 37%;
@@ -125,12 +273,17 @@ const onInputChange = (e: Event): void => {
 }
 
 .images-section {
-  width: 63%;
+  width: 45%;
   height: 100%;
   padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 label {
+  position: relative;
   width: 100%;
   font-weight: bold;
   text-transform: capitalize;
@@ -147,20 +300,119 @@ input {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.input-title {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.input-error {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.6rem;
+  color: rgb(223, 0, 0);
+  text-transform: none;
+}
+
+.main-image-error {
+  right: 1rem;
+}
+
+.image-error {
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: -1.7rem;
+  width: 10rem;
+}
+
+.input-image {
+  display: none;
+}
+
 .main-image-wrapper {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 60%;
   height: 40%;
+  width: 85%;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .default-image {
   width: 100%;
   height: 100%;
   border: 1px dashed orangered;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
+
+  display: grid;
+  place-items: center;
+
+  transition: all 0.2s ease;
 }
 
+.default-image-item {
+  position: relative;
+  width: 30%;
+  height: 25%;
+  border: 1px dashed orangered;
+  border-radius: 0.5rem;
+
+  display: grid;
+  place-items: center;
+
+  transition: all 0.2s ease;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 30%;
+  height: 25%;
+  overflow: hidden;
+  margin: 0;
+  border-radius: 0.5rem;
+}
+
+.main-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.default-image:hover .default-image-item:hover {
+  background-color: rgb(255, 247, 231);
+}
+
+.default-image-content {
+  display: grid;
+  place-items: center;
+}
+
+.upload-image-btn {
+  display: grid;
+  place-items: center;
+  padding: 0.4rem;
+  border-radius: var(--border-radius-btn);
+  border: none;
+  box-shadow: var(--shadow-btn);
+  color: white;
+  cursor: pointer;
+
+  background: var(--colorful-bg-btn);
+}
+
+.images-list {
+  position: relative;
+  width: 100%;
+  height: 60%;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 1rem;
+}
 .buttons-wrapper {
   display: flex;
   align-items: center;
@@ -168,7 +420,7 @@ input {
   padding: 1rem 0;
   width: 100%;
   margin-top: 1rem;
-  gap: 2rem;
+  gap: 1.5rem;
   height: fit-content;
 }
 
@@ -176,7 +428,7 @@ input {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 1rem 2rem;
+  padding: 1rem 1.8rem;
 
   border-radius: var(--border-radius-btn);
   border: none;
@@ -185,6 +437,17 @@ input {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
   cursor: pointer;
+}
+
+.create-project-btn[disabled] {
+  background: rgb(225, 225, 225);
+  box-shadow: none;
+}
+
+.create-project-btn[disabled]:hover {
+  cursor: not-allowed;
+  background: rgb(225, 225, 225);
+  box-shadow: none;
 }
 
 .create-project-btn--cancel {

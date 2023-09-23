@@ -119,18 +119,12 @@ onMounted(() => {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.4rem;
-  border-radius: 2rem;
+  border-radius: var(--border-radius-btn);
   border: none;
-  box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
+  box-shadow: var(--shadow-btn);
   color: white;
-  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-
   cursor: pointer;
 
-  background: linear-gradient(
-    0deg,
-    rgb(255, 157, 60) 0%,
-    rgb(255, 110, 6) 100%
-  );
+  background: var(--colorful-bg-btn);
 }
 </style>

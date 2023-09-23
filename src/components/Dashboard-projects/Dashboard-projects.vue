@@ -83,7 +83,10 @@ onMounted(async () => {
         @on-close-modal="closeModal('remove-project')"
         @on-update-project-list="onProjectRemoved"
       />
-      <ModalCreateProject v-if="isModalOpened('create-project')" />
+      <ModalCreateProject
+        v-if="isModalOpened('create-project')"
+        @on-close-modal="closeModal('create-project')"
+      />
     </Modal>
   </section>
   <Toast
