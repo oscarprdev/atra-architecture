@@ -17,16 +17,14 @@ const emit = defineEmits<{
 const uploadImage = ref<HTMLInputElement | null>(null);
 const uploadMainImage = ref<HTMLInputElement | null>(null);
 
-const onUploadMainImage = (e: Event) => {
+const onUploadImage = (e: Event, isMain?: boolean) => {
   e.preventDefault();
-  if (uploadMainImage.value) {
+
+  if (isMain && uploadMainImage.value) {
     uploadMainImage.value.click();
   }
-};
 
-const onUploadImage = (e: Event) => {
-  e.preventDefault();
-  if (uploadImage.value) {
+  if (!isMain && uploadImage.value) {
     uploadImage.value.click();
   }
 };
@@ -47,7 +45,7 @@ const onUploadImage = (e: Event) => {
       <img v-if="mainImage" :src="mainImage" alt="project main image" />
       <button
         v-if="mainImage"
-        @:click="onUploadMainImage"
+        @:click="(e: Event) => onUploadImage(e, true)"
         class="upload-image-btn main-btn"
       >
         <IconPhotoPlus />
@@ -55,7 +53,10 @@ const onUploadImage = (e: Event) => {
       <span v-else class="default-image">
         <div class="default-image-content">
           <p>Imatge principal</p>
-          <button @:click="onUploadMainImage" class="upload-image-btn">
+          <button
+            @:click="(e: Event) => onUploadImage(e, true)"
+            class="upload-image-btn"
+          >
             <IconPhotoPlus />
           </button>
         </div>
