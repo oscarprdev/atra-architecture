@@ -36,6 +36,7 @@ export const useModals = () => {
   });
 
   const openModal = (kind: ModalKinds, data?: RemoveModalInput) => {
+    console.log(kind);
     switch (kind) {
       case MODAL_KINDS.createProject:
         modalState.removeModal.isOpen = false;
