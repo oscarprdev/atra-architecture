@@ -1,6 +1,7 @@
 import {
   AboutServiceInput,
   AboutServiceOutput,
+  CreateProjectInput,
   DeleteProjectOk,
   PersonalInfoServiceInput,
   PersonalInfoServiceOutput,
@@ -47,6 +48,31 @@ export class DefaultAdminService
   extends DefaultHttpBase
   implements AdminService
 {
+  private async compressImages(
+    file: File,
+    { quality, type }: { quality: number; type: string }
+  ) {
+    const imageBitmap = await createImageBitmap(file);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = imageBitmap.width;
+    canvas.height = imageBitmap.height;
+    const ctx = canvas.getContext('2d');
+    ctx?.drawImage(imageBitmap, 0, 0);
+
+    const blob: BlobPart = await new Promise((resolve) =>
+      canvas.toBlob(resolve, type, quality)
+    );
+
+    console.log(blob);
+
+    if (blob) {
+      return new File([blob], file.name, {
+        type: blob.type,
+      });
+    }
+  }
+
   private provideAboutFormData(input: AboutServiceInput) {
     const formData = new FormData();
 
@@ -62,36 +88,53 @@ export class DefaultAdminService
     return formData;
   }
 
-  private provideMainImageFormData(input: UpdateMainImageHttpInput) {
+  private async provideMainImageFormData(input: UpdateMainImageHttpInput) {
     const formData = new FormData();
 
-    Object.entries(input).forEach(([key, entry]) => {
+    for (const [key, entry] of Object.entries(input)) {
+      if (key === 'mainImage') {
+        const fileCompressed = await this.compressImages(entry, {
+          quality: 0.5,
+          type: entry.type,
+        });
+        formData.append(key, fileCompressed || entry);
+        continue;
+      }
+
       formData.append(key, entry);
-    });
+    }
 
     return formData;
   }
 
-  private provideProjectInputFormData(input: UpdateProjectFormData) {
+  private async provideProjectInputFormData(input: UpdateProjectFormData) {
     const formData = new FormData();
 
-    Object.entries(input).forEach(([key, entry]) => {
+    for (const [key, entry] of Object.entries(input)) {
+      console.log(key, entry);
       if (key !== 'mainImage') {
         if (key === 'newImages') {
-          entry.forEach((file: File) => {
-            formData.append(key, file);
-          });
-          return;
+          console.log('new image', key);
+          for (const file of entry) {
+            const fileCompressed = await this.compressImages(file, {
+              quality: 0.5,
+              type: file.type,
+            });
+
+            console.log(fileCompressed);
+            formData.append(key, fileCompressed || file);
+          }
+          continue;
         }
 
         if (key === 'images') {
           formData.append(key, JSON.stringify(entry));
-          return;
+          continue;
         }
 
         formData.append(key, entry);
       }
-    });
+    }
 
     return formData;
   }
@@ -101,17 +144,22 @@ export class DefaultAdminService
     project,
     id,
   }: ProvideMainImageProjectPromiseInput) {
-    const mainImageFormData = this.provideMainImageFormData({
+    const mainImageFormData = await this.provideMainImageFormData({
       mainImage: image,
       project: project,
     });
 
-    const mainImageResponse = await this.patchFormData<UpdateProjectHttpInput>(
-      `projects/main-image/${id}`,
-      mainImageFormData
-    );
+    if (mainImageFormData) {
+      return await this.sendFormData<UpdateProjectHttpInput>(
+        `projects/main-image/${id}`,
+        mainImageFormData,
+        'PATCH'
+      );
+    }
 
-    return mainImageResponse;
+    return {
+      status: 400,
+    };
   }
 
   async updatePersonalInfo(
@@ -122,12 +170,18 @@ export class DefaultAdminService
       input
     );
 
+    if (response.data) {
+      return {
+        data: {
+          email: response.data.email,
+          direction: response.data.direction,
+          phone: response.data.phone,
+        },
+        status: response.status,
+      };
+    }
+
     return {
-      data: {
-        email: response.data.email,
-        direction: response.data.direction,
-        phone: response.data.phone,
-      },
       status: response.status,
     };
   }
@@ -135,65 +189,100 @@ export class DefaultAdminService
   async updateAboutInfo(input: AboutServiceInput): Promise<AboutServiceOutput> {
     const aboutFormData = this.provideAboutFormData(input);
 
-    const response = await this.patchFormData<AboutServiceInput>(
+    const response = await this.sendFormData<AboutServiceInput>(
       'about',
-      aboutFormData
+      aboutFormData,
+      'PATCH'
     );
+
+    if (response.data) {
+      return {
+        status: response.status,
+        data: {
+          image: response.data.image,
+          text: response.data.text,
+        },
+      };
+    }
 
     return {
       status: response.status,
-      data: {
-        image: response.data.image,
-        text: response.data.text,
-      },
+    };
+  }
+
+  async createProject(input: CreateProjectInput) {
+    const projectFormData = await this.provideProjectInputFormData(input);
+
+    if (projectFormData) {
+      const response = await this.sendFormData<CreateProjectInput>(
+        `projects`,
+        projectFormData,
+        'POST'
+      );
+
+      if (response.data) {
+        return {
+          status: response.status,
+          data: response.data,
+        };
+      }
+
+      return {
+        status: response.status,
+      };
+    }
+
+    return {
+      status: 400,
     };
   }
 
   async updateProjectById(
     input: UpdateProjectInput
-  ): Promise<UpdateProjectByIdOutput> {
+  ): Promise<{ status: number }> {
     const promises = [];
 
-    const projectFormData = this.provideProjectInputFormData(input.project);
-
-    promises.push(
-      this.patchFormData<UpdateProjectHttpInput>(
-        `projects/${input.id}`,
-        projectFormData
-      )
+    const projectFormData = await this.provideProjectInputFormData(
+      input.project
     );
 
-    if (input.project.mainImage) {
+    console.log(projectFormData);
+
+    if (projectFormData) {
       promises.push(
-        this.provideMainImageProjectPromise({
-          image: input.project.mainImage,
-          project: input.project.name,
-          id: input.id,
-        })
+        this.sendFormData<UpdateProjectHttpInput>(
+          `projects/${input.id}`,
+          projectFormData,
+          'PATCH'
+        )
       );
+
+      if (input.project.mainImage) {
+        promises.push(
+          this.provideMainImageProjectPromise({
+            image: input.project.mainImage,
+            project: input.project.name,
+            id: input.id,
+          })
+        );
+      }
+
+      const responses = await Promise.all(promises);
+
+      if (responses.every((res) => res.data)) {
+        return {
+          status: 200,
+        };
+      } else {
+        return {
+          status: 400,
+        };
+      }
     }
 
-    const [projectResponse, mainImageResponse] = await Promise.all(promises);
-
-    if (mainImageResponse) {
-      return {
-        projectResponse: {
-          status: projectResponse.status,
-          data: projectResponse.data,
-        },
-        mainImageResponse: {
-          status: mainImageResponse.status,
-          data: mainImageResponse.data,
-        },
-      };
-    } else {
-      return {
-        projectResponse: {
-          status: projectResponse.status,
-          data: projectResponse.data,
-        },
-      };
-    }
+    return {
+      status: 400,
+    };
   }
 
   async removeProjectById({ id }: RemoveProjectInput): Promise<number> {

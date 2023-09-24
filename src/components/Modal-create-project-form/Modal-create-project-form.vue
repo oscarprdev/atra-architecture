@@ -16,11 +16,12 @@ const emit = defineEmits<{
   (e: 'onInputChange', event: Event): void;
   (e: 'onCloseModal'): void;
   (e: 'onToggleSwitch'): void;
+  (e: 'onSubmitForm', event: Event): void;
 }>();
 </script>
 
 <template>
-  <form class="form-container">
+  <form class="form-container" @submit="(e: Event) => emit('onSubmitForm', e)">
     <label>
       <div class="input-title">
         Nom

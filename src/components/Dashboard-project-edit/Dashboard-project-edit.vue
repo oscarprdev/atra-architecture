@@ -54,12 +54,16 @@ const onProjectSubmit = async (e: Event) => {
 
     projectsLoading.value = true;
 
-    await new DefaultAdminService().updateProjectById({
+    console.log(projectInput, 'input');
+
+    const response = await new DefaultAdminService().updateProjectById({
       project: projectInput,
       id: props.projectId,
     });
 
     projectsLoading.value = false;
+
+    console.log(response);
 
     emit('onProjectUpdate');
   }

@@ -115,7 +115,7 @@ const onInputImageChange = (e: Event) => {
         typeImg="main"
       />
       <article
-        v-if="currentImages.length > 0"
+        v-if="currentImages.concat(previewNewImages).length > 0"
         ref="projectImage"
         class="project-image-container"
         v-for="image in currentImages.concat(previewNewImages)"

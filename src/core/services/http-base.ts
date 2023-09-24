@@ -1,7 +1,8 @@
 interface Response<S> {
   status: number;
-  data: S;
-  createdAt: string;
+  data?: S;
+  createdAt?: string;
+  message?: string;
 }
 
 interface HttpBase {
@@ -16,7 +17,10 @@ export class DefaultHttpBase implements HttpBase {
       const response = await fetch(`${this.apiUrl}${keyEndpoint}`);
 
       if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        return {
+          status: response.status,
+          message: 'An error occurred while fetching data',
+        };
       }
 
       const jsonResponse: Response<T> = await response.json();
@@ -24,7 +28,10 @@ export class DefaultHttpBase implements HttpBase {
       return jsonResponse;
     } catch (e: unknown) {
       console.log(e);
-      throw new Error('An error occurred while fetching data');
+      return {
+        status: 400,
+        message: 'An error occurred while fetching data',
+      };
     }
   }
 
@@ -39,7 +46,10 @@ export class DefaultHttpBase implements HttpBase {
       });
 
       if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        return {
+          status: response.status,
+          message: 'An error occurred while fetching data',
+        };
       }
 
       const jsonResponse: Response<T> = await response.json();
@@ -47,30 +57,43 @@ export class DefaultHttpBase implements HttpBase {
       return jsonResponse;
     } catch (e: unknown) {
       console.log(e);
-      throw new Error('An error occurred while fetching data');
+      return {
+        status: 400,
+        message: 'An error occurred while fetching data',
+      };
     }
   }
 
-  async patchFormData<T>(
+  async sendFormData<T>(
     keyEndpoint: string,
-    input: FormData
+    input: FormData,
+    method: string
   ): Promise<Response<T>> {
     try {
       const response = await fetch(`${this.apiUrl}${keyEndpoint}`, {
-        method: 'PATCH',
+        method,
         body: input,
       });
 
       if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        return {
+          status: response.status,
+          message: 'Request failed',
+        };
       }
 
       const jsonResponse: Response<T> = await response.json();
 
-      return jsonResponse;
+      return {
+        status: jsonResponse.status,
+        data: jsonResponse.data,
+      };
     } catch (e: unknown) {
       console.log(e);
-      throw new Error('An error occurred while fetching data');
+      return {
+        status: 400,
+        message: 'An error occurred while fetching data',
+      };
     }
   }
 
@@ -81,7 +104,10 @@ export class DefaultHttpBase implements HttpBase {
       });
 
       if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
+        return {
+          status: response.status,
+          message: 'An error occurred while fetching data',
+        };
       }
 
       const jsonResponse: Response<T> = await response.json();
@@ -89,7 +115,10 @@ export class DefaultHttpBase implements HttpBase {
       return jsonResponse;
     } catch (e: unknown) {
       console.log(e);
-      throw new Error('An error occurred while fetching data');
+      return {
+        status: 400,
+        message: 'An error occurred while fetching data',
+      };
     }
   }
 }

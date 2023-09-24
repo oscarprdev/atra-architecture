@@ -3,6 +3,8 @@ import { reactive, ref, computed } from 'vue';
 import { ProjectDetail } from '../../core/types/data.types';
 import CreateProjectForm from '../Modal-create-project-form/Modal-create-project-form.vue';
 import CreateProjectImagesSection from '../Modal-create-project-images/Modal-create-project-images.vue';
+import { DefaultAdminService } from '../../core/services/admin-service';
+import { CreateProjectInput } from '../../core/types/admin.types';
 
 interface CreateProjectFormState {
   name: string | null;
@@ -89,6 +91,33 @@ const readerFileController = (
   }
 };
 
+const onSubmitForm = async (e: Event) => {
+  e.preventDefault();
+
+  if (
+    !!projectState.name &&
+    !!projectState.description &&
+    !!projectState.year &&
+    !!projectState.mainImage &&
+    !!mainImageFile.value &&
+    !!imagesFiles.value
+  ) {
+    const createProjectInput = {
+      name: projectState.name,
+      year: Number(projectState.year),
+      description: projectState.description,
+      top: projectState.top,
+      newImages: [mainImageFile.value, ...imagesFiles.value],
+    } satisfies CreateProjectInput;
+
+    const response = await new DefaultAdminService().createProject(
+      createProjectInput
+    );
+
+    console.log(response);
+  }
+};
+
 const onInputMainImageChange = (e: Event) =>
   readerFileController(e, setMainImage);
 const onInputImageChange = (e: Event) =>
@@ -107,6 +136,7 @@ const onInputImageChange = (e: Event) =>
       @on-close-modal="emit('onCloseModal')"
       @on-toggle-switch="onToggleSwitch"
       @on-input-change="onInputChange"
+      @on-submit-form="onSubmitForm"
     />
     <CreateProjectImagesSection
       :images="projectState.images"

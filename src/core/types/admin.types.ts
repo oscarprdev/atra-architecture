@@ -1,5 +1,5 @@
 export interface PersonalInfoServiceOutput {
-  data: PersonalInfoServiceInput;
+  data?: PersonalInfoServiceInput;
   status: number;
 }
 
@@ -15,7 +15,7 @@ export interface AboutServiceInput {
 }
 
 export interface AboutServiceOutput {
-  data: AboutServiceInput;
+  data?: AboutServiceInput;
   status: number;
 }
 
@@ -28,7 +28,7 @@ export interface ProvideMainImageProjectPromiseInput {
 export interface UpdateProjectFormData {
   name: string;
   year: number;
-  images: string[];
+  images?: string[];
   description: string;
   top: boolean;
   mainImage?: File;
@@ -55,14 +55,7 @@ export interface UpdateMainImageHttpInput {
 }
 
 export interface UpdateProjectByIdOutput {
-  projectResponse: {
-    status: number;
-    data: UpdateProjectHttpInput;
-  };
-  mainImageResponse?: {
-    status: number;
-    data: UpdateProjectHttpInput;
-  };
+  status: number;
 }
 
 export interface RemoveProjectInput {
@@ -72,4 +65,12 @@ export interface RemoveProjectInput {
 export interface DeleteProjectOk {
   status: number;
   id: string;
+}
+
+export interface CreateProjectInput {
+  name: string;
+  description: string;
+  year: number;
+  top: boolean;
+  newImages: File[];
 }
