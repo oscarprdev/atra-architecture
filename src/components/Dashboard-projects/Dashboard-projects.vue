@@ -21,16 +21,26 @@ const { modalState, openModal, isModalOpened, closeModal } = useModals();
 const onOpenRemoveModal = ({ id, name }: { id: string; name: string }) => {
   openModal('remove-project', { id, projectName: name });
 };
-const onProjectRemoved = async () => {
-  manageToastState(200, 'Projecte Eliminat', 'Error eliminant projecte');
+const onProjectRemoved = async (status: number) => {
+  manageToastState(status, 'Projecte Eliminat', 'Error eliminant projecte');
   await updateProjectList();
 };
 
-const onUpdateProject = async () => {
+const onUpdateProject = async (status: number) => {
   manageToastState(
-    200,
+    status,
     'Projectes actualitzats',
     'Error actualitzant projectes'
+  );
+  await updateProjectList();
+};
+
+const onProjectUploaded = async (status: number) => {
+  closeModal('create-project');
+  manageToastState(
+    status,
+    'Projecte creat correctament',
+    'Error creant projecte'
   );
   await updateProjectList();
 };
@@ -86,6 +96,7 @@ onMounted(async () => {
       <ModalCreateProject
         v-if="isModalOpened('create-project')"
         @on-close-modal="closeModal('create-project')"
+        @on-project-uploaded="onProjectUploaded"
       />
     </Modal>
   </section>

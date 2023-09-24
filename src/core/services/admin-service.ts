@@ -60,15 +60,13 @@ export class DefaultAdminService
     const ctx = canvas.getContext('2d');
     ctx?.drawImage(imageBitmap, 0, 0);
 
-    const blob: BlobPart = await new Promise((resolve) =>
+    const blob: Blob | null = await new Promise((resolve) =>
       canvas.toBlob(resolve, type, quality)
     );
 
-    console.log(blob);
-
     if (blob) {
       return new File([blob], file.name, {
-        type: blob.type,
+        type: type,
       });
     }
   }
@@ -111,17 +109,14 @@ export class DefaultAdminService
     const formData = new FormData();
 
     for (const [key, entry] of Object.entries(input)) {
-      console.log(key, entry);
       if (key !== 'mainImage') {
         if (key === 'newImages') {
-          console.log('new image', key);
           for (const file of entry) {
             const fileCompressed = await this.compressImages(file, {
               quality: 0.5,
               type: file.type,
             });
 
-            console.log(fileCompressed);
             formData.append(key, fileCompressed || file);
           }
           continue;
@@ -245,8 +240,6 @@ export class DefaultAdminService
     const projectFormData = await this.provideProjectInputFormData(
       input.project
     );
-
-    console.log(projectFormData);
 
     if (projectFormData) {
       promises.push(

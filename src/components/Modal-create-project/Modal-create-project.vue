@@ -5,6 +5,7 @@ import CreateProjectForm from '../Modal-create-project-form/Modal-create-project
 import CreateProjectImagesSection from '../Modal-create-project-images/Modal-create-project-images.vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import { CreateProjectInput } from '../../core/types/admin.types';
+import Loader from '../Loader/Loader.vue';
 
 interface CreateProjectFormState {
   name: string | null;
@@ -17,6 +18,7 @@ interface CreateProjectFormState {
 
 const imagesFiles = ref<File[]>([]);
 const mainImageFile = ref<File>();
+const projectLoading = ref(false);
 const projectState = reactive<CreateProjectFormState>({
   name: null,
   year: null,
@@ -28,6 +30,7 @@ const projectState = reactive<CreateProjectFormState>({
 
 const emit = defineEmits<{
   (e: 'onCloseModal'): void;
+  (e: 'onProjectUploaded', status: number): void;
 }>();
 
 const canCreateProject = computed(() => {
@@ -110,11 +113,15 @@ const onSubmitForm = async (e: Event) => {
       newImages: [mainImageFile.value, ...imagesFiles.value],
     } satisfies CreateProjectInput;
 
+    projectLoading.value = true;
+
     const response = await new DefaultAdminService().createProject(
       createProjectInput
     );
 
-    console.log(response);
+    projectLoading.value = false;
+
+    emit('onProjectUploaded', response.status);
   }
 };
 
@@ -125,7 +132,7 @@ const onInputImageChange = (e: Event) =>
 </script>
 
 <template>
-  <section class="create-project-modal">
+  <section class="create-project-modal" v-if="!projectLoading">
     <h2 class="create-project-modal-title">Crear un nou projecte</h2>
     <CreateProjectForm
       :name="projectState.name"
@@ -145,6 +152,12 @@ const onInputImageChange = (e: Event) =>
       @on-input-main-image-change="onInputMainImageChange"
     />
   </section>
+  <template v-else>
+    <div class="loader-wrapper">
+      <Loader />
+      <p class="loader-text">Creant projecte</p>
+    </div>
+  </template>
 </template>
 
 <style scoped>
@@ -161,5 +174,16 @@ const onInputImageChange = (e: Event) =>
   position: absolute;
   top: 0;
   left: 1rem;
+}
+
+.loader-wrapper {
+  display: grid;
+  place-items: center;
+  width: 20rem;
+  height: 12rem !important;
+}
+
+.loader-text {
+  margin-top: -3rem;
 }
 </style>

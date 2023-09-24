@@ -2,8 +2,6 @@
 import { ref } from 'vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import Loader from '../Loader/Loader.vue';
-import Toast from '../Toast/Toast.vue';
-import { useToast } from '../../core/composables/useToast';
 
 const props = defineProps<{
   projectId: string;
@@ -12,11 +10,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'onCloseModal'): void;
-  (e: 'onUpdateProjectList'): void;
+  (e: 'onUpdateProjectList', status: number): void;
 }>();
 
 const isRemoving = ref(false);
-const { toastState, manageToastState } = useToast();
 
 const onRemoveProject = async () => {
   isRemoving.value = true;
@@ -25,13 +22,8 @@ const onRemoveProject = async () => {
     id: props.projectId,
   });
 
-  manageToastState(
-    status,
-    'Project eliminat correctament',
-    'Error eliminant projecte'
-  );
   emit('onCloseModal');
-  emit('onUpdateProjectList');
+  emit('onUpdateProjectList', status);
   isRemoving.value = false;
 };
 </script>
@@ -58,11 +50,6 @@ const onRemoveProject = async () => {
         Eliminant projecte
       </div>
     </template>
-    <Toast
-      v-if="toastState.open"
-      :content="toastState.content"
-      :type="toastState.type"
-    />
   </section>
 </template>
 

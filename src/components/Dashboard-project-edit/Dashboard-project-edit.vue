@@ -21,7 +21,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'onOpenRemoveModal', input: OnOpenRemoveModalinput): void;
-  (e: 'onProjectUpdate'): void;
+  (e: 'onProjectUpdate', status: number): void;
 }>();
 
 const projectsLoading = ref(false);
@@ -54,8 +54,6 @@ const onProjectSubmit = async (e: Event) => {
 
     projectsLoading.value = true;
 
-    console.log(projectInput, 'input');
-
     const response = await new DefaultAdminService().updateProjectById({
       project: projectInput,
       id: props.projectId,
@@ -63,9 +61,7 @@ const onProjectSubmit = async (e: Event) => {
 
     projectsLoading.value = false;
 
-    console.log(response);
-
-    emit('onProjectUpdate');
+    emit('onProjectUpdate', response.status);
   }
 };
 

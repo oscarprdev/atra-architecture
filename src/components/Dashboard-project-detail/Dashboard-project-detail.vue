@@ -12,7 +12,7 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'onOpenRemoveModal', input: OnOpenRemoveModalinput): void;
-  (e: 'onProjectUpdate'): void;
+  (e: 'onProjectUpdate', status: number): void;
 }>();
 
 const projectIndex = ref<number | null>(null);
@@ -39,9 +39,9 @@ const expandProjectDetail = (e: MouseEvent, index: number) => {
   }
 };
 
-const onProjectIsUpdated = () => {
+const onProjectIsUpdated = (status: number) => {
   projectIndex.value = null;
-  emit('onProjectUpdate');
+  emit('onProjectUpdate', status);
 };
 
 const onOpenRemoveModal = (input: OnOpenRemoveModalinput) =>
