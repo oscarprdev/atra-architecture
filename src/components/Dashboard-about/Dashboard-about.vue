@@ -6,6 +6,7 @@ import { DefaultAdminService } from '../../core/services/admin-service';
 import Toast from '../Toast/Toast.vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
 import { useToast } from '../../core/composables/useToast';
+import { IconLoader2 } from '@tabler/icons-vue';
 
 interface About {
   image: string;
@@ -13,8 +14,6 @@ interface About {
 }
 
 const aboutInfoLoading = ref(false);
-const editDisabled = ref(true);
-const uploadingInfo = ref(false);
 const aboutImageFile = ref<File | null>(null);
 
 const { toastState, manageToastState } = useToast();
@@ -23,10 +22,6 @@ const about = reactive<About>({
   image: '',
   text: ['...', '...', '...'],
 });
-
-const toggleEdit = () => {
-  editDisabled.value = !editDisabled.value;
-};
 
 const handleTextareaInput = (e: Event): void => {
   const target = e.target as HTMLInputElement;
@@ -42,7 +37,9 @@ const updateImageFile = (file: File) => {
 
 const prepareAboutInput = () => {
   return {
-    ...(aboutImageFile.value && { image: aboutImageFile.value as File }),
+    ...(aboutImageFile.value
+      ? { newImage: aboutImageFile.value as File }
+      : { image: about.image }),
     text: about.text,
     project: 'about',
   };
@@ -51,7 +48,7 @@ const prepareAboutInput = () => {
 const handleAboutSubmit = async (e: Event) => {
   e.preventDefault();
 
-  uploadingInfo.value = true;
+  aboutInfoLoading.value = true;
 
   const aboutInput = prepareAboutInput();
 
@@ -65,7 +62,7 @@ const handleAboutSubmit = async (e: Event) => {
     'Error actualitzant informacio de ATRA'
   );
 
-  uploadingInfo.value = false;
+  aboutInfoLoading.value = false;
 };
 
 onMounted(async () => {
@@ -81,37 +78,31 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h2 class="dashboard-about-title">Actualitzar Descripcio</h2>
-  <form class="dashboard-about-form" v-on:submit="handleAboutSubmit">
-    <DashboardEditImage
-      :edit-disabled="editDisabled"
-      :image="about.image"
-      :is-loading="aboutInfoLoading"
-      typeImg="about"
-      @retrieveImageFile="updateImageFile"
-    />
-    <label class="text-container" v-for="(text, index) in about.text">
-      <p>{{ index + 1 }}</p>
-      <textarea
-        :id="`textarea-${index}`"
-        :value="text"
-        :disabled="editDisabled"
-        v-on:input="handleTextareaInput"
+  <section class="dashboard-about">
+    <h2 class="dashboard-about-title">Actualitzar Descripcio</h2>
+    <form class="dashboard-about-form" v-on:submit="handleAboutSubmit">
+      <DashboardEditImage
+        :image="about.image"
+        :is-loading="aboutInfoLoading"
+        typeImg="about"
+        @retrieveImageFile="updateImageFile"
       />
-    </label>
-    <Button
-      v-if="!editDisabled"
-      class="submit-btn"
-      :content="`${uploadingInfo ? 'Actualitzant...' : 'Actualitzar'}`"
-      type="submit"
-    />
-    <Button
-      class="edit-about-btn"
-      :content="`${editDisabled ? 'Editar' : 'No editar'}`"
-      type="button"
-      v-on:click="toggleEdit"
-    />
-  </form>
+      <label class="text-container" v-for="(text, index) in about.text">
+        <p>{{ index + 1 }}</p>
+        <textarea
+          :disabled="aboutInfoLoading"
+          :id="`textarea-${index}`"
+          :value="text"
+          v-on:input="handleTextareaInput"
+        />
+      </label>
+      <button class="edit-about-btn" type="submit">
+        {{ aboutInfoLoading ? 'Actualitzant...' : 'Actualitzar' }}
+        <IconLoader2 :size="15" class="loading-icon" v-if="aboutInfoLoading" />
+      </button>
+    </form>
+  </section>
+
   <Toast
     v-if="toastState.open"
     :content="toastState.content"
@@ -120,30 +111,47 @@ onMounted(async () => {
 </template>
 
 <style>
+.dashboard-about {
+  display: grid;
+  place-items: flex-start;
+  justify-items: center;
+  gap: 1rem;
+  padding: 5rem;
+  width: 100%;
+  height: 100vh;
+}
 .dashboard-about-title {
-  text-align: center;
-  width: 85vw;
-
+  position: absolute;
+  top: 0;
   font-family:
-    system-ui,
+    cormorant,
     -apple-system,
-    Roboto !important;
+    sans-serif !important;
+  font-weight: 400 !important;
+  color: #515151;
+  font-size: 1.6rem;
 }
 
 .dashboard-about-form {
-  margin-top: -1rem;
-  justify-self: center;
-  width: 60vw;
-  max-width: 900px;
-
-  background-color: var(--dark);
-  color: white;
-  padding: 1.5rem 2rem;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-direction: column;
-  gap: 1rem;
 
-  position: relative;
+  width: 70%;
+  height: fit-content;
+  border-radius: var(--dashboard-radius);
+  padding: 1rem;
+  gap: 0.5rem;
+
+  box-shadow: 0 0 3px 3px rgba(104, 104, 104, 0.082);
+}
+
+label {
+  width: 100%;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .text-container {
@@ -152,13 +160,20 @@ onMounted(async () => {
 }
 
 textarea {
+  font-family:
+    cormorant,
+    -apple-system,
+    sans-serif !important;
   padding: 1rem;
-  width: 100%;
-  height: 5rem;
+  font-size: 1rem;
+
+  height: 5.8rem;
   resize: none;
-  background-color: transparent;
-  border: 1px solid var(--text-gray);
-  color: white;
+  color: rgb(31, 31, 31);
+  width: 100%;
+  border: 1px solid var(--image-border-brown);
+  caret-color: var(--dark);
+  border-radius: 0.4rem;
 }
 
 textarea:disabled {
@@ -166,16 +181,30 @@ textarea:disabled {
   padding: 1rem 0;
 }
 
-.submit-btn {
-  max-width: 20rem;
+.edit-about-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1rem 1.8rem;
+
+  border-radius: var(--border-radius-btn);
+  border: none;
+  box-shadow: var(--shadow-btn);
+  color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  cursor: pointer;
 }
 
 .edit-about-btn {
-  position: absolute !important;
-  top: 1rem;
-  right: 2rem;
-  max-width: 8rem;
-  font-size: 0.8rem;
-  padding: 0.8rem 1rem !important;
+  background: var(--colorful-bg-btn);
+}
+
+.edit-about-btn:hover {
+  background: var(--colorful-hover-bg-btn);
+}
+
+.loading-icon {
+  animation: rotate 1s linear infinite;
 }
 </style>

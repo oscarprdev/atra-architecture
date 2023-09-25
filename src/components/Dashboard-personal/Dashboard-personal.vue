@@ -6,6 +6,7 @@ import { DefaultAdminService } from '../../core/services/admin-service';
 import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
 import { IconInfoCircle } from '@tabler/icons-vue';
+import { IconLoader2 } from '@tabler/icons-vue';
 
 interface DashboardPersonalInfo {
   email: string;
@@ -47,7 +48,7 @@ const handleChange = (e: Event): void => {
 const handleSubmit = async (e: Event) => {
   e.preventDefault();
 
-  if (!phoneIsNotValid) {
+  if (!phoneIsNotValid.value) {
     personalInfoUpdating.value = true;
 
     const { status } = await new DefaultAdminService().updatePersonalInfo(
@@ -121,6 +122,11 @@ onMounted(async () => {
             ? 'Carregant info...'
             : 'Actualitzar'
         }}
+        <IconLoader2
+          :size="15"
+          class="loading-icon"
+          v-if="personalInfoUpdating"
+        />
       </button>
     </form>
     <article class="info-bubble">
@@ -256,5 +262,9 @@ input[disabled] {
   cursor: not-allowed;
   background: rgb(225, 225, 225);
   box-shadow: none;
+}
+
+.loading-icon {
+  animation: rotate 1s linear infinite;
 }
 </style>

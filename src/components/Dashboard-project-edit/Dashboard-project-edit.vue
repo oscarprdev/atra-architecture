@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import Loader from '../Loader/Loader.vue';
 import { IconCloudUpload } from '@tabler/icons-vue';
 import { IconSquareRoundedX } from '@tabler/icons-vue';
@@ -43,6 +43,10 @@ const generateProjectInput = (
     ...(newImages.value && { newImages: newImages.value }),
   };
 };
+
+const canSubmit = computed(() => {
+  return Number(projectInfo.value?.year);
+});
 
 const onProjectSubmit = async (e: Event) => {
   e.preventDefault();
@@ -146,13 +150,21 @@ onMounted(async () => {
           :project="projectInfo"
           @on-input-change="onInputChange"
           @on-toggle-switch="onToggleSwitch"
-        />
+        >
+          <template #year-input-error v-if="!canSubmit">
+            <p class="input-error">* Aquest valor te que ser un numero valid</p>
+          </template>
+        </Dashboard-project-edit-card>
       </div>
       <div class="buttons-wrapper">
         <button class="edit-btn edit-btn--remove" @click="onOpenRemoveModal">
           Eliminar <IconSquareRoundedX />
         </button>
-        <button class="edit-btn edit-btn--update" type="submit">
+        <button
+          :disabled="!canSubmit"
+          class="edit-btn edit-btn--update"
+          type="submit"
+        >
           Actualitzar <IconCloudUpload />
         </button>
       </div>
@@ -183,6 +195,15 @@ onMounted(async () => {
   display: grid;
   place-items: center;
   height: 80vh;
+}
+
+.input-error {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.6rem;
+  color: rgb(223, 0, 0);
+  text-transform: none;
 }
 
 .project-edit-info {
@@ -227,6 +248,17 @@ onMounted(async () => {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
   cursor: pointer;
+}
+
+.edit-btn--update[disabled] {
+  background: rgb(225, 225, 225);
+  box-shadow: none;
+}
+
+.edit-btn--update[disabled]:hover {
+  cursor: not-allowed;
+  background: rgb(225, 225, 225);
+  box-shadow: none;
 }
 
 .edit-btn--remove {

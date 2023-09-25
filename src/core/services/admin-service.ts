@@ -71,17 +71,27 @@ export class DefaultAdminService
     }
   }
 
-  private provideAboutFormData(input: AboutServiceInput) {
+  private async provideAboutFormData(input: AboutServiceInput) {
     const formData = new FormData();
 
-    Object.entries(input).forEach(([key, entry]) => {
+    for (const [key, entry] of Object.entries(input)) {
       if (Array.isArray(entry)) {
         formData.append(key, JSON.stringify(entry));
-        return;
+        continue;
+      }
+
+      if (key === 'newImage') {
+        const imageFile = await this.compressImages(entry, {
+          quality: 0.5,
+          type: entry.type,
+        });
+
+        formData.append(key, imageFile || entry);
+        continue;
       }
 
       formData.append(key, entry);
-    });
+    }
 
     return formData;
   }
@@ -182,26 +192,22 @@ export class DefaultAdminService
   }
 
   async updateAboutInfo(input: AboutServiceInput): Promise<AboutServiceOutput> {
-    const aboutFormData = this.provideAboutFormData(input);
+    const aboutFormData = await this.provideAboutFormData(input);
 
-    const response = await this.sendFormData<AboutServiceInput>(
-      'about',
-      aboutFormData,
-      'PATCH'
-    );
+    if (aboutFormData) {
+      const response = await this.sendFormData<AboutServiceInput>(
+        'about',
+        aboutFormData,
+        'PATCH'
+      );
 
-    if (response.data) {
       return {
         status: response.status,
-        data: {
-          image: response.data.image,
-          text: response.data.text,
-        },
       };
     }
 
     return {
-      status: response.status,
+      status: 400,
     };
   }
 

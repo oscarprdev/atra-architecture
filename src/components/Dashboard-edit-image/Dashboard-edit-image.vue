@@ -6,7 +6,6 @@ import { IconPhotoEdit } from '@tabler/icons-vue';
 const props = defineProps<{
   isLoading: boolean;
   image: string;
-  editDisabled: boolean;
   typeImg: 'about' | 'main' | 'list';
 }>();
 
@@ -55,11 +54,9 @@ onMounted(() => {
     <div v-if="props.isLoading" class="image-skeleton">
       <Loader />
     </div>
-    <img
-      v-if="!props.isLoading && prevImage"
-      :src="prevImage"
-      alt="Project image"
-    />
+    <div class="image-wrapper" v-if="!props.isLoading && prevImage">
+      <img :src="prevImage" alt="Project image" />
+    </div>
     <input
       class="input-image"
       type="file"
@@ -67,7 +64,7 @@ onMounted(() => {
       v-on:change="(e) => onInputImageChange(e)"
     />
     <button
-      v-if="!props.editDisabled"
+      v-if="!props.isLoading"
       v-on:click="(e) => onEditImage(e)"
       class="edit-image-btn"
     >
@@ -82,9 +79,9 @@ onMounted(() => {
   position: relative;
 }
 
-.about {
-  width: 65%;
+.image-wrapper {
   overflow: hidden;
+  height: 12rem;
 }
 
 .main {
@@ -97,9 +94,10 @@ onMounted(() => {
 }
 
 .image-skeleton {
-  width: 100%;
-  height: 15rem;
-  border: 1px solid white;
+  width: 30rem;
+  height: 12rem;
+  border: 1px solid rgb(238, 238, 238);
+  background-color: rgb(232, 232, 232);
 
   display: grid;
   place-items: center;

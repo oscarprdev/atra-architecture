@@ -10,7 +10,9 @@ export interface PersonalInfoServiceInput {
 }
 
 export interface AboutServiceInput {
-  image?: File;
+  image?: string;
+  newImage?: File;
+  project: string;
   text: string[];
 }
 

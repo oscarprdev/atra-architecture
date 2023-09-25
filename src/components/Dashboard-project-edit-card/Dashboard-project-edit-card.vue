@@ -23,6 +23,7 @@ const emit = defineEmits<{
   </label>
   <label>
     Any
+    <slot name="year-input-error" />
     <input
       id="year"
       :value="project.year"
@@ -50,15 +51,8 @@ const emit = defineEmits<{
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.project-edit-images {
-  width: 70%;
-  height: 100%;
-  border-radius: var(--dashboard-radius);
-  border: 1px solid var(--border-admin);
-  padding: 1rem;
-}
-
 label {
+  position: relative;
   width: 100%;
   font-weight: bold;
   text-transform: capitalize;
