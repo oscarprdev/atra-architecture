@@ -64,7 +64,6 @@ onMounted(async () => {
         Crear projecte <IconFolderPlus />
       </button>
     </header>
-
     <div class="loader-wrapper" v-if="projectsLoading">
       <Loader>
         <template #text>
@@ -123,6 +122,11 @@ h1 {
   display: grid;
   place-items: center;
   height: 100vh;
+}
+
+.loader-text {
+  position: absolute;
+  margin-top: -33rem;
 }
 
 .dashboard-projects {

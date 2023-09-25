@@ -10,7 +10,6 @@ onMounted(() => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       emit('onCloseModal');
-      console.log('heelo');
     }
   });
 });
@@ -47,9 +46,12 @@ onMounted(() => {
   background-color: white;
   display: grid;
   place-items: center;
+  opacity: 0;
 
   position: relative;
   overflow: hidden;
+
+  animation: appearing 0.3s ease forwards;
 }
 
 .close-icon {

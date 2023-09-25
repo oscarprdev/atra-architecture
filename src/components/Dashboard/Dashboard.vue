@@ -43,6 +43,7 @@ aside {
   place-items: start;
   background-color: var(--bg-admin);
   font-weight: 300;
+  width: 100%;
   font-family:
     system-ui,
     -apple-system,
