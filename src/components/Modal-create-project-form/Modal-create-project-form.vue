@@ -90,7 +90,7 @@ const emit = defineEmits<{
         class="create-project-btn create-project-btn--cancel"
         @click="emit('onCloseModal')"
       >
-        Cancelar <IconSquareRoundedX />
+        Cancelar
       </button>
       <button
         class="create-project-btn create-project-btn--create"
@@ -166,7 +166,7 @@ input {
 
   border-radius: var(--border-radius-btn);
   border: none;
-  box-shadow: var(--shadow-btn);
+  /* box-shadow: var(--shadow-btn); */
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -185,7 +185,9 @@ input {
 }
 
 .create-project-btn--cancel {
-  background: var(--dark-bg-btn);
+  background: white;
+  color: var(--colorful-bg-btn);
+  border: 1px solid var(--border-color-btn);
 }
 
 .create-project-btn--cancel:hover {

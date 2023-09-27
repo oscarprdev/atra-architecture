@@ -172,18 +172,10 @@ h1 {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
   cursor: pointer;
-  background: linear-gradient(
-    0deg,
-    rgb(255, 179, 103) 0%,
-    rgba(255, 119, 21, 1) 100%
-  );
+  background: var(--colorful-bg-btn);
 }
 
 .create-project-btn:hover {
-  background: linear-gradient(
-    0deg,
-    rgb(255, 157, 60) 0%,
-    rgb(255, 110, 6) 100%
-  );
+  background: var(--colorful-hover-bg-btn);
 }
 </style>

@@ -159,7 +159,7 @@ onMounted(async () => {
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 0 2px 2px rgba(254, 85, 0, 0.14);
-  background: rgb(255, 179, 103);
+  background: var(--colorful-bg-btn);
   color: white;
 }
 

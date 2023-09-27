@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import Loader from '../Loader/Loader.vue';
 import { IconCloudUpload } from '@tabler/icons-vue';
-import { IconSquareRoundedX } from '@tabler/icons-vue';
+// import { IconSquareRoundedX } from '@tabler/icons-vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import { DefaultProjectsService } from '../../core/services/projects.service';
 import { ProjectDetail } from '../../core/types/data.types';
@@ -158,7 +158,7 @@ onMounted(async () => {
       </div>
       <div class="buttons-wrapper">
         <button class="edit-btn edit-btn--remove" @click="onOpenRemoveModal">
-          Eliminar <IconSquareRoundedX />
+          Eliminar
         </button>
         <button
           :disabled="!canSubmit"
@@ -238,12 +238,12 @@ onMounted(async () => {
 .edit-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.3rem;
   padding: 0.8rem 1.2rem;
 
   border-radius: var(--border-radius-btn);
   border: none;
-  box-shadow: var(--shadow-btn);
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -262,11 +262,9 @@ onMounted(async () => {
 }
 
 .edit-btn--remove {
-  background: var(--dark-bg-btn);
-}
-
-.edit-btn--remove:hover {
-  background: var(--dark-hover-bg-btn);
+  background-color: rgb(250, 250, 250);
+  color: var(--colorful-bg-btn);
+  border: 1px solid var(--border-color-btn);
 }
 
 .edit-btn--update {

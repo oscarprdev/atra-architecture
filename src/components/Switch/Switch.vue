@@ -42,11 +42,7 @@ const emit = defineEmits<{
 }
 
 .switch-container--active {
-  background: linear-gradient(
-    0deg,
-    rgba(255, 169, 84, 1) 0%,
-    rgba(255, 119, 21, 1) 100%
-  );
+  background: var(--colorful-bg-btn);
 }
 .switch {
   width: 1.7rem;

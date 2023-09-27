@@ -88,7 +88,7 @@ const onRemoveProject = async () => {
 
   border-radius: var(--border-radius-btn);
   border: none;
-  box-shadow: var(--shadow-btn);
+  /* box-shadow: var(--shadow-btn); */
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -97,11 +97,9 @@ const onRemoveProject = async () => {
 
 .cancel-btn {
   padding: 0.8rem 3rem;
-  background: var(--dark-bg-btn);
-}
-
-.cancel-btn:hover {
-  background: var(--dark-hover-bg-btn);
+  background-color: white;
+  color: var(--colorful-bg-btn);
+  border: 1px solid var(--border-color-btn);
 }
 
 .remove-btn {

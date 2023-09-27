@@ -86,7 +86,6 @@ onMounted(() => {
 
 .main {
   width: var(--width-main-edit-image);
-  height: 30vh;
   overflow: hidden;
   border-radius: var(--dashboard-radius);
 
