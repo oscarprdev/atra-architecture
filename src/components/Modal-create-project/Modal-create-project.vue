@@ -180,10 +180,11 @@ const onInputImageChange = (e: Event) =>
   display: grid;
   place-items: center;
   width: 20rem;
-  height: 12rem !important;
+  margin-top: 2rem;
+  height: 8rem !important;
 }
 
 .loader-text {
-  margin-top: -3rem;
+  margin-top: -2rem;
 }
 </style>

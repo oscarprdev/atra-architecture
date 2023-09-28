@@ -102,7 +102,6 @@ onMounted(async () => {
       </button>
     </form>
   </section>
-
   <Toast
     v-if="toastState.open"
     :content="toastState.content"
@@ -140,7 +139,7 @@ onMounted(async () => {
 
   width: 70%;
   height: fit-content;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   padding: 1rem;
   gap: 0.5rem;
 
@@ -187,7 +186,7 @@ textarea:disabled {
   gap: 0.3rem;
   padding: 1rem 1.8rem;
 
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: var(--shadow-btn);
   color: white;
@@ -197,11 +196,11 @@ textarea:disabled {
 }
 
 .edit-about-btn {
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .edit-about-btn:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 
 .loading-icon {

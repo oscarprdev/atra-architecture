@@ -82,14 +82,13 @@ onMounted(() => {
 .image-wrapper {
   overflow: hidden;
   height: 12rem;
+  border: 1px solid black;
 }
 
 .main {
   width: var(--width-main-edit-image);
   overflow: hidden;
-  border-radius: var(--dashboard-radius);
-
-  box-shadow: var(--dashboard-gallery-image-shadow);
+  border-radius: var(--dashboard-min-radius);
 }
 
 .image-skeleton {
@@ -116,12 +115,12 @@ onMounted(() => {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.4rem;
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: var(--shadow-btn);
   color: white;
   cursor: pointer;
 
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 </style>

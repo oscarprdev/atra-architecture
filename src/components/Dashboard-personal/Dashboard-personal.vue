@@ -159,7 +159,7 @@ onMounted(async () => {
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 0 2px 2px rgba(254, 85, 0, 0.14);
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
   color: white;
 }
 
@@ -187,7 +187,7 @@ onMounted(async () => {
 
   width: 50%;
   height: fit-content;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   padding: 1rem;
   gap: 1rem;
 
@@ -206,7 +206,7 @@ input {
   width: 100%;
   border: 1px solid var(--image-border-brown);
   caret-color: var(--dark);
-  border-radius: var(--dashboard-items-radius);
+  border-radius: var(--dashboard-radius);
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -216,7 +216,7 @@ input {
   gap: 0.3rem;
   padding: 1rem 1.8rem;
 
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: var(--shadow-btn);
   color: white;
@@ -246,11 +246,11 @@ input[disabled] {
 }
 
 .update-info-btn {
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .update-info-btn:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 
 .update-info-btn[disabled] {

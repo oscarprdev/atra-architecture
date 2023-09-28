@@ -42,7 +42,7 @@ const emit = defineEmits<{
 }
 
 .switch-container--active {
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 .switch {
   width: 1.7rem;

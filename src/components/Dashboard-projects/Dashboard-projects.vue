@@ -164,7 +164,7 @@ h1 {
   gap: 0.3rem;
   padding: 0.9rem 1.5rem;
 
-  border-radius: var(--dashboard-items-radius);
+  border-radius: var(--dashboard-radius);
   border-radius: 3rem;
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
@@ -172,10 +172,10 @@ h1 {
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
   cursor: pointer;
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .create-project-btn:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 </style>

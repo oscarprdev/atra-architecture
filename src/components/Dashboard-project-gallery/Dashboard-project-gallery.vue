@@ -163,18 +163,18 @@ const onInputImageChange = (e: Event) => {
   right: 1.3rem;
 
   padding: 1rem 2.5rem;
-  border-radius: var(--dashboard-items-radius);
+  border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;
 
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 
   cursor: pointer;
 }
 
 .upload-image-btn:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 .project-gallery {
   display: flex;
@@ -190,9 +190,7 @@ const onInputImageChange = (e: Event) => {
 }
 
 .project-image-container {
-  box-shadow: var(--dashboard-gallery-image-shadow);
-
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   height: 13vh;
   width: calc(var(--width-main-edit-image) / 2 - 0.15rem);
   overflow: hidden;

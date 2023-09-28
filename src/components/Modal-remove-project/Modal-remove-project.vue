@@ -58,10 +58,10 @@ const onRemoveProject = async () => {
   display: grid;
   place-items: center;
 
-  width: 30vw;
+  width: fit-content;
   height: 30vh;
 
-  padding: 3rem 0;
+  padding: 3rem 2rem;
 }
 
 .loader-wrapper {
@@ -73,7 +73,7 @@ const onRemoveProject = async () => {
 .buttons-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 1rem 0;
   width: 70%;
   gap: 1rem;
@@ -86,7 +86,7 @@ const onRemoveProject = async () => {
   gap: 0.3rem;
   padding: 0.8rem 1.2rem;
 
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   /* box-shadow: var(--shadow-btn); */
   color: white;
@@ -98,15 +98,15 @@ const onRemoveProject = async () => {
 .cancel-btn {
   padding: 0.8rem 3rem;
   background-color: white;
-  color: var(--colorful-bg-btn);
-  border: 1px solid var(--border-color-btn);
+  color: var(--dashboard-dark);
+  border: 1px solid var(--dashboard-gray-light);
 }
 
 .remove-btn {
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .remove-btn:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 </style>

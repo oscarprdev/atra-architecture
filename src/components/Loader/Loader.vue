@@ -8,9 +8,8 @@
 <style>
 .loader-container {
   position: relative;
-  height: inherit;
   width: 100%;
-  height: 10vh;
+  height: 3vh;
   display: grid;
   place-items: center;
 }
@@ -21,8 +20,8 @@
   font-size: 11px;
   background: rgb(107, 107, 107);
   animation: escaleY 1s infinite ease-in-out;
-  width: 1em;
-  height: 4em;
+  width: 0.5em;
+  height: 1em;
   animation-delay: -0.16s;
 }
 .loader:before,
@@ -30,14 +29,14 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 2em;
+  left: 1.5em;
   background: rgb(107, 107, 107);
-  width: 1em;
-  height: 4em;
+  width: 0.5em;
+  height: 1em;
   animation: escaleY 1s infinite ease-in-out;
 }
 .loader:before {
-  left: -2em;
+  left: -1.5em;
   animation-delay: -0.32s;
 }
 
@@ -46,11 +45,11 @@
   80%,
   100% {
     box-shadow: 0 0;
-    height: 4em;
+    height: 2em;
   }
   40% {
     box-shadow: 0 -2em;
-    height: 5em;
+    height: 2em;
   }
 }
 </style>

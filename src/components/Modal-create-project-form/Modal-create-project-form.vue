@@ -2,7 +2,6 @@
 import { IconCheck } from '@tabler/icons-vue';
 import Switch from '../Switch/Switch.vue';
 import { IconCloudUpload } from '@tabler/icons-vue';
-import { IconSquareRoundedX } from '@tabler/icons-vue';
 
 defineProps<{
   name: string | null;
@@ -128,7 +127,7 @@ input {
   width: 100%;
   border: 1px solid var(--image-border-brown);
   caret-color: var(--dark);
-  border-radius: var(--dashboard-items-radius);
+  border-radius: var(--dashboard-radius);
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -164,7 +163,7 @@ input {
   gap: 0.3rem;
   padding: 1rem 1.8rem;
 
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   /* box-shadow: var(--shadow-btn); */
   color: white;
@@ -186,19 +185,19 @@ input {
 
 .create-project-btn--cancel {
   background: white;
-  color: var(--colorful-bg-btn);
-  border: 1px solid var(--border-color-btn);
+  color: var(--dashboard-dark);
+  border: 1px solid var(--dashboard-gray-light);
 }
 
 .create-project-btn--cancel:hover {
-  background: var(--dark-hover-bg-btn);
+  background: var(--dashboard-gray);
 }
 
 .create-project-btn--create {
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .create-project-btn--create:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 </style>

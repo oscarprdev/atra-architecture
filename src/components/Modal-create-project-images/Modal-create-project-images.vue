@@ -185,13 +185,13 @@ const onUploadImage = (e: Event, isMain?: boolean) => {
   display: grid;
   place-items: center;
   padding: 0.4rem;
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   box-shadow: var(--shadow-btn);
   color: white;
   cursor: pointer;
 
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .images-list {

@@ -228,10 +228,10 @@ onMounted(async () => {
 .buttons-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 1rem 0;
   width: 100%;
-  gap: 1rem;
+  gap: 3rem;
   height: fit-content;
 }
 
@@ -242,7 +242,7 @@ onMounted(async () => {
   gap: 0.3rem;
   padding: 0.8rem 1.2rem;
 
-  border-radius: var(--border-radius-btn);
+  border-radius: var(--dashboard-radius);
   border: none;
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -263,15 +263,15 @@ onMounted(async () => {
 
 .edit-btn--remove {
   background-color: rgb(250, 250, 250);
-  color: var(--colorful-bg-btn);
-  border: 1px solid var(--border-color-btn);
+  color: var(--dashboard-dark);
+  border: 1px solid var(--dashboard-gray-light);
 }
 
 .edit-btn--update {
-  background: var(--colorful-bg-btn);
+  background: var(--dashboard-dark);
 }
 
 .edit-btn--update:hover {
-  background: var(--colorful-hover-bg-btn);
+  background: var(--dashboard-dark-light);
 }
 </style>
