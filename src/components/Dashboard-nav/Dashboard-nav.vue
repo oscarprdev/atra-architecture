@@ -123,7 +123,7 @@ nav {
   padding: 0 1rem;
   height: 4rem;
   margin-left: -1.4rem;
-  border-radius: 1rem;
+  border-radius: 0.3rem;
 
   font-family:
     system-ui,

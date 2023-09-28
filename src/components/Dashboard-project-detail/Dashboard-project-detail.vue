@@ -154,7 +154,7 @@ const onOpenRemoveModal = (input: OnOpenRemoveModalinput) =>
   content: '';
   width: 100%;
   height: 1px;
-  background-color: var(--border-admin);
+  background-color: var(--dashboard-gray-light);
   top: 50%;
 }
 
@@ -163,7 +163,7 @@ const onOpenRemoveModal = (input: OnOpenRemoveModalinput) =>
   content: '';
   width: 1px;
   height: 100%;
-  background-color: var(--border-admin);
+  background-color: var(--dashboard-gray-light);
   left: 50%;
   transform: rotate(0deg);
   transition: transform 0.5s ease;

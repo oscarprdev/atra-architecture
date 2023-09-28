@@ -170,7 +170,7 @@ textarea {
   resize: none;
   color: rgb(31, 31, 31);
   width: 100%;
-  border: 1px solid var(--image-border-brown);
+  border: 1px solid var(--dashboard-gray-super-light);
   caret-color: var(--dark);
   border-radius: 0.4rem;
 }
@@ -184,9 +184,9 @@ textarea:disabled {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 1rem 1.8rem;
+  padding: 1rem 3rem;
 
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   border: none;
   box-shadow: var(--shadow-btn);
   color: white;

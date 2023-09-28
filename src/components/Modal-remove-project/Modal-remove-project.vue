@@ -86,7 +86,7 @@ const onRemoveProject = async () => {
   gap: 0.3rem;
   padding: 0.8rem 1.2rem;
 
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   border: none;
   /* box-shadow: var(--shadow-btn); */
   color: white;

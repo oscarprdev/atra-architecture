@@ -140,7 +140,7 @@ h1 {
   color: black;
   padding: 1.5rem 2rem;
   overflow-y: scroll;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
 }
 
 .project-container {
@@ -150,7 +150,7 @@ h1 {
   justify-content: space-between;
   margin-top: 1rem;
   width: 100%;
-  border-bottom: 1px solid var(--border-admin);
+  border-bottom: 1px solid var(--dashboard-gray-super-light);
 }
 
 .project-container:last-child {
@@ -164,7 +164,7 @@ h1 {
   gap: 0.3rem;
   padding: 0.9rem 1.5rem;
 
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   border-radius: 3rem;
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);

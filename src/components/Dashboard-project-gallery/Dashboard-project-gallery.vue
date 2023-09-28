@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
-import { IconPhotoPlus } from '@tabler/icons-vue';
+import { IconPhotoPlus, IconSquareRoundedX } from '@tabler/icons-vue';
 import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
 
@@ -120,11 +120,10 @@ const onInputImageChange = (e: Event) => {
         class="project-image-container"
         v-for="image in currentImages.concat(previewNewImages)"
       >
-        <img
-          :src="image"
-          alt="project image"
-          @click="(e) => onRemoveImage(e, image)"
-        />
+        <img :src="image" alt="project image" />
+        <span class="remove-icon" @click="(e) => onRemoveImage(e, image)">
+          <IconSquareRoundedX color="white" :size="32" />
+        </span>
       </article>
     </section>
   </section>
@@ -147,7 +146,7 @@ const onInputImageChange = (e: Event) => {
 
   width: 70%;
   height: 100%;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   padding: 1rem;
 
   box-shadow: 0 0 3px 3px rgba(104, 104, 104, 0.082);
@@ -163,7 +162,7 @@ const onInputImageChange = (e: Event) => {
   right: 1.3rem;
 
   padding: 1rem 2.5rem;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;
@@ -190,11 +189,32 @@ const onInputImageChange = (e: Event) => {
 }
 
 .project-image-container {
+  position: relative;
   border-radius: var(--dashboard-min-radius);
   height: 13vh;
   width: calc(var(--width-main-edit-image) / 2 - 0.15rem);
   overflow: hidden;
-
   animation: appearing 0.3s ease forwards;
+}
+
+.remove-icon {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  place-items: center;
+  background-color: rgba(0, 0, 0, 0.353);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.project-image-container:hover .remove-icon {
+  opacity: 1;
 }
 </style>

@@ -23,9 +23,6 @@
 
   --image-border-brown: rgb(190, 178, 157);
 
-  --bg-admin: #f5f5f7;
-  --border-admin: #cccccc;
-
   /* Dashboard variables */
   --width-main-edit-image: 39.4%;
 
@@ -34,6 +31,7 @@
 
   --dashboard-gray: #565564;
   --dashboard-gray-light: #909090;
+  --dashboard-gray-super-light: #bebebe;
 
   --dashboard-white: white;
 

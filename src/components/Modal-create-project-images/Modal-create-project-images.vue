@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconPhotoPlus } from '@tabler/icons-vue';
+import { IconPhotoPlus, IconSquareRoundedX } from '@tabler/icons-vue';
 import { ref } from 'vue';
 
 defineProps<{
@@ -12,6 +12,7 @@ const emit = defineEmits<{
   (e: 'onUploadMainImage', event: Event): void;
   (e: 'onInputImageChange', event: Event): void;
   (e: 'onUploadImage', event: Event): void;
+  (e: 'onRemoveImage', image: string): void;
 }>();
 
 const uploadImage = ref<HTMLInputElement | null>(null);
@@ -69,6 +70,9 @@ const onUploadImage = (e: Event, isMain?: boolean) => {
         class="image-wrapper"
       >
         <img :src="image" alt="project image" />
+        <span class="remove-icon" @click="emit('onRemoveImage', image)">
+          <IconSquareRoundedX color="white" :size="32" />
+        </span>
       </figure>
       <span v-if="images.length < 10" class="default-image-item">
         <p class="input-error image-error" v-if="images.length === 0">
@@ -203,5 +207,26 @@ const onUploadImage = (e: Event, isMain?: boolean) => {
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 1rem;
+}
+
+.remove-icon {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  place-items: center;
+  background-color: rgba(0, 0, 0, 0.353);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.image-wrapper:hover .remove-icon {
+  opacity: 1;
 }
 </style>

@@ -129,6 +129,12 @@ const onInputMainImageChange = (e: Event) =>
   readerFileController(e, setMainImage);
 const onInputImageChange = (e: Event) =>
   readerFileController(e, addImageToGallery);
+const onRemoveImage = (image: string) => {
+  const imageIndex = projectState.images.findIndex((img) => img === image);
+
+  imagesFiles.value.splice(imageIndex, 1);
+  projectState.images = projectState.images.filter((img) => img !== image);
+};
 </script>
 
 <template>
@@ -150,6 +156,7 @@ const onInputImageChange = (e: Event) =>
       :main-image="projectState.mainImage"
       @on-input-image-change="onInputImageChange"
       @on-input-main-image-change="onInputMainImageChange"
+      @on-remove-image="onRemoveImage"
     />
   </section>
   <template v-else>

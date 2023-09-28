@@ -214,7 +214,7 @@ onMounted(async () => {
 
   width: 30%;
   height: 100%;
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   padding: 1rem;
 
   box-shadow: 0 0 3px 3px rgba(104, 104, 104, 0.082);
@@ -231,7 +231,7 @@ onMounted(async () => {
   justify-content: center;
   padding: 1rem 0;
   width: 100%;
-  gap: 3rem;
+  gap: 1rem;
   height: fit-content;
 }
 
@@ -240,9 +240,9 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
-  padding: 0.8rem 1.2rem;
+  padding: 0.8rem 2rem;
 
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   border: none;
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -262,6 +262,7 @@ onMounted(async () => {
 }
 
 .edit-btn--remove {
+  padding: 1rem 2rem;
   background-color: rgb(250, 250, 250);
   color: var(--dashboard-dark);
   border: 1px solid var(--dashboard-gray-light);

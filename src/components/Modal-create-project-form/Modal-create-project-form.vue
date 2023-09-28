@@ -127,7 +127,7 @@ input {
   width: 100%;
   border: 1px solid var(--image-border-brown);
   caret-color: var(--dark);
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -161,11 +161,10 @@ input {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 1rem 1.8rem;
+  padding: 1rem 2rem;
 
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   border: none;
-  /* box-shadow: var(--shadow-btn); */
   color: white;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -184,6 +183,7 @@ input {
 }
 
 .create-project-btn--cancel {
+  padding: 1.1rem 2.4rem;
   background: white;
   color: var(--dashboard-dark);
   border: 1px solid var(--dashboard-gray-light);

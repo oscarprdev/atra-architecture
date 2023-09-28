@@ -65,7 +65,7 @@ input {
   width: 100%;
   border: 1px solid var(--image-border-brown);
   caret-color: var(--dark);
-  border-radius: var(--dashboard-radius);
+  border-radius: var(--dashboard-min-radius);
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 </style>
