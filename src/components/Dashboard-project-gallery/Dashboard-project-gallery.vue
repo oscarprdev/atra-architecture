@@ -71,18 +71,26 @@ const onInputImageChange = (e: Event) => {
 
   if (totalImages < MAX_NUM_IMAGES) {
     const inputElement = e.target as HTMLInputElement;
-    const file = inputElement.files?.[0];
+    const files: FileList | null = inputElement.files;
 
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const imageUrl = reader.result as string;
+    if (files) {
+      Object.values(files).forEach((file: File) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const imageUrl = reader.result as string;
 
-        previewNewImages.value.push(imageUrl);
+          previewNewImages.value.push(imageUrl);
 
-        emit('onNewImageUploaded', file);
-      };
+          emit('onNewImageUploaded', file);
+        };
+      });
+    } else {
+      manageToastState(
+        400,
+        '',
+        "No s'ha pogut carregar la imatge, torna a intentar-ho"
+      );
     }
   } else {
     manageToastState(400, '', 'Maxim 14 imatges per projecte');
@@ -94,6 +102,7 @@ const onInputImageChange = (e: Event) => {
   <section class="gallery-edit-images-card">
     <input
       type="file"
+      multiple
       ref="uploadImage"
       class="input-file"
       @change="onInputImageChange"

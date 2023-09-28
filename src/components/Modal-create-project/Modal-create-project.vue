@@ -83,14 +83,18 @@ const readerFileController = (
   fn: (reader: FileReader, file: File) => void
 ) => {
   const inputElement = e.target as HTMLInputElement;
-  const file = inputElement.files?.[0];
+  const files: FileList | null = inputElement.files;
 
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      fn(reader, file);
-    };
+  if (files) {
+    Object.values(files).forEach((file: File) => {
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          fn(reader, file);
+        };
+      }
+    });
   }
 };
 

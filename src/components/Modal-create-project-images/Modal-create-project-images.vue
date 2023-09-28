@@ -81,6 +81,7 @@ const onUploadImage = (e: Event, isMain?: boolean) => {
         <input
           class="input-image"
           type="file"
+          multiple
           ref="uploadImage"
           @change="(e: Event) => emit('onInputImageChange', e)" />
         <button @:click="onUploadImage" class="upload-image-btn">
