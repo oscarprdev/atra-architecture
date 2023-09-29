@@ -120,7 +120,7 @@ onMounted(() => {
   box-shadow: var(--shadow-btn);
   color: white;
   cursor: pointer;
-
+  border: 1px solid white;
   background: var(--dashboard-dark);
 }
 </style>

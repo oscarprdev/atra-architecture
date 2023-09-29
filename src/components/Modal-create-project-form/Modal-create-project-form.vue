@@ -189,10 +189,6 @@ input {
   border: 1px solid var(--dashboard-gray-light);
 }
 
-.create-project-btn--cancel:hover {
-  background: var(--dashboard-gray);
-}
-
 .create-project-btn--create {
   background: var(--dashboard-dark);
 }

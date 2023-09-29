@@ -5,7 +5,7 @@ import { IconPhotoPlus, IconSquareRoundedX } from '@tabler/icons-vue';
 import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
 
-const MAX_NUM_IMAGES = 14;
+const MAX_NUM_IMAGES = 18;
 
 const props = defineProps<{
   currentImages: string[];

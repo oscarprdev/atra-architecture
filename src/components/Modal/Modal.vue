@@ -2,6 +2,10 @@
 import { IconX } from '@tabler/icons-vue';
 import { onMounted } from 'vue';
 
+defineProps<{
+  noIcon?: boolean;
+}>();
+
 const emit = defineEmits<{
   (e: 'onCloseModal'): void;
 }>();
@@ -18,7 +22,7 @@ onMounted(() => {
 <template>
   <div class="modal-backdrop">
     <div class="modal">
-      <IconX class="close-icon" @:click="emit('onCloseModal')" />
+      <IconX v-if="!noIcon" class="close-icon" @:click="emit('onCloseModal')" />
       <slot></slot>
     </div>
   </div>

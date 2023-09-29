@@ -41,7 +41,7 @@ const toggleDashboardView = (view: string) => {
 aside {
   display: grid;
   place-items: start;
-  background-color: var(--dashboard-gray-super-light);
+  background-color: var(--dashboard-bg);
   font-weight: 300;
   width: 100%;
   font-family:

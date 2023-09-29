@@ -7,12 +7,17 @@ import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
 import { IconInfoCircle } from '@tabler/icons-vue';
 import { IconLoader2 } from '@tabler/icons-vue';
+import { useModals } from '../../core/composables/useModals';
+import Modal from '../Modal/Modal.vue';
+import ModalLoading from '../Modal-loading/Modal-loading.vue';
 
 interface DashboardPersonalInfo {
   email: string;
   direction: string;
   phone: string;
 }
+
+const { isModalOpened, openModal, closeModal } = useModals();
 
 const personalInfoUpdating = ref(false);
 const canSubmit = ref(false);
@@ -33,6 +38,10 @@ const providePersonalInfo = async () => {
 
 const phoneIsNotValid = computed(
   () => !Number(personalInfo.phone) && personalInfo.phone.length !== 11
+);
+
+const emailIsNotValid = computed(
+  () => personalInfo.email.match('@') && personalInfo.email.match('.com')
 );
 
 const handleChange = (e: Event): void => {
@@ -66,18 +75,26 @@ const handleSubmit = async (e: Event) => {
 };
 
 onMounted(async () => {
+  openModal('loading');
   canSubmit.value = false;
   await providePersonalInfo();
   canSubmit.value = true;
+  closeModal('loading');
 });
 </script>
 
 <template>
   <section class="dashboard-personal">
+    <Modal v-if="isModalOpened()" :no-icon="true">
+      <ModalLoading v-if="isModalOpened('loading')" />
+    </Modal>
     <h2 class="dashboard-personal-title">Actualitzar informacio personal</h2>
     <form class="dashboard-personal-form" v-on:submit="handleSubmit">
-      <label>
+      <label class="label-form">
         Email
+        <p class="input-error" v-if="!emailIsNotValid">
+          * El email deu ser valid
+        </p>
         <input
           :disabled="!canSubmit"
           required
@@ -97,7 +114,7 @@ onMounted(async () => {
           :value="personalInfo.direction"
         />
       </label>
-      <label class="input-phone">
+      <label class="label-form">
         Telefon
         <p class="input-error" v-if="phoneIsNotValid">
           * El telefon deu ser un numero valid
@@ -184,7 +201,6 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-
   width: 50%;
   height: fit-content;
   border-radius: var(--dashboard-min-radius);
@@ -229,7 +245,7 @@ input[disabled] {
   background: rgb(242, 242, 242);
 }
 
-.input-phone {
+.label-form {
   display: flex;
   align-items: flex-start;
   gap: 0.2rem;

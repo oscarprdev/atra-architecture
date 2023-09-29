@@ -33,7 +33,8 @@
   --dashboard-gray-light: #909090;
   --dashboard-gray-super-light: #bebebe;
 
-  --dashboard-white: white;
+  --dashboard-white: rgb(255, 255, 255);
+  --dashboard-bg: rgb(243, 243, 243);
 
   --dashboard-radius: 2rem;
   --dashboard-min-radius: 0.3rem;

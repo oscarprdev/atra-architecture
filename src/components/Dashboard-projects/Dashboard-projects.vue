@@ -6,6 +6,7 @@ import Modal from '../Modal/Modal.vue';
 import DashboardProjectDetail from '../Dashboard-project-detail/Dashboard-project-detail.vue';
 import Loader from '../Loader/Loader.vue';
 import ModalRemoveProject from '../Modal-remove-project/Modal-remove-project.vue';
+import ModalLoading from '../Modal-loading/Modal-loading.vue';
 import Toast from '../Toast/Toast.vue';
 import { useToast } from '../../core/composables/useToast';
 import { useModals } from '../../core/composables/useModals';
@@ -50,9 +51,11 @@ const updateProjectList = async () => {
 };
 
 onMounted(async () => {
+  openModal('loading');
   projectsLoading.value = true;
   await updateProjectList();
   projectsLoading.value = false;
+  closeModal('loading');
 });
 </script>
 
@@ -84,7 +87,12 @@ onMounted(async () => {
         @on-project-update="onUpdateProject"
       />
     </article>
-    <Modal v-if="isModalOpened()" @on-close-modal="closeModal()">
+    <Modal
+      v-if="isModalOpened()"
+      @on-close-modal="closeModal()"
+      :no-icon="isModalOpened('loading')"
+    >
+      <ModalLoading v-if="isModalOpened('loading')" />
       <ModalRemoveProject
         v-if="isModalOpened('remove-project')"
         :project-name="modalState.removeModal.projectName"
@@ -135,7 +143,7 @@ h1 {
   justify-self: center;
   width: 80vw;
   height: 100vh;
-  background-color: rgb(250, 250, 250);
+  background-color: var(--dashboard-white);
   box-shadow: 0 0 5px 5px rgba(201, 201, 201, 0.295);
   color: black;
   padding: 1.5rem 2rem;

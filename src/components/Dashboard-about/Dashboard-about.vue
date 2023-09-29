@@ -7,11 +7,15 @@ import Toast from '../Toast/Toast.vue';
 import DashboardEditImage from '../Dashboard-edit-image/Dashboard-edit-image.vue';
 import { useToast } from '../../core/composables/useToast';
 import { IconLoader2 } from '@tabler/icons-vue';
+import { useModals } from '../../core/composables/useModals';
+import Modal from '../Modal/Modal.vue';
+import ModalLoading from '../Modal-loading/Modal-loading.vue';
 
 interface About {
   image: string;
   text: string[];
 }
+const { isModalOpened, openModal, closeModal } = useModals();
 
 const aboutInfoLoading = ref(false);
 const aboutImageFile = ref<File | null>(null);
@@ -66,6 +70,8 @@ const handleAboutSubmit = async (e: Event) => {
 };
 
 onMounted(async () => {
+  openModal('loading');
+
   aboutInfoLoading.value = true;
   const aboutInfoResponse =
     await new DefaultAboutService().getAboutScreenInfo();
@@ -74,11 +80,15 @@ onMounted(async () => {
   about.text = aboutInfoResponse.text;
 
   aboutInfoLoading.value = false;
+  closeModal('loading');
 });
 </script>
 
 <template>
   <section class="dashboard-about">
+    <Modal v-if="isModalOpened()" :no-icon="true">
+      <ModalLoading v-if="isModalOpened('loading')" />
+    </Modal>
     <h2 class="dashboard-about-title">Actualitzar Descripcio</h2>
     <form class="dashboard-about-form" v-on:submit="handleAboutSubmit">
       <DashboardEditImage
@@ -136,7 +146,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-
+  background-color: var(--dashboard-white);
   width: 70%;
   height: fit-content;
   border-radius: var(--dashboard-min-radius);

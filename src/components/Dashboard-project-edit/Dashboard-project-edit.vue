@@ -2,7 +2,6 @@
 import { computed, onMounted, ref } from 'vue';
 import Loader from '../Loader/Loader.vue';
 import { IconCloudUpload } from '@tabler/icons-vue';
-// import { IconSquareRoundedX } from '@tabler/icons-vue';
 import { DefaultAdminService } from '../../core/services/admin-service';
 import { DefaultProjectsService } from '../../core/services/projects.service';
 import { ProjectDetail } from '../../core/types/data.types';
