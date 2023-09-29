@@ -203,6 +203,7 @@ onMounted(async () => {
   flex-direction: column;
   width: 50%;
   height: fit-content;
+  background-color: var(--dashboard-white);
   border-radius: var(--dashboard-min-radius);
   padding: 1rem;
   gap: 1rem;

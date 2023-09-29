@@ -173,7 +173,6 @@ h1 {
   padding: 0.9rem 1.5rem;
 
   border-radius: var(--dashboard-min-radius);
-  border-radius: 3rem;
   border: none;
   box-shadow: 0 0 3px 3px rgba(90, 90, 90, 0.11);
   color: white;
