@@ -1,40 +1,33 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Home from '../../screens/Home/Home-screen.vue';
-import About from '../../screens/About/About-screen.vue';
-import Contact from '../../screens/Contact/Contact-screen.vue';
-import Projects from '../../screens/Projects/Projects-screen.vue';
-import Project from '../../screens/Project/Project-screen.vue';
-import Admin from '../../screens/Admin/Admin.vue';
-import DashboardScreen from '../../screens/Dashboard/Dashboard-screen.vue';
 
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: () => import('../../screens/Home/Home-screen.vue'),
   },
   {
     path: '/projects',
-    component: Projects,
+    component: () => import('../../screens/Projects/Projects-screen.vue'),
   },
   {
     path: '/about',
-    component: About,
+    component: () => import('../../screens/About/About-screen.vue'),
   },
   {
     path: '/contact',
-    component: Contact,
+    component: () => import('../../screens/Contact/Contact-screen.vue'),
   },
   {
     path: '/projecte/:id',
-    component: Project,
+    component: () => import('../../screens/Project/Project-screen.vue'),
   },
   {
     path: '/admin',
-    component: Admin,
+    component: () => import('../../screens/Admin/Admin.vue'),
   },
   {
     path: '/dashboard',
-    component: DashboardScreen,
+    component: () => import('../../screens/Dashboard/Dashboard-screen.vue'),
     // beforeEnter: (_: any, from: any) => {
     //   return from.path === '/admin' && document.cookie === 'true';
     // },

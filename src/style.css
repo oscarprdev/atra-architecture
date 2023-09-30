@@ -23,6 +23,11 @@
 
   --image-border-brown: rgb(190, 178, 157);
 
+  --hero-image-light: rgb(235, 221, 203);
+  --hero-light: rgb(238, 238, 238);
+  --hero-mid-light: rgb(158, 158, 158);
+  --hero-dark-light: rgb(104, 104, 104);
+
   /* Dashboard variables */
   --width-main-edit-image: 39.4%;
 
@@ -155,6 +160,22 @@ input {
 
   100% {
     transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  0% {
+    transform: translateY(clamp(5rem, 4vw, 10rem));
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
     opacity: 1;
   }
 }

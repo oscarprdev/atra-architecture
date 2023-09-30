@@ -40,6 +40,7 @@ export interface ProjectGallery {
   name: string;
   year: string;
   mainImage: string;
+  description: string;
   top: boolean;
 }
 

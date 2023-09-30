@@ -1,27 +1,30 @@
 <script setup lang="ts">
-import { Transition, onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import Image1 from '../../assets/images/rocafort-cuina_zfm2kx.jpg';
+import Image2 from '../../assets/images/santa_ana_ms2iui.jpg';
 
-const imagesList = [
-  'https://res.cloudinary.com/oscar-perez/image/upload/v1694443129/ATRA/hero/cuina_rocafort_nhbeza.jpg',
-  'https://res.cloudinary.com/oscar-perez/image/upload/v1694443123/ATRA/hero/santa_ana_ms2iui.jpg',
-  'https://res.cloudinary.com/oscar-perez/image/upload/v1694443120/ATRA/hero/puzol_itdkcb.jpg',
-];
+const imagesList = [Image1, Image2];
+const currentImage = ref<string>(imagesList[0]);
+let currentIndex = 0;
 
-const currentImage = ref<string>();
+const preloadImage = (url: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = url;
+    image.onload = () => resolve();
+    image.onerror = reject;
+  });
+};
 
-onMounted(() => {
-  let currentIndex = 0;
+const loadNextImage = async () => {
+  currentIndex = (currentIndex + 1) % imagesList.length;
+  await preloadImage(imagesList[currentIndex]);
   currentImage.value = imagesList[currentIndex];
+};
 
-  setInterval(() => {
-    currentImage.value = imagesList[currentIndex];
-
-    currentIndex++;
-
-    if (currentIndex === 2) {
-      currentIndex = 0;
-    }
-  }, 7000);
+onMounted(async () => {
+  await preloadImage(imagesList[currentIndex]);
+  setInterval(loadNextImage, 7000);
 });
 </script>
 
@@ -63,6 +66,8 @@ onMounted(() => {
   align-items: baseline;
   margin-top: -10rem;
   position: relative;
+
+  animation: fade-right 0.5s ease-in-out forwards;
 }
 
 .hero-title::after {
@@ -73,7 +78,7 @@ onMounted(() => {
   background-color: var(--dark);
   top: 18rem;
   left: 4rem;
-  background-color: rgb(109, 109, 109);
+  background-color: var(--hero-light);
 }
 
 h1 {
@@ -90,7 +95,7 @@ p {
 }
 
 p:nth-child(odd) {
-  color: rgb(155, 155, 155);
+  color: rgb(95, 95, 95);
 }
 
 .image-wrapper {

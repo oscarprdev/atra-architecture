@@ -1,24 +1,46 @@
 <script setup lang="ts">
+import { onMounted, ref, watch } from 'vue';
+
 const props = defineProps<{
   path: string;
 }>();
+
+const isHeaderLight = ref(false);
+
+const handleScroll = () => {
+  if (window.scrollY > 500) {
+    isHeaderLight.value = false;
+  }
+
+  if (props.path === '/' && window.scrollY < 500) {
+    isHeaderLight.value = true;
+  }
+};
+
+watch(
+  () => props.path,
+  (path) => {
+    isHeaderLight.value = path === '/';
+  }
+);
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
   <header>
     <ul>
       <li>
-        <router-link
-          :light="`${props.path === '/'}`"
-          v-if="props.path !== '/'"
-          to="/"
+        <router-link :light="isHeaderLight" v-if="props.path !== '/'" to="/"
           >Inici</router-link
         >
       </li>
       <li>
         <router-link
           to="/projects"
-          :light="`${props.path === '/'}`"
+          :light="isHeaderLight"
           :class="`${props.path === '/projects' && 'active'}`"
           >Projectes</router-link
         >
@@ -26,7 +48,7 @@ const props = defineProps<{
       <li>
         <router-link
           to="/about"
-          :light="`${props.path === '/'}`"
+          :light="isHeaderLight"
           :class="`${props.path === '/about' && 'active'}`"
           >Qui som</router-link
         >
@@ -34,7 +56,7 @@ const props = defineProps<{
       <li>
         <router-link
           to="/contact"
-          :light="`${props.path === '/'}`"
+          :light="isHeaderLight"
           :class="`${props.path === '/contact' && 'active'}`"
           >Contacte</router-link
         >

@@ -1,13 +1,40 @@
 <script setup lang="ts">
+import { ref, onMounted, nextTick } from 'vue';
 import { type ProjectGallery } from '../../core/types/data.types.ts';
-import { onMounted, type Ref, ref } from 'vue';
-import GalleryImage from '../Gallery-image/Gallery-image.vue';
 import { DefaultProjectsService } from '../../core/services/projects.service';
 
-const projects: Ref<ProjectGallery[] | []> = ref([]);
+const lazyImages = ref<HTMLElement[]>([]);
+const projectImages = ref<string[]>([]);
+
+const projects = ref<ProjectGallery[]>([]);
+
+const renderImagesAtInrtersecting = () => {
+  const options = {
+    root: null,
+    threshold: 0.3,
+  };
+
+  lazyImages.value = Array.from(document.querySelectorAll('.gallery-item'));
+
+  lazyImages.value.forEach((item, index) => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          item.classList.add('gallery-active');
+          projectImages.value[index] = projects.value[index].mainImage;
+          observer.unobserve(item);
+        }
+      });
+    }, options);
+
+    observer.observe(item);
+  });
+};
 
 onMounted(async () => {
   projects.value = await new DefaultProjectsService().getProjectsGallery();
+
+  nextTick(renderImagesAtInrtersecting);
 });
 </script>
 
@@ -18,18 +45,36 @@ onMounted(async () => {
       <article
         v-for="(project, index) in projects"
         :key="project.id"
-        :class="`box-${index}`"
+        class="gallery-item"
       >
-        <GalleryImage :project="project" />
+        <figure id="gallery-image-wrapper" class="image-wrapper">
+          <img
+            :src="projectImages[index]"
+            loading="lazy"
+            alt="project main image"
+            ref="lazyImages"
+          />
+        </figure>
+        <div class="project-info">
+          <p>{{ project.name }}</p>
+          <p class="project-year">{{ project.year }}</p>
+          <p>{{ project.description }}</p>
+          <router-link :to="`/projecte/${project.id}`" class="project-link"
+            >Veure mes</router-link
+          >
+        </div>
       </article>
     </div>
   </section>
 </template>
 
 <style scoped>
+.gallery-active {
+  animation: fade-up 0.5s linear forwards;
+}
 .gallery-container {
   position: relative;
-  padding: 3rem 0 3rem;
+  padding: 3rem;
   width: 100vw;
   height: fit-content;
   z-index: 2;
@@ -37,6 +82,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3rem;
 }
 
 .gallery-title {
@@ -44,66 +90,122 @@ onMounted(async () => {
   line-height: 1rem;
 
   color: var(--dark);
-  text-align: center;
+  text-align: start;
 
   z-index: 3;
-  font-size: clamp(3rem, 10vw, 8rem);
+  font-size: clamp(1.3rem, 4vw, 4rem);
   text-transform: uppercase;
 }
 
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rem;
+}
+
+.gallery-item {
+  opacity: 0;
+  display: flex;
+  gap: 5rem;
+  width: 90vw;
+  height: 70vh;
+  position: relative;
+}
+
+.image-wrapper {
+  height: 70%;
+  width: 33%;
+  position: relative;
+}
+
+.gallery-item::after {
+  position: absolute;
+  content: '';
+  height: 70%;
+  width: 33%;
+  background-color: var(--hero-image-light);
+  top: 6vh;
+  left: 5vw;
+  z-index: -1;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.project-year {
+  position: absolute;
+  top: -2rem;
+  font-size: 10rem;
+  color: var(--hero-light);
+  z-index: -1;
+  right: -15rem;
+}
+
+.project-info::after {
+  content: '';
+  position: absolute;
+  width: 10rem;
+  height: 2px;
+  background-color: var(--hero-light);
+  bottom: 20vh;
+  right: 25rem;
+}
+
+.project-link {
+  text-transform: uppercase;
+  color: var(--hero-mid-light);
+  cursor: pointer;
+  position: absolute;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  bottom: 22vh;
+  right: 25vw;
+
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  width: 80vw;
 }
 
-article {
-  height: 22rem;
+.project-link:hover {
+  color: var(--hero-dark-light);
 }
 
-.box-0 {
-  grid-area: 1 / 1 / 3 / 3;
-  height: 100%;
-}
-.box-1 {
-  grid-area: 1 / 3 / 2 / 6;
-}
-.box-2 {
-  grid-area: 2 / 3 / 3 / 6;
-}
-.box-3 {
-  grid-area: 3 / 1 / 4 / 6;
-}
-.box-4 {
-  grid-area: 4 / 1 / 5 / 4;
-}
-.box-5 {
-  grid-area: 4 / 4 / 5 / 6;
+.gallery-item:nth-child(even) {
+  flex-direction: row-reverse;
 }
 
-@media screen and (max-width: 1000px) {
-  .gallery {
-    display: flex;
-    flex-direction: column;
-  }
+.gallery-item:nth-child(even)::after {
+  left: 55vw;
+}
 
-  article {
-    height: 17rem;
-  }
+.gallery-item:nth-child(even) .project-info {
+  align-items: end;
+  text-align: end;
+}
 
-  .gallery {
-    width: 90vw;
-  }
+.gallery-item:nth-child(even) .project-info::after {
+  right: 68vw;
+}
 
-  .gallery-container {
-    padding: 5rem 0 3rem;
-  }
+.gallery-item:nth-child(even) .project-year {
+  right: 72vw;
+}
 
-  .box-0 {
-    height: 17rem;
-  }
+.gallery-item:nth-child(even) .project-link {
+  right: 72vw;
+}
+
+h3 {
+  font-size: clamp(1.3rem, 4vw, 4rem);
+  margin-bottom: -1rem;
+}
+
+p {
+  font-size: clamp(0.8rem, 3vw, 1.6rem);
+  width: 40vw;
+  color: rgb(114, 114, 114);
 }
 </style>
