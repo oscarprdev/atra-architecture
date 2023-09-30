@@ -8,11 +8,17 @@ const props = defineProps<{
   <header>
     <ul>
       <li>
-        <router-link v-if="props.path !== '/'" to="/">Inici</router-link>
+        <router-link
+          :light="`${props.path === '/'}`"
+          v-if="props.path !== '/'"
+          to="/"
+          >Inici</router-link
+        >
       </li>
       <li>
         <router-link
           to="/projects"
+          :light="`${props.path === '/'}`"
           :class="`${props.path === '/projects' && 'active'}`"
           >Projectes</router-link
         >
@@ -20,6 +26,7 @@ const props = defineProps<{
       <li>
         <router-link
           to="/about"
+          :light="`${props.path === '/'}`"
           :class="`${props.path === '/about' && 'active'}`"
           >Qui som</router-link
         >
@@ -27,6 +34,7 @@ const props = defineProps<{
       <li>
         <router-link
           to="/contact"
+          :light="`${props.path === '/'}`"
           :class="`${props.path === '/contact' && 'active'}`"
           >Contacte</router-link
         >
@@ -86,7 +94,7 @@ a {
   color: var(--dark);
 }
 
-a:before {
+a::before {
   content: '';
   width: 3rem;
   height: 1px;
@@ -99,7 +107,15 @@ a:before {
   transition: transform 0.3s ease;
 }
 
-a:hover:before {
+a:hover::before {
   transform: scaleX(1);
+}
+
+a[light='true'] {
+  color: white;
+}
+
+a[light='true']::before {
+  background-color: white;
 }
 </style>

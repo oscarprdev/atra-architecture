@@ -20,7 +20,6 @@ const props = defineProps<{ projects: Project[] }>();
         width="200"
         height="200"
       />
-      <!--          <span class="number"><p>{{`0${index + 1}`}}</p></span>-->
       <h2>{{ project.year + ' ' + project.name }}</h2>
     </RouterLink>
   </div>
@@ -31,8 +30,8 @@ const props = defineProps<{ projects: Project[] }>();
   max-width: 90vw;
   padding: 2rem 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: 0.4rem;
 }
 
 .projects-title {
@@ -44,7 +43,7 @@ const props = defineProps<{ projects: Project[] }>();
 
   opacity: 0;
   z-index: 1;
-  font-size: clamp(3rem, 10vw, 8rem);
+  font-size: clamp(1.3rem, 4vw, 4rem);
   text-transform: uppercase;
 
   animation: appear-left 0.5s linear forwards;
@@ -53,7 +52,7 @@ const props = defineProps<{ projects: Project[] }>();
 .project-container {
   z-index: 2;
   min-width: 15rem;
-  height: 38vh;
+  height: 45vh;
   position: relative;
   cursor: pointer;
   overflow: hidden;
@@ -91,7 +90,7 @@ h2 {
   top: -1rem;
   left: 1rem;
   z-index: 2;
-  font-size: clamp(1.5rem, 7vw, 2.5rem);
+  font-size: clamp(1rem, 4vw, 1.7rem);
 }
 
 h2::after {

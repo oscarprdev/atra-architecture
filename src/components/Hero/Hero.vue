@@ -1,108 +1,167 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { type Home } from '../../core/types/data.types.ts';
-import { DefaultHomeService } from '../../core/services/home-service';
+import { Transition, onMounted, ref } from 'vue';
 
-const homeInfo = ref<Home>();
-const isLoading = ref(false);
+const imagesList = [
+  'https://res.cloudinary.com/oscar-perez/image/upload/v1694443129/ATRA/hero/cuina_rocafort_nhbeza.jpg',
+  'https://res.cloudinary.com/oscar-perez/image/upload/v1694443123/ATRA/hero/santa_ana_ms2iui.jpg',
+  'https://res.cloudinary.com/oscar-perez/image/upload/v1694443120/ATRA/hero/puzol_itdkcb.jpg',
+];
 
-onMounted(async () => {
-  isLoading.value = true;
-  homeInfo.value = await new DefaultHomeService().getHeroText();
-  isLoading.value = false;
+const currentImage = ref<string>();
+
+onMounted(() => {
+  let currentIndex = 0;
+  currentImage.value = imagesList[currentIndex];
+
+  setInterval(() => {
+    currentImage.value = imagesList[currentIndex];
+
+    currentIndex++;
+
+    if (currentIndex === 2) {
+      currentIndex = 0;
+    }
+  }, 7000);
 });
 </script>
 
 <template>
   <section class="hero">
-    <div class="title" v-if="homeInfo">
-      <h1>{{ homeInfo.title }}</h1>
-      <p>{{ homeInfo.subtitle }}</p>
+    <div class="hero-title">
+      <h1>ATRA</h1>
+      <p>Asistència tècnica en rehabilitació i arquitectura</p>
+      <p>Jaume Perez Llopis</p>
     </div>
-    <div class="contact" v-if="homeInfo">
-      <h2>{{ homeInfo.data.name }}</h2>
-      <h3>{{ homeInfo.data.phone }}</h3>
-      <h3>{{ homeInfo.data.email }}</h3>
-      <h3 class="direction">{{ homeInfo.data.direction }}</h3>
-    </div>
+
+    <figure class="image-wrapper">
+      <Transition name="fade" mode="default">
+        <img
+          v-if="currentImage"
+          :key="currentImage"
+          :src="currentImage"
+          alt="imatge destacada de projecte"
+        />
+      </Transition>
+    </figure>
   </section>
 </template>
 
 <style scoped>
 .hero {
-  padding: 3rem 5rem;
+  padding: 3rem;
   height: 100vh;
   width: 100vw;
-  position: inherit;
-  z-index: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.title {
+.hero-title {
   display: flex;
   flex-direction: column;
-  align-content: center;
-  justify-content: center;
+  align-items: baseline;
+  margin-top: -10rem;
+  position: relative;
+}
 
-  z-index: 1;
-
-  animation: fade-right 0.8s linear forwards;
+.hero-title::after {
+  content: '';
+  position: absolute;
+  width: 20rem;
+  height: 3px;
+  background-color: var(--dark);
+  top: 18rem;
+  left: 4rem;
+  background-color: rgb(109, 109, 109);
 }
 
 h1 {
-  font-size: clamp(2.4rem, 30vw, 15rem);
+  font-size: clamp(2rem, 15vw, 10rem);
   line-height: 1px;
+  color: rgb(0, 0, 0);
+  margin: 4rem;
 }
 
 p {
-  margin-top: -5rem;
-  font-size: clamp(1.3rem, 2vw, 2rem);
+  color: rgb(0, 0, 0);
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  margin: 0.5rem;
 }
 
-.contact {
+p:nth-child(odd) {
+  color: rgb(155, 155, 155);
+}
+
+.image-wrapper {
+  width: 40vw;
+  height: 70vh;
+  margin-right: 5rem;
+  margin-top: 5rem;
+  border: none;
+  z-index: 2;
+}
+
+.image-wrapper::after {
+  z-index: -1;
+  content: '';
   position: absolute;
+  top: 0;
   right: 0;
-  bottom: 0;
-  padding: 3rem 12rem;
-  animation: fade-left 0.8s linear forwards;
+  width: 40vw;
+  height: 100vh;
+  background-color: var(--dark);
 }
 
-.contact h2 {
-  font-size: clamp(1.3rem, 5vw, 1.5rem);
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
 }
 
-.contact h3 {
-  font-size: clamp(1.3rem, 4vw, 1.5rem);
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 @media screen and (max-width: 630px) {
   .hero {
-    padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 12vh;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .title {
+  .hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-
-    animation: fade-right 0.5s linear forwards;
-  }
-
-  .contact {
+    margin-top: 3rem;
     position: relative;
-
-    padding: 1rem;
-    text-align: center;
-
-    animation: fade-left 0.5s linear forwards;
   }
 
-  .direction {
+  .hero-title::after {
     display: none;
   }
 
-  p {
-    margin-top: -2rem;
+  h1 {
+    margin: 2rem;
+  }
+
+  .image-wrapper {
+    width: 80vw;
+    height: 50vh;
+    margin-right: 2rem;
+    margin-top: 3rem;
+    border: none;
+    z-index: 2;
+  }
+
+  .image-wrapper::after {
+    width: 100vw;
+    height: 45vh;
+    top: 55vh;
+    bottom: 0;
   }
 }
 </style>
