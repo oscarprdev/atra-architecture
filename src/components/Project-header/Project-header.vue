@@ -39,6 +39,10 @@ const props = defineProps<{
   overflow: hidden;
 }
 
+.image-container img {
+  animation: appearing 0.3s linear forwards;
+}
+
 @media screen and (max-width: 950px) {
   .project-header {
     flex-direction: column;

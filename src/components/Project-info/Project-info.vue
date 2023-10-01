@@ -13,6 +13,7 @@ const props = defineProps<{
     <p class="project-description">
       {{ props.project.description }}
     </p>
+    <p>{{ props.project.name }}</p>
   </div>
 </template>
 
@@ -28,6 +29,16 @@ const props = defineProps<{
   opacity: 0;
 
   animation: appear-left 0.5s linear forwards;
+}
+
+.project-info p:last-of-type {
+  position: absolute;
+  font-size: clamp(2.2rem, 10vw, 6rem);
+  text-transform: uppercase;
+  color: var(--hero-light);
+  top: 0;
+  left: 4rem;
+  font-weight: 400;
 }
 
 .project-title {

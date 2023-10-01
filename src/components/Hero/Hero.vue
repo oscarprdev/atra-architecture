@@ -11,6 +11,7 @@ const preloadImage = (url: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.src = url;
+    image.classList.add('image-active');
     image.onload = () => resolve();
     image.onerror = reject;
   });
@@ -35,16 +36,13 @@ onMounted(async () => {
       <p>Asistència tècnica en rehabilitació i arquitectura</p>
       <p>Jaume Perez Llopis</p>
     </div>
-
     <figure class="image-wrapper">
-      <Transition name="fade" mode="default">
-        <img
-          v-if="currentImage"
-          :key="currentImage"
-          :src="currentImage"
-          alt="imatge destacada de projecte"
-        />
-      </Transition>
+      <img
+        v-if="currentImage"
+        :key="currentImage"
+        :src="currentImage"
+        alt="imatge destacada de projecte"
+      />
     </figure>
   </section>
 </template>
@@ -107,6 +105,10 @@ p:nth-child(odd) {
   z-index: 2;
 }
 
+.image-wrapper img {
+  animation: appearing 0.7s linear forwards;
+}
+
 .image-wrapper::after {
   z-index: -1;
   content: '';
@@ -116,16 +118,6 @@ p:nth-child(odd) {
   width: 40vw;
   height: 100vh;
   background-color: var(--dark);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 
 @media screen and (max-width: 630px) {

@@ -8,7 +8,7 @@ const projectImages = ref<string[]>([]);
 
 const projects = ref<ProjectGallery[]>([]);
 
-const renderImagesAtInrtersecting = () => {
+const renderImagesAtIntersecting = () => {
   const options = {
     root: null,
     threshold: 0.3,
@@ -34,7 +34,7 @@ const renderImagesAtInrtersecting = () => {
 onMounted(async () => {
   projects.value = await new DefaultProjectsService().getProjectsGallery();
 
-  nextTick(renderImagesAtInrtersecting);
+  nextTick(renderImagesAtIntersecting);
 });
 </script>
 
@@ -57,8 +57,9 @@ onMounted(async () => {
         </figure>
         <div class="project-info">
           <p>{{ project.name }}</p>
-          <p class="project-year">{{ project.year }}</p>
           <p>{{ project.description }}</p>
+          <p class="project-year">{{ project.year }}</p>
+          <span>{{ project.name }}</span>
           <router-link :to="`/projecte/${project.id}`" class="project-link"
             >Veure mes</router-link
           >
@@ -152,7 +153,7 @@ onMounted(async () => {
   height: 2px;
   background-color: var(--hero-light);
   bottom: 20vh;
-  right: 25rem;
+  right: 19rem;
 }
 
 .project-link {
@@ -162,7 +163,7 @@ onMounted(async () => {
   position: absolute;
   font-size: clamp(1rem, 3vw, 1.5rem);
   bottom: 22vh;
-  right: 25vw;
+  right: 17vw;
 
   display: flex;
   align-items: center;
@@ -207,5 +208,25 @@ p {
   font-size: clamp(0.8rem, 3vw, 1.6rem);
   width: 40vw;
   color: rgb(114, 114, 114);
+}
+
+.project-info p:first-of-type {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--dark);
+}
+
+.project-info span:last-of-type {
+  position: absolute;
+  top: 1.5rem;
+  left: calc(50% - 2.2rem);
+
+  font-size: 4rem;
+  color: var(--hero-light);
+  z-index: -1;
+}
+
+.gallery-item:nth-child(even) .project-info span:last-of-type {
+  left: auto;
+  margin-right: 2rem;
 }
 </style>
